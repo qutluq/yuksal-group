@@ -23,7 +23,7 @@ const seed = async () => {
   console.log('Seeding database')
   return prisma.$transaction(async () => {
     await seedAdmin()
-    await seedBlog()
+    await seedBlog(300)
   })
 }
 
