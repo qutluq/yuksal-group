@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import seedAdmin from './seeds/seedAdmin'
+import seedBlog from './seeds/seedBlog'
 
 if (process.env.NODE_ENV === 'production') {
   console.log('❌ This command cannot be run on production')
@@ -22,6 +23,7 @@ const seed = async () => {
   console.log('Seeding database')
   return prisma.$transaction(async () => {
     await seedAdmin()
+    await seedBlog()
   })
 }
 
