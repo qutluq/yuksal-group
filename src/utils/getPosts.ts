@@ -1,6 +1,7 @@
+import { cache } from 'react'
 import { prisma } from '@/utils/db'
 
-export const getPosts = async ({ page, limit }) => {
+export const getPosts = cache(async ({ page, limit }) => {
   const count = await prisma.post.count()
 
   const results = await prisma.post.findMany({
@@ -9,4 +10,4 @@ export const getPosts = async ({ page, limit }) => {
   })
 
   return { posts: results, total: count }
-}
+})
