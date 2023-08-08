@@ -1,7 +1,5 @@
-import React from "react";
+import { redirect } from 'next/navigation'
 
-const Home = async () => {
-  return <div>Hello next!</div>;
-};
+const Root = async () => redirect('/home')
 
-export default Home;
+export default Root
