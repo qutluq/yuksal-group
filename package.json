@@ -10,6 +10,7 @@
     "db:seed": "ts-node -r tsconfig-paths/register prisma/seed.ts"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.16",
     "@prisma/client": "^5.0.0",
     "next": "13.4.12",
     "react-icons": "^4.10.1"
