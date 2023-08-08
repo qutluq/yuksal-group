@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const Breadcrumb = ({ page }: { page: string }) => (
-  <div className="relative pt-8 md:pt-40 h-[130px] md:h-[424px] flex flex-col justify-between items-center">
+  <div className="absolute top-24 md:top-56 h-24 md:h-64 flex flex-col justify-between items-center w-full">
     <p className="tracking-wide text-3xl md:text-7xl text-white uppercase">
       {page}
     </p>
