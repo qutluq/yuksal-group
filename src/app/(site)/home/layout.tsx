@@ -14,7 +14,6 @@ export default function BlogLayout({
                     bg-cover h-48 md:h-[480px] md:py-5 bg-center`}
       >
         <Nav page="home" />
-        <Breadcrumb />
       </div>
       {children}
     </section>
