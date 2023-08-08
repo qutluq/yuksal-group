@@ -12,7 +12,7 @@ export const NavItem = ({ item, page, variant = 'desktop' }: PropTypes) => (
   <Link
     className={classNames(
       'uppercase text-gray-50 text-sm font-semibold   hover:rounded-md hover:bg-opacity-40',
-      variant == 'desktop' && 'px-2 lg:px-5 py-2',
+      variant == 'desktop' && 'px-2 lg:px-5 py-2 relative',
       variant == 'mobile' && 'px-2 py-5',
       item.name == page &&
         variant == 'desktop' &&
