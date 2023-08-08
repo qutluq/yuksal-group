@@ -5,3 +5,10 @@
 body {
   font-family: "Source Code Pro", Monaco, Consolas, "Liberation Mono", "Courier New", monospace
 }
+
+@layer base {
+  :root {
+    --color-primary: #4ac4cf;
+  --color-secondary: #1c2849;
+  }
+}

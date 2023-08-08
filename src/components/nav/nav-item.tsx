@@ -17,10 +17,10 @@ export const NavItem = ({ item, page, variant = 'desktop' }: PropTypes) => (
       item.name == page &&
         variant == 'desktop' &&
         `before:content-[''] before:left-[15px] before:bottom-[5px] before:absolute 
-          before:h-[2px] before:bg-[#4ac4cf] before:transition-all before:pointer-events-none 
+          before:h-[2px] before:bg-[var(--color-primary)] before:transition-all before:pointer-events-none 
           before:w-[70%] before:border-box
           after:content-[''] after:left-[7px] after:bottom-[-1px] after:absolute 
-          after:h-[2px] after:bg-[#4ac4cf] after:transition-all after:pointer-events-none 
+          after:h-[2px] after:bg-[var(--color-primary)] after:transition-all after:pointer-events-none 
           after:w-[50%] after:border-box hover:bg-none`,
       item.name == page && variant == 'mobile' && `bg-zinc-500`,
       item.name != page && 'hover:bg-zinc-500'

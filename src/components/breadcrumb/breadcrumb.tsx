@@ -7,7 +7,7 @@ export const Breadcrumb = ({ page }: { page: string }) => (
     </p>
     <div className="bg-black bg-opacity-30 w-full py-2 md:py-5 text-white">
       <div className="flex flex-row items-center justify-center text-sm md:text-lg uppercase  tracking-wide font-semibold">
-        <Link href="home" className="text-[#4ac4cf]">
+        <Link href="home" className="text-[var(--color-primary)]">
           Home
         </Link>
         <p className="align-text-bottom">&nbsp;/&nbsp;</p>

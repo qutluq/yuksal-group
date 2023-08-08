@@ -15,7 +15,7 @@ export const Nav = ({ page }) => (
   <Disclosure>
     {({ open }) => (
       <>
-        <div className="flex flex-row justify-between items-center mx-auto lg:w-[1024px] md:w-[768px] bg-[#1c2849] md:bg-transparent md:h-auto h-[46px] border-b-[1px] border-white px-2 md:border-none">
+        <div className="flex flex-row justify-between items-center mx-auto lg:w-[1024px] md:w-[768px] bg-[var(--color-secondary)] md:bg-transparent md:h-auto h-[46px] border-b-[1px] border-white px-2 md:border-none">
           <Disclosure.Button className={'md:hidden'}>
             <IoMenuOutline
               className={classNames('text-white text-3xl', open && 'hidden')}
@@ -39,7 +39,7 @@ export const Nav = ({ page }) => (
           className={classNames(
             'md:hidden flex flex-col p-2 z-10 relative',
             open &&
-              'bg-[#1c2849] h-screen w-[270px] animate-[translate_0.2s_ease-in-out]'
+              'bg-[var(--color-secondary)] h-screen w-[270px] animate-[translate_0.2s_ease-in-out]'
           )}
         >
           <Disclosure.Panel className="md:hidden flex flex-col w-auto">

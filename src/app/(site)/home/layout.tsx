@@ -10,7 +10,7 @@ export default function BlogLayout({
     <section>
       <div
         className={`bg-[url('/img/blog-bread-cover-img-640x160.png')] 
-                    md:bg-[#1c2849] md:bg-[url('/img/blog-bread-cover-img.png')] 
+                    md:bg-[var(--color-secondary)] md:bg-[url('/img/blog-bread-cover-img.png')] 
                     bg-cover h-48 md:h-[480px] md:py-5 bg-center`}
       >
         <Nav page="home" />
