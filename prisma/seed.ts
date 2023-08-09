@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+
 import seedAdmin from './seeds/seedAdmin'
 import seedBlog from './seeds/seedBlog'
 
@@ -13,7 +14,7 @@ if (
 ) {
   // Both variables are defined
   console.log(
-    '❌ To seed admin, environment variables: SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD need to be defined.'
+    '❌ To seed admin, environment variables: SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD need to be defined.',
   )
   process.exit(0)
 }

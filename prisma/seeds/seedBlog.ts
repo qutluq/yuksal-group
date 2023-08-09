@@ -1,6 +1,7 @@
-import { slugify } from '@/utils'
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
+
+import { slugify } from '@/utils'
 
 type BlogPostType = {
   title: string
@@ -52,6 +53,7 @@ const seedBlog = async (count: number = 11) => {
         for (let i = 0; i < count; i++) {
           let title = ''
           let slug = ''
+          // eslint-disable-next-line no-constant-condition
           while (true) {
             //make sure slugs are unique
             title = faker.commerce.productName()
