@@ -1,8 +1,5 @@
-import { count } from 'console'
-import { cache } from 'react'
-
-import page from '@/app/(site)/page'
 import { PrismaClient } from '@prisma/client'
+import { cache } from 'react'
 
 // Instantiate a single instance PrismaClient and save it on the globalThis object.
 // Then we keep a check to only instantiate PrismaClient if it's not on the globalThis object otherwise use the same

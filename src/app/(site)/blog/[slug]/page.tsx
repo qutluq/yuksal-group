@@ -18,22 +18,22 @@ const Post = async ({ params }: { params: { slug: string } }) => {
   const author = (await getAuthor(post.authorId)) as unknown as { name: string }
 
   return (
-    <div className="flex flex-col items-center justify-start gap-7 w-full bg-[var(--color-secondary)] min-h-[700px]">
-      <article className="w-2/3 text-[var(--color-text-primary)] flex flex-col gap-7">
-        <div className="mx-auto w-fit flex flex-col items-start">
-          <div className="flex flex-row justify-center text-2xl md:text-3xl py-3 w-auto">
+    <div className="flex min-h-[700px] w-full flex-col items-center justify-start gap-7 bg-[var(--color-secondary)]">
+      <article className="flex w-2/3 flex-col gap-7 text-[var(--color-text-primary)]">
+        <div className="mx-auto flex w-fit flex-col items-start">
+          <div className="flex w-auto flex-row justify-center py-3 text-2xl md:text-3xl">
             {post.title}
           </div>
-          <div className="flex flex-row items-center justify-center gap-3 w-auto">
+          <div className="flex w-auto flex-row items-center justify-center gap-3">
             <Image
               src={DEFAULT_AUTHOR_IMG}
               alt=""
-              className="object-cover rounded-full"
+              className="rounded-full object-cover"
               width={70}
               height={70}
             />
 
-            <div className="flex flex-col text-[var(--color-text-secondary)] gap-1 tracking-tight">
+            <div className="flex flex-col gap-1 tracking-tight text-[var(--color-text-secondary)]">
               <p className="text-[var(--color-text-primary)]">{author.name}</p>
               <div className="flex flex-row gap-1 text-sm">
                 <p>{`${post.readingTime} min read`}</p>
@@ -43,32 +43,32 @@ const Post = async ({ params }: { params: { slug: string } }) => {
             </div>
           </div>
         </div>
-        <div className="text-[var(--color-text-primary)] text-base whitespace-pre-wrap">
+        <div className="whitespace-pre-wrap text-base text-[var(--color-text-primary)]">
           {post.content}
         </div>
       </article>
 
-      <div className="flex flex-row gap-5 w-2/3 mx-auto">
-        <p className="text-[var(--color-text-secondary)] text-xl pt-1">
+      <div className="mx-auto flex w-2/3 flex-row gap-5">
+        <p className="pt-1 text-xl text-[var(--color-text-secondary)]">
           Share:
         </p>
         <Link
           href={`https://www.facebook.com/sharer/sharer.php?u=https://www.yuksal-group.com/blog/${params.slug}/`}
           target="_blank"
         >
-          <TfiYoutube className="text-white text-3xl" />
+          <TfiYoutube className="text-3xl text-white" />
         </Link>
         <Link
           href={`https://www.facebook.com/sharer/sharer.php?u=https://www.yuksal-group.com/blog/${params.slug}/`}
           target="_blank"
         >
-          <TfiFacebook className="text-white text-3xl" />
+          <TfiFacebook className="text-3xl text-white" />
         </Link>
         <Link
           href={`https://www.facebook.com/sharer/sharer.php?u=https://www.yuksal-group.com/blog/${params.slug}/`}
           target="_blank"
         >
-          <TfiInstagram className="text-white text-3xl" />
+          <TfiInstagram className="text-3xl text-white" />
         </Link>
       </div>
 

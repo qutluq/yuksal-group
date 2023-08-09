@@ -14,14 +14,14 @@ export default function PostLayout({
   const styles = (isSmallScreen) =>
     ({
       backgroundImage: isSmallScreen ? `url(${lgBgImg})` : `url(${smBgImg})`,
-    } as React.CSSProperties)
+    }) as React.CSSProperties
 
   return (
     <section>
       <div
         style={styles(isSmallScreen)}
-        className={`md:bg-[var(--color-secondary)] 
-                    bg-cover h-48 md:h-[480px]  bg-center`}
+        className={`h-48 
+                    bg-cover bg-center md:h-[480px]  md:bg-[var(--color-secondary)]`}
       >
         <div className="bg-[#1c284980] md:py-5">
           <Nav page="blog" />

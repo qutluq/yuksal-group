@@ -1,4 +1,5 @@
 'use client'
+import { Disclosure } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { IoMenuOutline } from 'react-icons/io5'
@@ -6,7 +7,6 @@ import { TfiClose } from 'react-icons/tfi'
 
 import { classNames } from '@/utils'
 import { NAV_MENU } from '@/utils/settings'
-import { Disclosure } from '@headlessui/react'
 
 import { NavItem } from './nav-item'
 import { SocialLinks } from './social'
@@ -15,20 +15,20 @@ export const Nav = ({ page }) => (
   <Disclosure>
     {({ open }) => (
       <>
-        <div className="flex flex-row justify-between items-center mx-auto lg:w-[1024px] md:w-[768px] bg-[var(--color-secondary)] md:bg-transparent md:h-auto h-[46px] border-b-[1px] border-white px-2 md:border-none">
+        <div className="mx-auto flex h-[46px] flex-row items-center justify-between border-b-[1px] border-white bg-[var(--color-secondary)] px-2 md:h-auto md:w-[768px] md:border-none md:bg-transparent lg:w-[1024px]">
           <Disclosure.Button className={'md:hidden'}>
             <IoMenuOutline
-              className={classNames('text-white text-3xl', open && 'hidden')}
+              className={classNames('text-3xl text-white', open && 'hidden')}
             />
             <TfiClose
-              className={classNames('text-white text-3xl', !open && 'hidden')}
+              className={classNames('text-3xl text-white', !open && 'hidden')}
             />
           </Disclosure.Button>
 
           <Link href={'/'}>
             <Image src="/img/logo.png" alt="Logo" width={192} height={32} />
           </Link>
-          <nav className="hidden md:flex gap-1 lg:gap-3 tracking-widest">
+          <nav className="hidden gap-1 tracking-widest md:flex lg:gap-3">
             {NAV_MENU.map((item) => (
               <NavItem key={item.slug} item={item} page={page} />
             ))}
@@ -37,12 +37,12 @@ export const Nav = ({ page }) => (
         </div>
         <nav
           className={classNames(
-            'md:hidden flex flex-col p-2 z-10 relative',
+            'relative z-10 flex flex-col p-2 md:hidden',
             open &&
-              'bg-[var(--color-secondary)] h-screen w-[270px] animate-[translate_0.2s_ease-in-out]'
+              'h-screen w-[270px] animate-[translate_0.2s_ease-in-out] bg-[var(--color-secondary)]',
           )}
         >
-          <Disclosure.Panel className="md:hidden flex flex-col w-auto">
+          <Disclosure.Panel className="flex w-auto flex-col md:hidden">
             {NAV_MENU.map((item) => (
               <NavItem
                 key={item.slug}

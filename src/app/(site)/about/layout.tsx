@@ -9,9 +9,9 @@ export default function BlogLayout({
   return (
     <section>
       <div
-        className={`bg-[url('/img/blog-bread-cover-img-640x160.png')] 
-                    md:bg-[var(--color-secondary)] md:bg-[url('/img/blog-bread-cover-img.png')] 
-                    bg-cover h-48 md:h-[480px] md:py-5 bg-center`}
+        className={`h-48 
+                    bg-[url('/img/blog-bread-cover-img-640x160.png')] bg-cover 
+                    bg-center md:h-[480px] md:bg-[var(--color-secondary)] md:bg-[url('/img/blog-bread-cover-img.png')] md:py-5`}
       >
         <Nav page="about" />
         <Breadcrumb page="about" />

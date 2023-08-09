@@ -19,7 +19,6 @@ const Blog = async ({
     typeof searchParams.page === 'string' ? Number(searchParams.page) : 1
 
   const { posts, total: totalPosts } = await getPosts({ page, limit })
-  const totalPages = Math.ceil(totalPosts / limit)
 
   return (
     <div className="bg-[var(--color-secondary)] py-3">
@@ -27,9 +26,9 @@ const Blog = async ({
         {posts?.map((post) => (
           <div
             key={post.id.toString()}
-            className="flex flex-row bg-white lg:w-[960px] lg:h-80 lg:p-5 bg-opacity-10 rounded-xl overflow-hidden"
+            className="flex flex-row overflow-hidden rounded-xl bg-white/10  lg:h-80 lg:w-[960px] lg:p-5"
           >
-            <div className="lg:w-[448px] mx-4 overflow-hidden rounded-xl">
+            <div className="mx-4 overflow-hidden rounded-xl lg:w-[448px]">
               <Image
                 src={DEFAULT_POSTER_POSTS_IMG}
                 alt=""
@@ -39,18 +38,18 @@ const Blog = async ({
               />
             </div>
 
-            <div className="flex flex-col lg:w-[448px] px-4 gap-3">
-              <div className="flex flex-row text-[var(--color-text-primary)] justify-between">
-                <p className="font-medium pl-3 w-4/6 text-lg break-words whitespace-pre-wrap text-left">
+            <div className="flex flex-col gap-3 px-4 lg:w-[448px]">
+              <div className="flex flex-row justify-between text-[var(--color-text-primary)]">
+                <p className="w-4/6 whitespace-pre-wrap break-words pl-3 text-left text-lg font-medium">
                   {post.title}
                 </p>
                 <p className="font-medium">{formatDate(post.publishedAt)}</p>
               </div>
-              <p className="text-sm font-medium text-[var(--color-text-primary)] text-ellipsis text-justify h-[200px] overflow-hidden">
+              <p className="h-[200px] overflow-hidden text-ellipsis text-justify text-sm font-medium text-[var(--color-text-primary)]">
                 {post.description}
               </p>
               <div className="flex flex-row justify-between text-[var(--color-text-primary)]">
-                <div className="flex flew-row items-center justify-center gap-2">
+                <div className="flex flex-row items-center justify-center gap-2">
                   <BsClock />
                   <p className="pt-1">{post.readingTime} min</p>
                 </div>

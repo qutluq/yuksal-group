@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs'
 
 import { Button } from '@/components/button'
@@ -19,15 +18,15 @@ export const Pagination = ({ pathname, page, limit, total }: PropTypes) => {
 
   const totalPages = Math.ceil(total / limit)
   return (
-    <div className="w-full flex flex-row items-center justify-center gap-7">
-      <p className="text-white align-text-bottom pt-1 hidden md:flex">
+    <div className="flex w-full flex-row items-center justify-center gap-7">
+      <p className="hidden pt-1 align-text-bottom text-white md:flex">
         {getPaginationText(page, limit, total)}
       </p>
-      <p className="text-white align-text-bottom pt-1 flex md:hidden">
+      <p className="flex pt-1 align-text-bottom text-white md:hidden">
         {getPaginationText(page, limit, total, true)}
       </p>
 
-      <div className="hidden md:flex flex-row gap-1 items-center justify-center">
+      <div className="hidden flex-row items-center justify-center gap-1 md:flex">
         <Button
           href={{
             pathname,
@@ -50,7 +49,7 @@ export const Pagination = ({ pathname, page, limit, total }: PropTypes) => {
           disabled={page >= totalPages}
         />
       </div>
-      <div className="flex md:hidden flex-row gap-1 items-center justify-center">
+      <div className="flex flex-row items-center justify-center gap-1 md:hidden">
         <Button
           href={{
             pathname,
