@@ -10,5 +10,7 @@ body {
   :root {
     --color-primary: #4ac4cf;
   --color-secondary: #1c2849;
+  --color-text-primary: #f0f0f0e6;
+  --color-text-secondary: #f0f0f0b3;
   }
 }
