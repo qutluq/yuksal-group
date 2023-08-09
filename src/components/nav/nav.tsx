@@ -6,7 +6,7 @@ import { TfiClose } from 'react-icons/tfi'
 
 import { classNames } from '@/utils'
 import { NAV_MENU } from '@/utils/settings'
-import { Disclosure, Transition } from '@headlessui/react'
+import { Disclosure } from '@headlessui/react'
 
 import { NavItem } from './nav-item'
 import { SocialLinks } from './social'

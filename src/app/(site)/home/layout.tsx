@@ -1,4 +1,3 @@
-import { Breadcrumb } from '@/components/breadcrumb'
 import { Nav } from '@/components/nav'
 
 export default function BlogLayout({
