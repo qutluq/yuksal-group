@@ -19,7 +19,7 @@ const Post = async ({ params }: { params: { slug: string } }) => {
 
   return (
     <div className="flex min-h-[700px] w-full flex-col items-center justify-start gap-7 bg-[var(--color-secondary)]">
-      <article className="flex w-2/3 flex-col gap-7 text-[var(--color-text-primary)]">
+      <article className="flex w-5/6 flex-col gap-7 text-[var(--color-text-primary)] md:w-3/4 lg:w-2/3">
         <div className="mx-auto flex w-fit flex-col items-start">
           <div className="flex w-auto flex-row justify-center py-3 text-2xl md:text-3xl">
             {post.title}
