@@ -25,7 +25,7 @@ export const Button = ({
   <Link
     href={href}
     className={classNames(
-      'flex items-center justify-center px-3 py-1 text-sm',
+      'flex items-center justify-center px-3 py-1',
       variant == 'contained' && 'rounded border bg-gray-100 text-gray-800',
       variant == 'text' && href
         ? 'text-[var(--color-primary)]'
