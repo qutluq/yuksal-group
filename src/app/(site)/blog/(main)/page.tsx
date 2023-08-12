@@ -21,7 +21,7 @@ const Blog = async ({
   const { posts, total: totalPosts } = await getPosts({ page, limit })
 
   return (
-    <div className="bg-[var(--color-secondary)] py-3">
+    <>
       <div className="flex flex-col items-center gap-3">
         {posts?.map((post) => (
           <div
@@ -69,7 +69,7 @@ const Blog = async ({
           total={totalPosts}
         />
       </div>
-    </div>
+    </>
   )
 }
 

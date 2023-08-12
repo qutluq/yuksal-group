@@ -17,7 +17,7 @@ export default function PostLayout({
     }) as React.CSSProperties
 
   return (
-    <section>
+    <>
       <div
         style={styles(isSmallScreen)}
         className={`h-48 
@@ -28,6 +28,6 @@ export default function PostLayout({
         </div>
       </div>
       {children}
-    </section>
+    </>
   )
 }

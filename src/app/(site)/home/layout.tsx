@@ -6,7 +6,7 @@ export default function BlogLayout({
   children: React.ReactNode
 }) {
   return (
-    <section>
+    <>
       <div
         className={`h-48 
                     bg-[url('/img/blog-bread-cover-img-640x160.png')] bg-cover 
@@ -15,6 +15,6 @@ export default function BlogLayout({
         <Nav page="home" />
       </div>
       {children}
-    </section>
+    </>
   )
 }
