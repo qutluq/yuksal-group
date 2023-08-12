@@ -1,3 +1,4 @@
+import type { Post } from '@prisma/client'
 import { PrismaClient } from '@prisma/client'
 import { cache } from 'react'
 
@@ -57,3 +58,36 @@ export const getAuthor = cache(async (id: number) => {
 
   return result
 })
+
+export const getNeighbourPosts = async (post: Post) => {
+  // Get previous post
+  const nextPost = await prisma.post.findFirst({
+    where: {
+      published: true,
+      publishedAt: {
+        lt: post.publishedAt!,
+      },
+    },
+    orderBy: {
+      publishedAt: 'desc',
+    },
+  })
+
+  // Get next post
+  const previousPost = await prisma.post.findFirst({
+    where: {
+      published: true,
+      publishedAt: {
+        gt: post.publishedAt!,
+      },
+    },
+    orderBy: {
+      publishedAt: 'asc',
+    },
+  })
+
+  return {
+    nextPost: nextPost,
+    previousPost: previousPost,
+  }
+}

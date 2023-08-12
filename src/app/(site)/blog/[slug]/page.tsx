@@ -2,8 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { TfiFacebook, TfiInstagram, TfiYoutube } from 'react-icons/tfi'
 
-import { formatDate } from '@/utils'
-import { getAuthor, getPost } from '@/utils/db'
+import { Button } from '@/components/button'
+import { classNames, formatDate } from '@/utils'
+import { getAuthor, getNeighbourPosts, getPost } from '@/utils/db'
 import { DEFAULT_AUTHOR_IMG } from '@/utils/settings'
 
 const Post = async ({ params }: { params: { slug: string } }) => {
@@ -14,6 +15,7 @@ const Post = async ({ params }: { params: { slug: string } }) => {
   }
 
   const post = result[0]
+  const neighbours = await getNeighbourPosts(post)
 
   const author = (await getAuthor(post.authorId)) as unknown as { name: string }
 
@@ -79,6 +81,45 @@ const Post = async ({ params }: { params: { slug: string } }) => {
         width={200}
         height={70}
       />
+
+      <div className="flex flex-col justify-between gap-3 md:w-[600px] md:flex-row md:gap-0 lg:w-[800px]">
+        <div
+          className={classNames(
+            'border-y',
+            neighbours.previousPost === null
+              ? 'border-y-gray-500'
+              : 'border-y-white',
+          )}
+        >
+          <Button
+            href={neighbours.previousPost?.slug || '#'}
+            disabled={neighbours.previousPost === null}
+            variant="text"
+          >
+            <p className="flex w-full flex-row justify-center overflow-hidden truncate md:w-60">
+              {neighbours.previousPost?.title || 'Previous'}
+            </p>
+          </Button>
+        </div>
+        <div
+          className={classNames(
+            'border-y',
+            neighbours.nextPost === null
+              ? 'border-y-gray-500'
+              : 'border-y-white',
+          )}
+        >
+          <Button
+            href={neighbours.nextPost?.slug || '#'}
+            disabled={neighbours.nextPost === null}
+            variant="text"
+          >
+            <p className="flex w-full flex-row justify-center overflow-hidden truncate md:w-60">
+              {neighbours.nextPost?.title || 'Next'}
+            </p>
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }
