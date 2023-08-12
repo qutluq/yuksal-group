@@ -62,7 +62,7 @@ export const Pagination = ({ pathname, page, limit, total }: PropTypes) => {
             },
           }}
           disabled={page <= 1}
-          variant="mobile"
+          variant="contained"
         >
           <BsArrowLeft className="text-xl" />
         </Button>
@@ -75,7 +75,7 @@ export const Pagination = ({ pathname, page, limit, total }: PropTypes) => {
             },
           }}
           disabled={page >= totalPages}
-          variant="mobile"
+          variant="contained"
         >
           <BsArrowRight className="text-xl" />
         </Button>
