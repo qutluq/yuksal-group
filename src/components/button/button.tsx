@@ -9,7 +9,7 @@ import type { HrefType } from './types'
 type PropTypes = LinkProps & {
   href: string | HrefType
   title?: string
-  variant?: 'desktop' | 'mobile'
+  variant?: 'text' | 'contained'
   disabled?: boolean
   children?: ReactNode
 }
@@ -17,7 +17,7 @@ type PropTypes = LinkProps & {
 export const Button = ({
   href,
   title,
-  variant = 'desktop',
+  variant = 'contained',
   disabled = false,
   children,
   ...props
@@ -25,9 +25,11 @@ export const Button = ({
   <Link
     href={href}
     className={classNames(
-      'flex items-center justify-center rounded border px-3 py-1 text-sm',
-      variant == 'desktop' && ' w-24  bg-gray-100 text-gray-800',
-      variant == 'mobile' && ' bg-gray-100 text-gray-800 ',
+      'flex items-center justify-center px-3 py-1 text-sm',
+      variant == 'contained' && 'rounded border bg-gray-100 text-gray-800',
+      variant == 'text' && href
+        ? 'text-[var(--color-primary)]'
+        : 'text-[var(--color-text-primary)]',
       disabled && 'pointer-events-none opacity-50',
     )}
     {...props}
