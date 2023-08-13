@@ -23,7 +23,7 @@ export default function PostLayout({
         className={`h-48 
                     bg-cover bg-center md:h-[480px]  md:bg-[var(--color-secondary)]`}
       >
-        <div className="bg-[#1c284980] md:py-5">
+        <div className="bg-[#1c284980]">
           <Nav page="blog" />
         </div>
       </div>
