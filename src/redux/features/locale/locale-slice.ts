@@ -1,6 +1,7 @@
 // DUCKS pattern
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
+import store from 'store'
 
 import { defaultLocale } from '@/locales'
 
@@ -9,7 +10,7 @@ interface LocaleState {
 }
 
 const initialState: LocaleState = {
-  locale: defaultLocale!,
+  locale: store.get('locale') || defaultLocale!,
 }
 
 const localeSlice = createSlice({
