@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { IoMenuOutline } from 'react-icons/io5'
 import { TfiClose } from 'react-icons/tfi'
 
+import { localeLanguages, locales } from '@/locales'
 import { classNames } from '@/utils'
 import { NAV_MENU } from '@/utils/settings'
 
@@ -14,6 +15,12 @@ import { SocialLinks } from './social'
 
 export const Nav = ({ page }) => {
   const [colorChange, setColorchange] = useState(false)
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    e.preventDefault()
+    //TODO: implement dynamic locale change
+    console.log({ language: e.target.value })
+  }
 
   if (typeof window !== 'undefined') {
     const changeNavbarColor = () => {
@@ -52,6 +59,14 @@ export const Nav = ({ page }) => {
               {NAV_MENU.map((item) => (
                 <NavItem key={item.slug} item={item} page={page} />
               ))}
+
+              <select onChange={handleChange}>
+                {locales.map((locale) => (
+                  <option key={locale} value={locale}>
+                    {localeLanguages[locale]}
+                  </option>
+                ))}
+              </select>
             </nav>
             <SocialLinks />
           </div>

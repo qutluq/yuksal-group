@@ -3,6 +3,7 @@ import '@/app/globals.css'
 import type { Metadata } from 'next'
 
 import { Footer } from '@/components/footer'
+import I18nProvider from '@/providers/i18n-provider'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,11 +15,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const locale = 'ru'
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className="flex flex-col gap-5 bg-[var(--color-secondary)]">
-        {children}
-        <Footer />
+        <I18nProvider locale={locale}>
+          {children}
+          <Footer />
+        </I18nProvider>
       </body>
     </html>
   )
