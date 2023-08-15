@@ -18,6 +18,10 @@ msgstr ""
 msgid "about"
 msgstr "О нас"
 
+#: src/components/footer/footer.tsx:14
+msgid "All Rights Reserved"
+msgstr "Все права защищены"
+
 #: src/utils/settings.ts:11
 #: src/utils/settings.ts:20
 msgid "blog"
@@ -28,7 +32,10 @@ msgstr "Блог"
 msgid "contact"
 msgstr "Контакты"
 
-#: src/app/(site)/gallery/layout.tsx:19
+#: src/components/footer/footer.tsx:17
+msgid "Design by"
+msgstr "Разработчик"
+
 #: src/utils/settings.ts:13
 #: src/utils/settings.ts:22
 msgid "gallery"
@@ -39,3 +46,7 @@ msgstr "Галерея"
 #: src/utils/settings.ts:19
 msgid "home"
 msgstr "Главная"
+
+#: src/components/footer/footer.tsx:19
+msgid "Qutluq"
+msgstr ""

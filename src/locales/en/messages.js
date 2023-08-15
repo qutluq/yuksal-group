@@ -1,1 +1,1 @@
-/*eslint-disable*/module.exports={messages:JSON.parse("{\"OjELwL\":\"about\",\"4yW1YS\":\"blog\",\"Zge2AR\":\"contact\",\"YRe893\":\"gallery\",\"Fn4bcc\":\"home\"}")};
+/*eslint-disable*/module.exports={messages:JSON.parse("{\"OjELwL\":\"about\",\"ylt2Pf\":\"All Rights Reserved\",\"4yW1YS\":\"blog\",\"Zge2AR\":\"contact\",\"slmS+V\":\"Design by\",\"YRe893\":\"gallery\",\"Fn4bcc\":\"home\",\"T5uKA5\":\"Qutluq\"}")};
