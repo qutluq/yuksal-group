@@ -14,7 +14,7 @@ export default function GalleryLayout({
                     bg-center md:h-[480px] md:bg-[var(--color-secondary)] md:bg-[url('/img/blog-bread-cover-img.png')]`}
       >
         <Nav page="gallery" />
-        <Breadcrumb page="gallery" />
+        <Breadcrumb page={'gallery'} />
       </div>
       {children}
     </>

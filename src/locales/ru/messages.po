@@ -13,26 +13,29 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/utils/settings.ts:10
+#: src/utils/settings.ts:12
+#: src/utils/settings.ts:21
 msgid "about"
 msgstr "О нас"
 
-#: src/utils/settings.ts:9
+#: src/utils/settings.ts:11
+#: src/utils/settings.ts:20
 msgid "blog"
 msgstr "Блог"
 
-#: src/utils/settings.ts:12
+#: src/utils/settings.ts:14
+#: src/utils/settings.ts:23
 msgid "contact"
 msgstr "Контакты"
 
-#: src/utils/settings.ts:11
+#: src/app/(site)/gallery/layout.tsx:19
+#: src/utils/settings.ts:13
+#: src/utils/settings.ts:22
 msgid "gallery"
 msgstr "Галерея"
 
-#: src/utils/settings.ts:8
+#: src/components/breadcrumb/breadcrumb.tsx:24
+#: src/utils/settings.ts:10
+#: src/utils/settings.ts:19
 msgid "home"
 msgstr "Главная"
-
-#: src/components/nav/nav.tsx:80
-msgid "text"
-msgstr "текст"
