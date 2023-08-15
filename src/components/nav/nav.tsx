@@ -1,26 +1,25 @@
 'use client'
 import { Disclosure } from '@headlessui/react'
+import { useLingui } from '@lingui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { IoMenuOutline } from 'react-icons/io5'
 import { TfiClose } from 'react-icons/tfi'
 
-import { localeLanguages, locales } from '@/locales'
 import { classNames } from '@/utils'
 import { NAV_MENU } from '@/utils/settings'
 
+import { LanguageSwitcher } from '../language-switcher/language-switcher'
+import { LanguageSwitcherMobile } from '../language-switcher/language-switcher-mobile'
 import { NavItem } from './nav-item'
 import { SocialLinks } from './social'
 
 export const Nav = ({ page }) => {
-  const [colorChange, setColorchange] = useState(false)
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  const { i18n } = useLingui()
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault()
-    //TODO: implement dynamic locale change
-    console.log({ language: e.target.value })
-  }
+  const [colorChange, setColorchange] = useState(false)
 
   if (typeof window !== 'undefined') {
     const changeNavbarColor = () => {
@@ -56,19 +55,14 @@ export const Nav = ({ page }) => {
               <Image src="/img/logo.png" alt="Logo" width={192} height={32} />
             </Link>
             <nav className="hidden gap-1 tracking-widest md:flex lg:gap-3">
-              {NAV_MENU.map((item) => (
+              {NAV_MENU().map((item) => (
                 <NavItem key={item.slug} item={item} page={page} />
               ))}
-
-              <select onChange={handleChange}>
-                {locales.map((locale) => (
-                  <option key={locale} value={locale}>
-                    {localeLanguages[locale]}
-                  </option>
-                ))}
-              </select>
             </nav>
             <SocialLinks />
+            <div className="hidden md:block">
+              <LanguageSwitcher />
+            </div>
           </div>
           <nav
             className={classNames(
@@ -78,7 +72,7 @@ export const Nav = ({ page }) => {
             )}
           >
             <Disclosure.Panel className="flex w-auto flex-col md:hidden">
-              {NAV_MENU.map((item) => (
+              {NAV_MENU().map((item) => (
                 <NavItem
                   key={item.slug}
                   item={item}
@@ -86,6 +80,9 @@ export const Nav = ({ page }) => {
                   variant="mobile"
                 />
               ))}
+              <div className="border-t">
+                <LanguageSwitcherMobile />
+              </div>
             </Disclosure.Panel>
           </nav>
         </div>

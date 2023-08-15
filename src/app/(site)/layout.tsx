@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 
 import { Footer } from '@/components/footer'
 import I18nProvider from '@/providers/i18n-provider'
+import ReduxProvider from '@/providers/redux-provider'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,10 +20,12 @@ export default function RootLayout({
   return (
     <html lang={locale}>
       <body className="flex flex-col gap-5 bg-[var(--color-secondary)]">
-        <I18nProvider locale={locale}>
-          {children}
-          <Footer />
-        </I18nProvider>
+        <ReduxProvider>
+          <I18nProvider>
+            {children}
+            <Footer />
+          </I18nProvider>
+        </ReduxProvider>
       </body>
     </html>
   )

@@ -32,3 +32,7 @@ msgstr "Галерея"
 #: src/utils/settings.ts:8
 msgid "home"
 msgstr "Главная"
+
+#: src/components/nav/nav.tsx:80
+msgid "text"
+msgstr "текст"
