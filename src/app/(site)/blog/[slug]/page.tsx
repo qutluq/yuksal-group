@@ -11,7 +11,11 @@ const Post = async ({ params }: { params: { slug: string } }) => {
   const result = await getPost(params.slug)
 
   if (result.length === 0) {
-    return <div>Post does not exist</div>
+    return (
+      <div className="text-xl text-[var(--color-text-primary)]">
+        Post does not exist.
+      </div>
+    )
   }
 
   const post = result[0]
