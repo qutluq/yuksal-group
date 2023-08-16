@@ -2,11 +2,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { BsClock } from 'react-icons/bs'
 
+import { Pagination } from '@/components/pagination'
 import { formatDate } from '@/utils'
 import { getPosts } from '@/utils/db'
 import { DEFAULT_POSTER_POSTS_IMG } from '@/utils/settings'
-
-import { Pagination } from '../pagination'
 
 type PropTypes = {
   page: number
