@@ -1,19 +1,26 @@
+'use client'
+import { t } from '@lingui/macro'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BsClock } from 'react-icons/bs'
 
 import { Pagination } from '@/components/pagination'
-import { formatDate } from '@/utils'
+import { classNames, formatDate } from '@/utils'
 import { getPosts } from '@/utils/db'
 import { DEFAULT_POSTER_POSTS_IMG } from '@/utils/settings'
 
 type PropTypes = {
   page: number
   limit: number
+  mode?: 'admin' | 'user'
 }
 
-export const Blog = async ({ page, limit }: PropTypes) => {
-  const { posts, total: totalPosts } = await getPosts({ page, limit })
+export const Blog = async ({ page, limit, mode = 'user' }: PropTypes) => {
+  const { posts, total: totalPosts } = await getPosts({
+    page,
+    limit,
+    select: mode === 'admin' ? 'all' : 'published',
+  })
 
   return (
     <>
@@ -21,7 +28,10 @@ export const Blog = async ({ page, limit }: PropTypes) => {
         {posts?.map((post) => (
           <div
             key={post.id.toString()}
-            className="flex w-10/12 flex-col gap-3 overflow-hidden rounded-xl bg-white/10 p-2 md:w-[724px] md:flex-row md:gap-0 md:p-3 lg:w-[960px] lg:p-5"
+            className={classNames(
+              'flex w-10/12 flex-col gap-3 overflow-hidden rounded-xl  p-2 md:w-[724px] md:flex-row md:gap-0 md:p-3 lg:w-[960px] lg:p-5',
+              post.published ? 'bg-white/10' : 'bg-red-800/70',
+            )}
           >
             <div className="relative flex h-[220px] flex-row justify-center  overflow-hidden md:mx-2 md:w-[334px] lg:mx-4 lg:h-[300px] lg:w-[448px]">
               <Image
@@ -31,6 +41,11 @@ export const Blog = async ({ page, limit }: PropTypes) => {
                 fill
                 objectFit="cover"
               />
+              {!post.published && mode === 'admin' && (
+                <div className="absolute bottom-0 left-0 bg-red-300 text-3xl">
+                  {t`Unpublished`}
+                </div>
+              )}
             </div>
 
             <div className="flex flex-col justify-between gap-3 px-2 md:h-[220px] md:w-[334px] md:gap-0 lg:h-[300px] lg:w-[448px] lg:gap-3 lg:px-4">
@@ -48,9 +63,11 @@ export const Blog = async ({ page, limit }: PropTypes) => {
               <div className="flex flex-row justify-between text-[var(--color-text-primary)]">
                 <div className="flex flex-row items-center justify-center gap-2">
                   <BsClock />
-                  <p className="pt-1">{post.readingTime} min</p>
+                  <p className="pt-1">
+                    {post.readingTime} {t`min`}
+                  </p>
                 </div>
-                <Link href={`blog/${post.slug}`}>read more</Link>
+                <Link href={`blog/${post.slug}`}>{t`read more`}</Link>
               </div>
             </div>
           </div>
@@ -58,7 +75,7 @@ export const Blog = async ({ page, limit }: PropTypes) => {
       </div>
       <div className="py-5">
         <Pagination
-          pathname="/blog"
+          pathname={`${mode === 'user' ? '/' : '/admin/'}blog`}
           page={page}
           limit={limit}
           total={totalPosts}

@@ -17,26 +17,39 @@ export const prisma = globalForPrisma.prisma ?? new PrismaClient()
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
-export const getPosts = cache(async ({ page, limit }) => {
-  const count = await prisma.post.count({
-    where: {
-      published: true,
-    },
-  })
+export const getPosts = cache(
+  async ({
+    page,
+    limit,
+    select = 'published',
+  }: {
+    page: number
+    limit: number
+    select: 'published' | 'all'
+  }) => {
+    const conditions =
+      select == 'published'
+        ? {
+            where: {
+              published: true,
+            },
+          }
+        : undefined
 
-  const results = await prisma.post.findMany({
-    skip: (page - 1) * limit, // How many rows to skip
-    take: limit, // Page size
-    orderBy: {
-      publishedAt: { sort: 'desc', nulls: 'last' },
-    },
-    where: {
-      published: true,
-    },
-  })
+    const count = await prisma.post.count(conditions)
 
-  return { posts: results, total: count }
-})
+    const results = await prisma.post.findMany({
+      skip: (page - 1) * limit, // How many rows to skip
+      take: limit, // Page size
+      orderBy: {
+        publishedAt: { sort: 'desc', nulls: 'last' },
+      },
+      ...conditions,
+    })
+
+    return { posts: results, total: count }
+  },
+)
 
 export const getPost = cache(async (slug: string) => {
   const result = await prisma.post.findMany({
