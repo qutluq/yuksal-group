@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { Translate } from '@/components/translate'
 import { classNames } from '@/utils'
 
 type PropTypes = {
@@ -27,6 +28,6 @@ export const NavItem = ({ item, page, variant = 'desktop' }: PropTypes) => (
     )}
     href={`/${item.slug}`}
   >
-    {item.name}
+    <Translate text={item.name} />
   </Link>
 )

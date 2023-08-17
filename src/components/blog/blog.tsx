@@ -1,10 +1,9 @@
-'use client'
-import { t } from '@lingui/macro'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BsClock } from 'react-icons/bs'
 
 import { Pagination } from '@/components/pagination'
+import { Translate } from '@/components/translate'
 import { classNames, formatDate } from '@/utils'
 import { getPosts } from '@/utils/db'
 import { DEFAULT_POSTER_POSTS_IMG } from '@/utils/settings'
@@ -43,7 +42,7 @@ export const Blog = async ({ page, limit, mode = 'user' }: PropTypes) => {
               />
               {!post.published && mode === 'admin' && (
                 <div className="absolute bottom-0 left-0 bg-red-300 text-3xl">
-                  {t`Unpublished`}
+                  <Translate text={'Unpublished'} />
                 </div>
               )}
             </div>
@@ -64,10 +63,12 @@ export const Blog = async ({ page, limit, mode = 'user' }: PropTypes) => {
                 <div className="flex flex-row items-center justify-center gap-2">
                   <BsClock />
                   <p className="pt-1">
-                    {post.readingTime} {t`min`}
+                    {post.readingTime} <Translate text={'min'} />
                   </p>
                 </div>
-                <Link href={`blog/${post.slug}`}>{t`read more`}</Link>
+                <Link href={`blog/${post.slug}`}>
+                  <Translate text={'read more'} />
+                </Link>
               </div>
             </div>
           </div>

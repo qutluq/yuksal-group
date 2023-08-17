@@ -13,8 +13,8 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/utils/settings.ts:12
-#: src/utils/settings.ts:21
+#: src/utils/settings.ts:13
+#: src/utils/settings.ts:24
 msgid "about"
 msgstr "О нас"
 
@@ -22,13 +22,13 @@ msgstr "О нас"
 msgid "All Rights Reserved"
 msgstr "Все права защищены"
 
-#: src/utils/settings.ts:11
-#: src/utils/settings.ts:20
+#: src/utils/settings.ts:12
+#: src/utils/settings.ts:23
 msgid "blog"
 msgstr "Блог"
 
-#: src/utils/settings.ts:14
-#: src/utils/settings.ts:23
+#: src/utils/settings.ts:15
+#: src/utils/settings.ts:26
 msgid "contact"
 msgstr "Контакты"
 
@@ -36,17 +36,33 @@ msgstr "Контакты"
 msgid "Design by"
 msgstr "Разработчик"
 
-#: src/utils/settings.ts:13
-#: src/utils/settings.ts:22
+#: src/utils/settings.ts:14
+#: src/utils/settings.ts:25
 msgid "gallery"
 msgstr "Галерея"
 
-#: src/components/breadcrumb/breadcrumb.tsx:24
-#: src/utils/settings.ts:10
-#: src/utils/settings.ts:19
+#: src/components/breadcrumb/breadcrumb.tsx:19
+#: src/utils/settings.ts:11
+#: src/utils/settings.ts:22
 msgid "home"
 msgstr "Главная"
 
-#: src/components/footer/footer.tsx:19
+#: src/components/blog/blog.tsx:72
+msgid "min"
+msgstr "мин"
+
+#: src/components/footer/footer.tsx:21
 msgid "Qutluq"
-msgstr ""
+msgstr "Qutluq"
+
+#: src/components/blog/blog.tsx:75
+msgid "read more"
+msgstr "далее"
+
+#: src/utils/translations.ts:4
+msgid "text"
+msgstr "текст"
+
+#: src/components/blog/blog.tsx:51
+msgid "Unpublished"
+msgstr "Не опубликовано"

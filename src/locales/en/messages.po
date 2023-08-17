@@ -13,8 +13,8 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/utils/settings.ts:12
-#: src/utils/settings.ts:21
+#: src/utils/settings.ts:13
+#: src/utils/settings.ts:24
 msgid "about"
 msgstr "about"
 
@@ -22,13 +22,13 @@ msgstr "about"
 msgid "All Rights Reserved"
 msgstr "All Rights Reserved"
 
-#: src/utils/settings.ts:11
-#: src/utils/settings.ts:20
+#: src/utils/settings.ts:12
+#: src/utils/settings.ts:23
 msgid "blog"
 msgstr "blog"
 
-#: src/utils/settings.ts:14
-#: src/utils/settings.ts:23
+#: src/utils/settings.ts:15
+#: src/utils/settings.ts:26
 msgid "contact"
 msgstr "contact"
 
@@ -36,17 +36,33 @@ msgstr "contact"
 msgid "Design by"
 msgstr "Design by"
 
-#: src/utils/settings.ts:13
-#: src/utils/settings.ts:22
+#: src/utils/settings.ts:14
+#: src/utils/settings.ts:25
 msgid "gallery"
 msgstr "gallery"
 
-#: src/components/breadcrumb/breadcrumb.tsx:24
-#: src/utils/settings.ts:10
-#: src/utils/settings.ts:19
+#: src/components/breadcrumb/breadcrumb.tsx:19
+#: src/utils/settings.ts:11
+#: src/utils/settings.ts:22
 msgid "home"
 msgstr "home"
 
-#: src/components/footer/footer.tsx:19
+#: src/components/blog/blog.tsx:72
+msgid "min"
+msgstr "min"
+
+#: src/components/footer/footer.tsx:21
 msgid "Qutluq"
 msgstr "Qutluq"
+
+#: src/components/blog/blog.tsx:75
+msgid "read more"
+msgstr "read more"
+
+#: src/utils/translations.ts:4
+msgid "text"
+msgstr "text"
+
+#: src/components/blog/blog.tsx:51
+msgid "Unpublished"
+msgstr "Unpublished"
