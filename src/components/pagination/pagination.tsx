@@ -43,7 +43,7 @@ export const Pagination = ({ pathname, page, limit, total }: PropTypes) => {
         <div className="w-24">
           <Button
             href={{
-              pathname: '/blog',
+              pathname,
               query: {
                 page: page < total ? page + 1 : total,
               },
