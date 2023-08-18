@@ -2,12 +2,14 @@
   "name": "yuksal-group",
   "version": "0.1.0",
   "private": true,
+  "prisma": {
+    "seed": "ts-node -r tsconfig-paths/register prisma/seed.ts"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 4129",
     "lint": "next lint",
-    "db:seed": "ts-node -r tsconfig-paths/register prisma/seed.ts",
     "extract:translations": "NODE_ENV=development lingui extract --clean",
     "compile:translations": "lingui compile"
   },

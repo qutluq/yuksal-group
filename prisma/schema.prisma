@@ -31,3 +31,10 @@ model Post {
   updatedAt   DateTime
   author      User      @relation(fields: [authorId], references: [id])
 }
+
+model Translation {
+  id String @id
+  en String
+  ru String
+  ug String
+}

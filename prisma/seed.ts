@@ -1,7 +1,16 @@
+//npx prisma db seed -- --action seed - seeds the blog and user tables in db
+//npx prisma db seed -- --action update-translations - updates the translations in db
+import { parseArgs } from 'node:util'
+
 import { PrismaClient } from '@prisma/client'
 
 import seedAdmin from './seeds/seedAdmin'
 import seedBlog from './seeds/seedBlog'
+import { updateTranslations } from './translations'
+
+const options = {
+  action: { type: 'string' },
+} as const
 
 if (process.env.NODE_ENV === 'production') {
   console.log('❌ This command cannot be run on production')
@@ -18,17 +27,38 @@ if (
   )
   process.exit(0)
 }
+
 const prisma = new PrismaClient()
 
-const seed = async () => {
-  console.log('Seeding database')
-  return prisma.$transaction(async () => {
-    await seedAdmin()
-    await seedBlog(300)
-  })
+const main = async () => {
+  const {
+    values: { action },
+  } = parseArgs({ options })
+
+  switch (action) {
+    case 'seed':
+      console.log('Seeding database')
+
+      return prisma.$transaction(async () => {
+        await seedAdmin()
+        await seedBlog(300)
+      })
+
+    case 'update-translations':
+      console.log('Updating translations')
+      return prisma.$transaction(async () => {
+        await updateTranslations()
+      })
+
+    default:
+      console.log(
+        '❌ please provide correct action for seeding: --action seed or --action update-translations',
+      )
+      break
+  }
 }
 
-seed()
+main()
   .then(async () => {
     console.log('✅ Database seeding completed')
     await prisma.$disconnect()
