@@ -29,6 +29,13 @@ export const setSearchParamsLang = (searchParams, selectedLanguage: string) => {
   return query
 }
 
+export const getLangSearchParam = (searchParams) =>
+  typeof searchParams.lang === 'string'
+    ? localeValid(searchParams.lang)
+      ? searchParams.lang
+      : getDefaultLocale({ env: 'server' })
+    : getDefaultLocale({ env: 'server' })
+
 export const localeValid = (lang) => (localeLanguages[lang] ? true : false)
 
 export const getDefaultLocale = ({ env }: { env: 'client' | 'server' }) =>

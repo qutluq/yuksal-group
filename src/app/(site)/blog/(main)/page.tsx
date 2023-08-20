@@ -1,4 +1,5 @@
 import { Blog as BlogComponent } from '@/components/blog'
+import { getLangSearchParam } from '@/utils'
 import { PAGINATION_LIMIT as limit } from '@/utils/settings'
 
 const Blog = async ({
@@ -9,7 +10,9 @@ const Blog = async ({
   const page =
     typeof searchParams.page === 'string' ? Number(searchParams.page) : 1
 
-  return <BlogComponent page={page} limit={limit}></BlogComponent>
+  const lang = getLangSearchParam(searchParams)
+
+  return <BlogComponent page={page} limit={limit} lang={lang}></BlogComponent>
 }
 
 export default Blog
