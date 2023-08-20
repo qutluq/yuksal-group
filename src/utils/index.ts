@@ -1,5 +1,46 @@
+import { localeLanguages } from '@/locales'
+
+import nextConfig from '../../next.config'
+
 export const classNames = (...classes: (string | boolean)[]) =>
   classes.filter(Boolean).join(' ')
+
+export const setSearchParamsLang = (searchParams, selectedLanguage: string) => {
+  let query = ''
+  let separator = ''
+  for (const [key, value] of searchParams.entries()) {
+    if (query === '') {
+      query = '?'
+    } else {
+      separator = '&'
+    }
+
+    if (key === 'lang') {
+      query = `${query}${separator}lang=${selectedLanguage}`
+    } else {
+      query = `${query}${separator}${key}=${value}`
+    }
+  }
+
+  if (query === '') {
+    query = `?lang=${selectedLanguage}`
+  }
+
+  return query
+}
+
+export const localeValid = (lang) => (localeLanguages[lang] ? true : false)
+
+export const getDefaultLocale = ({ env }: { env: 'client' | 'server' }) =>
+  env === 'client'
+    ? getCookie('NEXT_LOCALE') || nextConfig.i18n?.defaultLocale || 'en'
+    : nextConfig.i18n?.defaultLocale || 'en'
+
+export const getCookie = (name) => {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts[1].split(';').shift()
+}
 
 export const getPaginationText = (page, limit, total, short = false) =>
   short
