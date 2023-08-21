@@ -6,7 +6,6 @@ export const translations = [
   },
   { en: 'Design by', ru: 'Разработчик', ug: 'Сайтни қурған' },
   { en: 'read more', ru: 'далее', ug: 'тәпсилати' },
-  { en: 'read, more', ru: 'далее', ug: 'тәпсилати' },
   { en: 'about', ru: 'о нас', ug: 'биз' },
   { en: 'blog', ru: 'блог', ug: 'блог' },
   { en: 'contact', ru: 'контакты', ug: 'алақә' },
