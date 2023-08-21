@@ -1,6 +1,5 @@
 import { Post as BlogPost } from '@/components/blog'
-import { Footer } from '@/components/footer'
-import { Nav, NavItems, NavItemsMobile } from '@/components/nav'
+import { MainLayout } from '@/layouts/main'
 import { getLangSearchParam } from '@/utils'
 import { getAuthor, getNeighbourPosts, getPost } from '@/utils/db'
 
@@ -29,27 +28,14 @@ const Post = async ({
   const author = await getAuthor(post.authorId)
 
   return (
-    <>
-      <div
-        className={`h-48 
-                    bg-[url('/img/blog-bread-cover-img-640x160.png')] bg-cover 
-                    bg-center md:h-[480px] md:bg-[var(--color-secondary)] md:bg-[url('/img/blog-bread-cover-img.png')]`}
-      >
-        <div className="bg-[#1c284980]">
-          <Nav
-            navItems={<NavItems page={'blog'} lang={lang} />}
-            navItemsMobile={<NavItemsMobile page={'blog'} lang={lang} />}
-          />
-        </div>
-      </div>
+    <MainLayout page="blog" lang={lang}>
       <BlogPost
         author={author!}
         post={post}
         neighbours={neighbours}
         slug={params.slug}
-      ></BlogPost>
-      <Footer lang={lang} />
-    </>
+      />
+    </MainLayout>
   )
 }
 

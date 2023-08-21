@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { Footer } from '@/components/footer'
-import { Nav, NavItems, NavItemsMobile } from '@/components/nav'
+import { MainLayout } from '@/layouts/main'
 import { getLangSearchParam } from '@/utils'
 
 const Home = ({
@@ -11,17 +10,7 @@ const Home = ({
 }) => {
   const lang = getLangSearchParam(searchParams)
   return (
-    <>
-      <div
-        className={`h-48 
-                    bg-[url('/img/blog-bread-cover-img-640x160.png')] bg-cover 
-                    bg-center md:h-[480px] md:bg-[var(--color-secondary)] md:bg-[url('/img/blog-bread-cover-img.png')]`}
-      >
-        <Nav
-          navItems={<NavItems page={'home'} lang={lang} />}
-          navItemsMobile={<NavItemsMobile page={'home'} lang={lang} />}
-        />
-      </div>
+    <MainLayout page="home" lang={lang}>
       <div className="text-[var(--color-text-primary)]">
         Hello next!
         <p>
@@ -141,8 +130,7 @@ const Home = ({
           ducimus praesentium iusto eligendi beatae pariatur error.
         </p>
       </div>
-      <Footer lang={lang} />
-    </>
+    </MainLayout>
   )
 }
 

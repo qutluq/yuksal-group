@@ -1,6 +1,4 @@
-import { Breadcrumb } from '@/components/breadcrumb'
-import { Footer } from '@/components/footer'
-import { Nav, NavItems, NavItemsMobile } from '@/components/nav'
+import { MainLayout } from '@/layouts/main'
 import { getLangSearchParam } from '@/utils'
 
 const Contact = ({
@@ -11,18 +9,7 @@ const Contact = ({
   const lang = getLangSearchParam(searchParams)
 
   return (
-    <>
-      <div
-        className={`h-48 
-                    bg-[url('/img/blog-bread-cover-img-640x160.png')] bg-cover 
-                    bg-center md:h-[480px] md:bg-[var(--color-secondary)] md:bg-[url('/img/blog-bread-cover-img.png')]`}
-      >
-        <Nav
-          navItems={<NavItems page={'contact'} lang={lang} />}
-          navItemsMobile={<NavItemsMobile page={'contact'} lang={lang} />}
-        />
-        <Breadcrumb page="contact" lang={lang} />
-      </div>
+    <MainLayout page="contact" lang={lang}>
       <div className="text-[var(--color-text-primary)]">
         Contact
         <p>
@@ -142,8 +129,7 @@ const Contact = ({
           ducimus praesentium iusto eligendi beatae pariatur error.
         </p>
       </div>
-      <Footer lang={lang} />
-    </>
+    </MainLayout>
   )
 }
 

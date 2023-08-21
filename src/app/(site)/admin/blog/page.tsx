@@ -1,7 +1,5 @@
 import { Blog as BlogComponent } from '@/components/blog'
-import { Breadcrumb } from '@/components/breadcrumb'
-import { Footer } from '@/components/footer'
-import { Nav, NavItems, NavItemsMobile } from '@/components/nav'
+import { MainLayout } from '@/layouts/main'
 import { getLangSearchParam } from '@/utils'
 import { PAGINATION_LIMIT as limit } from '@/utils/settings'
 
@@ -16,27 +14,9 @@ const Blog = async ({
   const lang = getLangSearchParam(searchParams)
 
   return (
-    <>
-      <div
-        className={`h-48 
-                    bg-[url('/img/blog-bread-cover-img-640x160.png')] bg-cover 
-                    bg-center md:h-[480px] md:bg-[var(--color-secondary)] md:bg-[url('/img/blog-bread-cover-img.png')]`}
-      >
-        <Nav
-          navItems={<NavItems page={'blog'} lang={lang} />}
-          navItemsMobile={<NavItemsMobile page={'blog'} lang={lang} />}
-        />
-
-        <Breadcrumb page="blog" lang={lang} />
-      </div>
-      <BlogComponent
-        page={page}
-        limit={limit}
-        lang={lang}
-        mode="admin"
-      ></BlogComponent>
-      <Footer lang={lang} />
-    </>
+    <MainLayout page="blog" lang={lang}>
+      <BlogComponent page={page} limit={limit} lang={lang} mode="admin" />
+    </MainLayout>
   )
 }
 

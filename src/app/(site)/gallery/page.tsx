@@ -1,6 +1,4 @@
-import { Breadcrumb } from '@/components/breadcrumb'
-import { Footer } from '@/components/footer'
-import { Nav, NavItems, NavItemsMobile } from '@/components/nav'
+import { MainLayout } from '@/layouts/main'
 import { getLangSearchParam } from '@/utils'
 
 const Gallery = ({
@@ -11,19 +9,7 @@ const Gallery = ({
   const lang = getLangSearchParam(searchParams)
 
   return (
-    <>
-      <div
-        className={`h-48 
-                    bg-[url('/img/blog-bread-cover-img-640x160.png')] bg-cover 
-                    bg-center md:h-[480px] md:bg-[var(--color-secondary)] md:bg-[url('/img/blog-bread-cover-img.png')]`}
-      >
-        <Nav
-          navItems={<NavItems page={'gallery'} lang={lang} />}
-          navItemsMobile={<NavItemsMobile page={'gallery'} lang={lang} />}
-        />
-
-        <Breadcrumb page={'gallery'} lang={lang} />
-      </div>
+    <MainLayout page="gallery" lang={lang}>
       <div className="text-[var(--color-text-primary)]">
         Gallery
         <p>
@@ -143,8 +129,7 @@ const Gallery = ({
           ducimus praesentium iusto eligendi beatae pariatur error.
         </p>
       </div>
-      <Footer lang={lang} />
-    </>
+    </MainLayout>
   )
 }
 
