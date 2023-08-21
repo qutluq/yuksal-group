@@ -2,7 +2,7 @@
 import { Disclosure } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IoMenuOutline } from 'react-icons/io5'
 import { TfiClose } from 'react-icons/tfi'
 
@@ -17,21 +17,24 @@ import { SocialLinks } from './social'
 type PropTypes = {
   navItems: React.ReactNode
   navItemsMobile: React.ReactNode
+  lang: string
 }
 
-export const Nav = ({ navItems, navItemsMobile }: PropTypes) => {
+export const Nav = ({ lang, navItems, navItemsMobile }: PropTypes) => {
   const [colorChange, setColorchange] = useState(false)
 
-  if (typeof window !== 'undefined') {
-    const changeNavbarColor = () => {
-      if (window.scrollY >= 80) {
-        setColorchange(true)
-      } else {
-        setColorchange(false)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const changeNavbarColor = () => {
+        if (window.scrollY >= 80) {
+          setColorchange(true)
+        } else {
+          setColorchange(false)
+        }
       }
+      window.addEventListener('scroll', changeNavbarColor)
     }
-    window.addEventListener('scroll', changeNavbarColor)
-  }
+  }, [])
 
   return (
     <Disclosure>
@@ -60,7 +63,7 @@ export const Nav = ({ navItems, navItemsMobile }: PropTypes) => {
             </nav>
             <SocialLinks />
             <div className="hidden md:block">
-              <LanguageSwitcher />
+              <LanguageSwitcher lang={lang} />
             </div>
           </div>
           <nav
@@ -73,7 +76,7 @@ export const Nav = ({ navItems, navItemsMobile }: PropTypes) => {
             <Disclosure.Panel className="flex w-auto flex-col md:hidden">
               {navItemsMobile}
               <div className="border-t">
-                <LanguageSwitcherMobile />
+                <LanguageSwitcherMobile lang={lang} />
               </div>
             </Disclosure.Panel>
           </nav>
