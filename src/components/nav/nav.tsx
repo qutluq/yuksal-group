@@ -11,12 +11,15 @@ import {
   LanguageSwitcherMobile,
 } from '@/components/language-switcher'
 import { classNames } from '@/utils'
-import { NAV_MENU } from '@/utils/settings'
 
-import { NavItem } from './nav-item'
 import { SocialLinks } from './social'
 
-export const Nav = ({ page }) => {
+type PropTypes = {
+  navItems: React.ReactNode
+  navItemsMobile: React.ReactNode
+}
+
+export const Nav = ({ navItems, navItemsMobile }: PropTypes) => {
   const [colorChange, setColorchange] = useState(false)
 
   if (typeof window !== 'undefined') {
@@ -53,9 +56,7 @@ export const Nav = ({ page }) => {
               <Image src="/img/logo.png" alt="Logo" width={192} height={32} />
             </Link>
             <nav className="hidden gap-1 tracking-widest md:flex lg:gap-3">
-              {NAV_MENU().map((item) => (
-                <NavItem key={item.slug} item={item} page={page} />
-              ))}
+              {navItems}
             </nav>
             <SocialLinks />
             <div className="hidden md:block">
@@ -70,14 +71,7 @@ export const Nav = ({ page }) => {
             )}
           >
             <Disclosure.Panel className="flex w-auto flex-col md:hidden">
-              {NAV_MENU().map((item) => (
-                <NavItem
-                  key={item.slug}
-                  item={item}
-                  page={page}
-                  variant="mobile"
-                />
-              ))}
+              {navItemsMobile}
               <div className="border-t">
                 <LanguageSwitcherMobile />
               </div>

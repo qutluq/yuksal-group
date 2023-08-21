@@ -3,23 +3,30 @@ import Link from 'next/link'
 import { BsClock } from 'react-icons/bs'
 
 import { Pagination } from '@/components/pagination'
-import { Translate } from '@/components/translate'
 import { classNames, formatDate } from '@/utils'
-import { getPosts } from '@/utils/db'
+import {
+  getAllTranslations,
+  getPosts,
+  getTranslationFunction,
+} from '@/utils/db'
 import { DEFAULT_POSTER_POSTS_IMG } from '@/utils/settings'
 
 type PropTypes = {
   page: number
   limit: number
+  lang: string
   mode?: 'admin' | 'user'
 }
 
-export const Blog = async ({ page, limit, mode = 'user' }: PropTypes) => {
+export const Blog = async ({ page, limit, lang, mode = 'user' }: PropTypes) => {
   const { posts, total: totalPosts } = await getPosts({
     page,
     limit,
     select: mode === 'admin' ? 'all' : 'published',
   })
+
+  const translations = await getAllTranslations()
+  const translate = getTranslationFunction(translations, lang)
 
   return (
     <>
@@ -42,7 +49,7 @@ export const Blog = async ({ page, limit, mode = 'user' }: PropTypes) => {
               />
               {!post.published && mode === 'admin' && (
                 <div className="absolute bottom-0 left-0 bg-red-300 text-3xl">
-                  <Translate text={'Unpublished'} />
+                  {translate('Unpublished')}
                 </div>
               )}
             </div>
@@ -63,12 +70,10 @@ export const Blog = async ({ page, limit, mode = 'user' }: PropTypes) => {
                 <div className="flex flex-row items-center justify-center gap-2">
                   <BsClock />
                   <p className="pt-1">
-                    {post.readingTime} <Translate text={'min'} />
+                    {post.readingTime} {translate('min')}
                   </p>
                 </div>
-                <Link href={`blog/${post.slug}`}>
-                  <Translate text={'read more'} />
-                </Link>
+                <Link href={`blog/${post.slug}`}>{translate('read more')}</Link>
               </div>
             </div>
           </div>

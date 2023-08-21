@@ -1,18 +1,25 @@
 import Link from 'next/link'
-import { useContext } from 'react'
 
-import { Translate } from '@/components/translate'
-import { ModeContext } from '@/providers/mode-provider'
 import { classNames } from '@/utils'
+import { getAllTranslations, getTranslationFunction } from '@/utils/db'
 
 type PropTypes = {
   item: { id: string; name: string; slug: string }
   page: string
+  lang: string
+  mode?: 'user' | 'admin'
   variant?: 'desktop' | 'mobile'
 }
 
-export const NavItem = ({ item, page, variant = 'desktop' }: PropTypes) => {
-  const mode = useContext(ModeContext)
+export const NavItem = async ({
+  item,
+  page,
+  lang,
+  mode = 'user',
+  variant = 'desktop',
+}: PropTypes) => {
+  const translations = await getAllTranslations()
+  const translate = getTranslationFunction(translations, lang)
   return (
     <Link
       className={classNames(
@@ -32,7 +39,7 @@ export const NavItem = ({ item, page, variant = 'desktop' }: PropTypes) => {
       )}
       href={`${mode === 'user' ? '/' : '/admin/'}${item.slug}`}
     >
-      <Translate text={item.name} />
+      {translate(item.name)}
     </Link>
   )
 }
