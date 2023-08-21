@@ -1,17 +1,14 @@
-'use client'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import { localeLanguages } from '@/locales'
-import { classNames, getDefaultLocale, setSearchParamsLang } from '@/utils'
+import { classNames, setSearchParamsLang } from '@/utils'
 
 import nextConfig from '../../../next.config'
 
-export const LanguageSwitcherMobile = () => {
+export const LanguageSwitcherMobile = ({ lang }: { lang: string }) => {
   const router = useRouter()
-  const [selectedLang, setSelectedLang] = useState(
-    getDefaultLocale({ env: 'client' }),
-  )
+  const [selectedLang, setSelectedLang] = useState(lang)
 
   const pathname = usePathname()
   const searchParams = useSearchParams()
