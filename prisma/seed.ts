@@ -12,11 +12,6 @@ const options = {
   action: { type: 'string' },
 } as const
 
-if (process.env.NODE_ENV === 'production') {
-  console.log('❌ This command cannot be run on production')
-  process.exit(0)
-}
-
 if (
   typeof process.env.SEED_ADMIN_EMAIL === 'undefined' ||
   typeof process.env.SEED_ADMIN_PASSWORD === 'undefined'
@@ -37,6 +32,11 @@ const main = async () => {
 
   switch (action) {
     case 'seed':
+      if (process.env.NODE_ENV === 'production') {
+        console.log('❌ This command cannot be run on production')
+        process.exit(0)
+      }
+
       console.log('Seeding database')
 
       return prisma.$transaction(async () => {
