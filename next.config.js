@@ -10,16 +10,6 @@ const nextConfig = {
     defaultLocale: 'en',
     localeDetection: false,
   },
-  experimental: {
-    swcPlugins: [
-      [
-        '@lingui/swc-plugin',
-        {
-          // the same options as in .swcrc
-        },
-      ],
-    ],
-  },
 }
 
 module.exports = nextConfig

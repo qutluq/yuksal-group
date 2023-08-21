@@ -9,14 +9,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 4129",
-    "lint": "next lint",
-    "extract:translations": "NODE_ENV=development lingui extract --clean",
-    "compile:translations": "lingui compile"
+    "lint": "next lint"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.16",
-    "@lingui/macro": "^4.4.0",
-    "@lingui/react": "^4.4.0",
     "@prisma/client": "^5.0.0",
     "@reduxjs/toolkit": "^1.9.5",
     "next": "13.4.12",
@@ -27,8 +23,6 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
-    "@lingui/cli": "^4.4.0",
-    "@lingui/swc-plugin": "^4.0.4",
     "@types/node": "20.4.5",
     "@types/react": "18.2.18",
     "@types/react-dom": "18.2.7",
