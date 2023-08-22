@@ -1,7 +1,27 @@
+import type { Metadata } from 'next'
+
 import { Blog as BlogComponent } from '@/components/blog'
 import { MainLayout } from '@/layouts/main'
-import { getLangSearchParam } from '@/utils'
+import { getLangSearchParam, toTitleCase } from '@/utils'
+import {
+  getAllTranslations,
+  getMetadata,
+  getTranslationFunction,
+} from '@/utils/db'
 import { PAGINATION_LIMIT as limit } from '@/utils/settings'
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  [key: string]: string | string[] | undefined
+}): Promise<Metadata> {
+  const lang = getLangSearchParam(searchParams)
+  const translations = await getAllTranslations()
+  const translate = getTranslationFunction(translations, lang)
+  const title = toTitleCase(translate('blog'))
+
+  return getMetadata({ title })
+}
 
 const Blog = async ({
   searchParams,

@@ -1,7 +1,26 @@
+import type { Metadata } from 'next'
 import React from 'react'
 
 import { MainLayout } from '@/layouts/main'
-import { getLangSearchParam } from '@/utils'
+import { getLangSearchParam, toTitleCase } from '@/utils'
+import {
+  getAllTranslations,
+  getMetadata,
+  getTranslationFunction,
+} from '@/utils/db'
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  [key: string]: string | string[] | undefined
+}): Promise<Metadata> {
+  const lang = getLangSearchParam(searchParams)
+  const translations = await getAllTranslations()
+  const translate = getTranslationFunction(translations, lang)
+  const title = toTitleCase(translate('home'))
+
+  return getMetadata({ title })
+}
 
 const Home = ({
   searchParams,

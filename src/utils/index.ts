@@ -29,6 +29,14 @@ export const setSearchParamsLang = (searchParams, selectedLanguage: string) => {
   return query
 }
 
+export const toUppercase = (txt: string) => txt.toUpperCase()
+
+export const toTitleCase = (txt: string) =>
+  txt
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+
 export const getLangSearchParam = (searchParams) =>
   typeof searchParams.lang === 'string'
     ? localeValid(searchParams.lang)

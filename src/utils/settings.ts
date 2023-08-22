@@ -2,6 +2,9 @@ export const PAGINATION_LIMIT = 10
 export const DEFAULT_POSTER_POSTS_IMG = '/img/default-poster-posts.jpg' //aspect ratio: 450:300
 export const DEFAULT_AUTHOR_IMG = '/img/default-author-img.png' //aspect ratio: 450:300
 export const LOGO_IMG = '/img/logo.png' //aspect ratio: 200:36
+export const SiteName = 'Yuksal Group'
+export const SiteDescription = 'Uyghur Musical Group: Naghra/Surney/Karnay'
+export const SiteUrl = 'https://www.yuksal-group.com'
 export const NAV_MENU = () => [
   { id: 'home', name: 'home', slug: 'home' },
   { id: 'blog', name: 'blog', slug: 'blog' },

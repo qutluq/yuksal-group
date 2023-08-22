@@ -5,4 +5,10 @@ export type Translation = {
   ug: string
 }
 
-export type TypeMenuPage = 'home' | 'blog' | 'about' | 'gallery' | 'contact'
+export type TypeMenuPage =
+  | 'admin'
+  | 'home'
+  | 'blog'
+  | 'about'
+  | 'gallery'
+  | 'contact'
