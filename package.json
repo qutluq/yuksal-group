@@ -19,7 +19,6 @@
     "next-auth": "^4.23.0",
     "react-icons": "^4.10.1",
     "react-redux": "^8.1.2",
-    "sharp": "^0.32.5",
     "store": "^2.0.12"
   },
   "devDependencies": {
