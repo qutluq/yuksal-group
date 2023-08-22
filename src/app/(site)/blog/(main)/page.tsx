@@ -10,6 +10,8 @@ import {
 } from '@/utils/db'
 import { PAGINATION_LIMIT as limit } from '@/utils/settings'
 
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({
   searchParams,
 }: {

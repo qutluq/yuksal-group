@@ -7,6 +7,8 @@ import {
   getTranslationFunction,
 } from '@/utils/db'
 
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({
   searchParams,
 }: {
