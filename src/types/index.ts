@@ -4,3 +4,5 @@ export type Translation = {
   ru: string
   ug: string
 }
+
+export type TypeMenuPage = 'home' | 'blog' | 'about' | 'gallery' | 'contact'

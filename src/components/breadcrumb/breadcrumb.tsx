@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
-import type { TYPE_MENU_PAGE } from '@/types/menu-page'
+import type { TypeMenuPage } from '@/types'
 import { getAllTranslations, getTranslationFunction } from '@/utils/db'
 type PropTypes = {
-  page: TYPE_MENU_PAGE
+  page: TypeMenuPage
   lang: string
 }
 

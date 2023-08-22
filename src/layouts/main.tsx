@@ -1,13 +1,14 @@
 import { Breadcrumb } from '@/components/breadcrumb'
 import { Footer } from '@/components/footer'
 import { Nav, NavItems, NavItemsMobile } from '@/components/nav'
-import type { TYPE_MENU_PAGE } from '@/types/menu-page'
+import type { TypeMenuPage } from '@/types'
 
 type PropTypes = {
-  page: TYPE_MENU_PAGE
+  page: TypeMenuPage
   lang: string
   children: React.ReactNode
 }
+
 export const MainLayout = ({ page, lang, children }: PropTypes) => (
   <>
     <div
