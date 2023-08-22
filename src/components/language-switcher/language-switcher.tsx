@@ -1,17 +1,21 @@
+'use client'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import { localeLanguages } from '@/locales'
-import { setSearchParamsLang } from '@/utils'
+import { getDefaultLocale, setSearchParamsLang } from '@/utils'
 
 import nextConfig from '../../../next.config'
 
-export const LanguageSwitcher = ({ lang }: { lang: string }) => {
+export const LanguageSwitcher = () => {
   const [expanded, setExpanded] = useState(false)
   const router = useRouter()
-  const [selectedLang, setSelectedLang] = useState(lang)
+  const [selectedLang, setSelectedLang] = useState(
+    getDefaultLocale({ env: 'client' }),
+  )
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const locale = getDefaultLocale({ env: 'client' })
 
   const locales = nextConfig.i18n?.locales || ['en']
 
@@ -42,7 +46,7 @@ export const LanguageSwitcher = ({ lang }: { lang: string }) => {
 
   return (
     <div onClick={() => setExpanded(true)} className="lowercase text-white">
-      {localeLanguages[selectedLang]?.slice(0, 3)}
+      {localeLanguages[locale]?.slice(0, 3)}
     </div>
   )
 }
