@@ -13,7 +13,7 @@ import { PAGINATION_LIMIT as limit } from '@/utils/settings'
 export async function generateMetadata({
   searchParams,
 }: {
-  [key: string]: string | string[] | undefined
+  searchParams: { [key: string]: string | string[] | undefined }
 }): Promise<Metadata> {
   const lang = getLangSearchParam(searchParams)
   const translations = await getAllTranslations()
