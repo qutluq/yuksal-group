@@ -1,4 +1,4 @@
 import { Admin } from './admin'
-import { BlogAdmin } from './blog-admin'
+import { NoAccessMessage } from './no-access-message'
 
-export { Admin, BlogAdmin }
+export { Admin, NoAccessMessage }
