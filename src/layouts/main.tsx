@@ -1,10 +1,7 @@
-import { translations } from 'prisma/translations'
-
 import { Breadcrumb } from '@/components/breadcrumb'
 import { Footer } from '@/components/footer'
 import { Nav, NavItems, NavItemsMobile } from '@/components/nav'
 import type { TypeMenuPage } from '@/types'
-translations
 type PropTypes = {
   page: TypeMenuPage
   lang: string
