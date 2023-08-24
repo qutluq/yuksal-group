@@ -3,7 +3,7 @@
 import { SessionProvider } from 'next-auth/react'
 import { useState } from 'react'
 
-import { getLocale } from '@/utils'
+import { getClientLocale } from '@/utils'
 
 import { LocaleContext } from './context'
 
@@ -12,9 +12,7 @@ export const NextAuthSessionProvider = ({ children }) => {
 }
 
 export const LocaleProvider = ({ children }) => {
-  const [contextLocale, setContextLocale] = useState(
-    getLocale({ env: 'client' }),
-  )
+  const [contextLocale, setContextLocale] = useState(getClientLocale())
 
   return (
     <LocaleContext.Provider value={{ contextLocale, setContextLocale }}>

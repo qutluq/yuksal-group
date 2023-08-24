@@ -49,20 +49,17 @@ export const getLangSearchParam = (searchParams) =>
   typeof searchParams.lang === 'string'
     ? localeValid(searchParams.lang)
       ? searchParams.lang
-      : getLocale({ env: 'server' })
-    : getLocale({ env: 'server' })
+      : getServerLocale()
+    : getServerLocale()
 
 export const localeValid = (lang) => (localeLanguages[lang] ? true : false)
 
-export const getLocale = ({ env }: { env: 'client' | 'server' }) =>
-  env === 'client'
-    ? getCookie('NEXT_LOCALE') || nextConfig.i18n?.defaultLocale || 'en'
-    : nextConfig.i18n?.defaultLocale || 'en'
+export const getClientLocale = () =>
+  getCookie('NEXT_LOCALE') || nextConfig.i18n?.defaultLocale || 'en'
+
+export const getServerLocale = () => nextConfig.i18n?.defaultLocale || 'en'
 
 export const getCookie = (name) => {
-  if (typeof document === 'undefined') {
-    return nextConfig.i18n?.defaultLocale || 'en'
-  }
   const value = `; ${document.cookie}`
   const parts = value.split(`; ${name}=`)
   if (parts.length === 2) return parts[1].split(';').shift()
