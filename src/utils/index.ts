@@ -60,7 +60,7 @@ export const getLocale = ({ env }: { env: 'client' | 'server' }) =>
     : nextConfig.i18n?.defaultLocale || 'en'
 
 export const getCookie = (name) => {
-  if (!document) {
+  if (typeof document === 'undefined') {
     return nextConfig.i18n?.defaultLocale || 'en'
   }
   const value = `; ${document.cookie}`
