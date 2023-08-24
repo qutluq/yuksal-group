@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
 
-const Root = async () => redirect('/home')
+const Root = () => redirect('/home')
 
 export default Root

@@ -6,7 +6,6 @@ import { PrismaClient } from '@prisma/client'
 
 import seedAdmin from './seeds/seedAdmin'
 import seedBlog from './seeds/seedBlog'
-import { updateTranslations } from './translations'
 
 const options = {
   action: { type: 'string' },
@@ -42,12 +41,6 @@ const main = async () => {
       return prisma.$transaction(async () => {
         await seedAdmin()
         await seedBlog(300)
-      })
-
-    case 'update-translations':
-      console.log('Updating translations')
-      return prisma.$transaction(async () => {
-        await updateTranslations()
       })
 
     default:

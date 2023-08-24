@@ -2,36 +2,31 @@
 import { Disclosure } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { signOut, useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
+import { useContext, useEffect, useState } from 'react'
 import { IoMenuOutline } from 'react-icons/io5'
 import { TfiClose } from 'react-icons/tfi'
 
-import { Button } from '@/components/button'
+import { SingOutButton } from '@/components/button'
 import {
   LanguageSwitcher,
   LanguageSwitcherMobile,
 } from '@/components/language-switcher'
-import type { AuthorisationText } from '@/types'
-import { classNames } from '@/utils'
+import { LocaleContext } from '@/provider/context'
+import { classNames, translate } from '@/utils'
 import { DEFAULT_AUTHOR_IMG } from '@/utils/settings'
 
 import { SocialLinks } from './social'
+
 type PropTypes = {
   navItems: React.ReactNode
   navItemsMobile: React.ReactNode
-  translations: AuthorisationText
-  lang: string
 }
 
-export const Nav = ({
-  lang,
-  navItems,
-  navItemsMobile,
-  translations,
-}: PropTypes) => {
+export const Nav = ({ navItems, navItemsMobile }: PropTypes) => {
   const [colorChange, setColorchange] = useState(false)
   const { data: session } = useSession()
+  const { contextLocale: lang } = useContext(LocaleContext)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -90,9 +85,7 @@ export const Nav = ({
                   </Disclosure.Button>
                   <Disclosure.Panel className={'flex flex-col justify-end'}>
                     <p>{session?.user?.name}</p>
-                    <Button onClick={() => signOut()} href="/home">
-                      {translations.signOutButtonTitle}
-                    </Button>
+                    <SingOutButton title={translate('Sign out', lang)} />
                   </Disclosure.Panel>
                 </Disclosure>
               </div>

@@ -3,8 +3,7 @@ import { translations } from 'prisma/translations'
 import { Breadcrumb } from '@/components/breadcrumb'
 import { Footer } from '@/components/footer'
 import { Nav, NavItems, NavItemsMobile } from '@/components/nav'
-import type { AuthorisationText, TypeMenuPage } from '@/types'
-import { translate } from '@/utils'
+import type { TypeMenuPage } from '@/types'
 translations
 type PropTypes = {
   page: TypeMenuPage
@@ -13,10 +12,6 @@ type PropTypes = {
 }
 
 export const MainLayout = ({ page, lang, children }: PropTypes) => {
-  const translations: AuthorisationText = {
-    signOutButtonTitle: translate('Sign out', lang),
-  }
-
   return (
     <>
       <div
@@ -25,10 +20,8 @@ export const MainLayout = ({ page, lang, children }: PropTypes) => {
               bg-center md:h-[480px] md:bg-[var(--color-secondary)] md:bg-[url('/img/blog-bread-cover-img.png')]`}
       >
         <Nav
-          lang={lang}
           navItems={<NavItems page={page} lang={lang} />}
           navItemsMobile={<NavItemsMobile page={page} lang={lang} />}
-          translations={translations}
         />
         {page !== 'home' && <Breadcrumb page={page} lang={lang} />}
       </div>
