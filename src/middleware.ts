@@ -6,28 +6,7 @@ import { NextResponse } from 'next/server'
 
 import nextConfig from '../next.config'
 
-export const config = {
-  matcher: [
-    // https://next-auth.js.org/configuration/nextjs#basic-usage
-    // /admin/:path* matches /admin/a/b/c because * is zero or more
-
-    '/admin/:path*',
-
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
-}
-
-// Regex to check whether something has an extension, e.g. .jpg
-// const PUBLIC_FILE = /.*\..*$/
-const PUBLIC_FILE = /\.(.*)$/
-// '.*\.\(xls\|csv\)'
+const IGNORED_PATHS = /(api|_next\/static|_next\/image|favicon.ico|\.).*/
 
 export async function middleware(req: NextRequest) {
   // Cookie locale
@@ -35,12 +14,12 @@ export async function middleware(req: NextRequest) {
   const defaultLocale = nextConfig.i18n?.defaultLocale || 'en'
 
   try {
-    // Early return if public file encountered
-    if (PUBLIC_FILE.test(req.nextUrl.pathname)) {
+    // Early return if ignored files encountered
+    if (IGNORED_PATHS.test(req.nextUrl.pathname)) {
       return
     }
 
-    //return if lang is set to break out of infinite loop
+    //return if lang is set, to break out of infinite loop
     if (req.nextUrl.search.includes('lang=')) {
       return
     }
