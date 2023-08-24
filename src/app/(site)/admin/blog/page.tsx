@@ -2,7 +2,12 @@ import type { Metadata } from 'next'
 
 import { Blog as BlogComponent } from '@/components/blog'
 import { MainLayout } from '@/layouts/main'
-import { getLangSearchParam, toTitleCase, translate } from '@/utils'
+import {
+  getLangSearchParam,
+  getPageSearchParam,
+  toTitleCase,
+  translate,
+} from '@/utils'
 import { getMetadata } from '@/utils/db'
 import { PAGINATION_LIMIT as limit } from '@/utils/settings'
 
@@ -24,8 +29,7 @@ const Blog = ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) => {
-  const page =
-    typeof searchParams.page === 'string' ? Number(searchParams.page) : 1
+  const page = getPageSearchParam(searchParams)
 
   const lang = getLangSearchParam(searchParams)
 

@@ -45,6 +45,9 @@ export const toTitleCase = (txt: string) =>
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ')
 
+export const getPageSearchParam = (searchParams) =>
+  typeof searchParams.page === 'string' ? Number(searchParams.page) : 1
+
 export const getLangSearchParam = (searchParams) =>
   typeof searchParams.lang === 'string'
     ? localeValid(searchParams.lang)
