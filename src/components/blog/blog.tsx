@@ -3,12 +3,8 @@ import Link from 'next/link'
 import { BsClock } from 'react-icons/bs'
 
 import { Pagination } from '@/components/pagination'
-import { classNames, formatDate } from '@/utils'
-import {
-  getAllTranslations,
-  getPosts,
-  getTranslationFunction,
-} from '@/utils/db'
+import { classNames, formatDate, translate } from '@/utils'
+import { getPosts } from '@/utils/db'
 import { DEFAULT_POSTER_POSTS_IMG } from '@/utils/settings'
 
 type PropTypes = {
@@ -24,9 +20,6 @@ export const Blog = async ({ page, limit, lang, mode = 'user' }: PropTypes) => {
     limit,
     select: mode === 'admin' ? 'all' : 'published',
   })
-
-  const translations = await getAllTranslations()
-  const translate = getTranslationFunction(translations, lang)
 
   return (
     <>
@@ -49,7 +42,7 @@ export const Blog = async ({ page, limit, lang, mode = 'user' }: PropTypes) => {
               />
               {!post.published && mode === 'admin' && (
                 <div className="absolute bottom-0 left-0 bg-red-300 text-3xl">
-                  {translate('Unpublished')}
+                  {translate('Unpublished', lang)}
                 </div>
               )}
             </div>
@@ -70,10 +63,12 @@ export const Blog = async ({ page, limit, lang, mode = 'user' }: PropTypes) => {
                 <div className="flex flex-row items-center justify-center gap-2">
                   <BsClock />
                   <p className="pt-1">
-                    {post.readingTime} {translate('min')}
+                    {post.readingTime} {translate('min', lang)}
                   </p>
                 </div>
-                <Link href={`blog/${post.slug}`}>{translate('read more')}</Link>
+                <Link href={`blog/${post.slug}`}>
+                  {translate('read more', lang)}
+                </Link>
               </div>
             </div>
           </div>

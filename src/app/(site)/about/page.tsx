@@ -1,12 +1,8 @@
 import type { Metadata } from 'next'
 
 import { MainLayout } from '@/layouts/main'
-import { getLangSearchParam, toTitleCase } from '@/utils'
-import {
-  getAllTranslations,
-  getMetadata,
-  getTranslationFunction,
-} from '@/utils/db'
+import { getLangSearchParam, toTitleCase, translate } from '@/utils'
+import { getMetadata } from '@/utils/db'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,9 +12,7 @@ export async function generateMetadata({
   searchParams: { [key: string]: string | string[] | undefined }
 }): Promise<Metadata> {
   const lang = getLangSearchParam(searchParams)
-  const translations = await getAllTranslations()
-  const translate = getTranslationFunction(translations, lang)
-  const title = toTitleCase(translate('about'))
+  const title = toTitleCase(translate('about', lang))
 
   return getMetadata({ title })
 }

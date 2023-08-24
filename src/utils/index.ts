@@ -1,6 +1,9 @@
+import { cache } from 'react'
+
 import { localeLanguages } from '@/locales'
 
 import nextConfig from '../../next.config'
+import { translations } from './translations'
 
 export const classNames = (...classes: (string | boolean)[]) =>
   classes.filter(Boolean).join(' ')
@@ -29,6 +32,11 @@ export const setSearchParamsLang = (searchParams, selectedLanguage: string) => {
   return query
 }
 
+export const translate = cache((text: string, lang: string) => {
+  const translation = translations[slugify(text)]
+  return translation ? translation[lang] : text
+})
+
 export const toUppercase = (txt: string) => txt.toUpperCase()
 
 export const toTitleCase = (txt: string) =>
@@ -41,12 +49,12 @@ export const getLangSearchParam = (searchParams) =>
   typeof searchParams.lang === 'string'
     ? localeValid(searchParams.lang)
       ? searchParams.lang
-      : getDefaultLocale({ env: 'server' })
-    : getDefaultLocale({ env: 'server' })
+      : getLocale({ env: 'server' })
+    : getLocale({ env: 'server' })
 
 export const localeValid = (lang) => (localeLanguages[lang] ? true : false)
 
-export const getDefaultLocale = ({ env }: { env: 'client' | 'server' }) =>
+export const getLocale = ({ env }: { env: 'client' | 'server' }) =>
   env === 'client'
     ? getCookie('NEXT_LOCALE') || nextConfig.i18n?.defaultLocale || 'en'
     : nextConfig.i18n?.defaultLocale || 'en'

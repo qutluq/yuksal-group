@@ -1,7 +1,6 @@
 import Link from 'next/link'
 
-import { classNames } from '@/utils'
-import { getAllTranslations, getTranslationFunction } from '@/utils/db'
+import { classNames, translate } from '@/utils'
 
 type PropTypes = {
   item: { id: string; name: string; slug: string }
@@ -11,15 +10,13 @@ type PropTypes = {
   variant?: 'desktop' | 'mobile'
 }
 
-export const NavItem = async ({
+export const NavItem = ({
   item,
   page,
   lang,
   mode = 'user',
   variant = 'desktop',
 }: PropTypes) => {
-  const translations = await getAllTranslations()
-  const translate = getTranslationFunction(translations, lang)
   return (
     <Link
       className={classNames(
@@ -39,7 +36,7 @@ export const NavItem = async ({
       )}
       href={`${mode === 'user' ? '/' : '/admin/'}${item.slug}`}
     >
-      {translate(item.name)}
+      {translate(item.name, lang)}
     </Link>
   )
 }

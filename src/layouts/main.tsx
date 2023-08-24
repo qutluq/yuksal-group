@@ -4,7 +4,7 @@ import { Breadcrumb } from '@/components/breadcrumb'
 import { Footer } from '@/components/footer'
 import { Nav, NavItems, NavItemsMobile } from '@/components/nav'
 import type { AuthorisationText, TypeMenuPage } from '@/types'
-import { getAllTranslations, getTranslationFunction } from '@/utils/db'
+import { translate } from '@/utils'
 translations
 type PropTypes = {
   page: TypeMenuPage
@@ -12,12 +12,9 @@ type PropTypes = {
   children: React.ReactNode
 }
 
-export const MainLayout = async ({ page, lang, children }: PropTypes) => {
-  const allTanslations = await getAllTranslations()
-  const translate = getTranslationFunction(allTanslations, lang)
-
+export const MainLayout = ({ page, lang, children }: PropTypes) => {
   const translations: AuthorisationText = {
-    signOutButtonTitle: translate('Sign out'),
+    signOutButtonTitle: translate('Sign out', lang),
   }
 
   return (
