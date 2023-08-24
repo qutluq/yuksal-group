@@ -2,26 +2,36 @@
 import { Disclosure } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { signOut, useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { IoMenuOutline } from 'react-icons/io5'
 import { TfiClose } from 'react-icons/tfi'
 
+import { Button } from '@/components/button'
 import {
   LanguageSwitcher,
   LanguageSwitcherMobile,
 } from '@/components/language-switcher'
+import type { AuthorisationText } from '@/types'
 import { classNames } from '@/utils'
+import { DEFAULT_AUTHOR_IMG } from '@/utils/settings'
 
 import { SocialLinks } from './social'
-
 type PropTypes = {
   navItems: React.ReactNode
   navItemsMobile: React.ReactNode
+  translations: AuthorisationText
   lang: string
 }
 
-export const Nav = ({ lang, navItems, navItemsMobile }: PropTypes) => {
+export const Nav = ({
+  lang,
+  navItems,
+  navItemsMobile,
+  translations,
+}: PropTypes) => {
   const [colorChange, setColorchange] = useState(false)
+  const { data: session } = useSession()
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -65,6 +75,28 @@ export const Nav = ({ lang, navItems, navItemsMobile }: PropTypes) => {
             <div className="hidden md:block">
               <LanguageSwitcher lang={lang} />
             </div>
+
+            {session && (
+              <div className="flex flex-col items-center">
+                <Disclosure>
+                  <Disclosure.Button className={'hidden md:block'}>
+                    <Image
+                      src={DEFAULT_AUTHOR_IMG}
+                      alt=""
+                      className="rounded-full object-cover"
+                      width={35}
+                      height={35}
+                    />
+                  </Disclosure.Button>
+                  <Disclosure.Panel className={'flex flex-col justify-end'}>
+                    <p>{session?.user?.name}</p>
+                    <Button onClick={() => signOut()} href="/home">
+                      {translations.signOutButtonTitle}
+                    </Button>
+                  </Disclosure.Panel>
+                </Disclosure>
+              </div>
+            )}
           </div>
           <nav
             className={classNames(

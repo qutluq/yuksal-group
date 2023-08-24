@@ -14,4 +14,11 @@ export const translations = [
   { en: 'min', ru: 'мин', ug: 'мин' },
   { en: 'Qutluq', ru: 'Qutluq', ug: 'Қутлуқ' },
   { en: 'Unpublished', ru: 'Не опубликовано', ug: 'Нәшир қилинмиған' },
+  { en: 'Sign out', ru: 'Выйти', ug: 'Чиқиш' },
+  { en: 'Sign in', ru: 'Войти', ug: 'Кириш' },
+  {
+    en: 'AuthorisationText required',
+    ru: 'Необходима авторизация',
+    ug: 'Салаһийәт кимликини киргүзүш керәк',
+  },
 ]

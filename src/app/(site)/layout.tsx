@@ -2,6 +2,7 @@ import '@/app/globals.css'
 
 import type { Metadata } from 'next'
 
+import NextAuthSessionProvider from '@/provider'
 import { SiteName } from '@/utils/settings'
 
 export const metadata: Metadata = {
@@ -16,11 +17,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const locale = 'ru'
   return (
-    <html lang={locale}>
+    <html>
       <body className="flex flex-col gap-5 bg-[var(--color-secondary)]">
-        <>{children}</>
+        <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
       </body>
     </html>
   )

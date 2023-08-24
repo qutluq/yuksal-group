@@ -12,3 +12,9 @@ export type TypeMenuPage =
   | 'about'
   | 'gallery'
   | 'contact'
+
+export type AuthorisationText = {
+  signOutButtonTitle?: string
+  signInButtonTitle?: string
+  authorizationRequired?: string
+}

@@ -44,4 +44,11 @@ export const options: NextAuthOptions = {
     logo: '/img/logo.png', // Absolute URL to image
     buttonText: '', // Hex color code
   },
+  callbacks: {
+    session({ session }) {
+      session.user.role =
+        session.user.name === 'yuksal-admin' ? 'admin' : 'user'
+      return session
+    },
+  },
 }
