@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 
+import { AdminLayout } from '@/layouts/admin'
 import { getLangSearchParam, toTitleCase, translate } from '@/utils'
 import { getMetadata } from '@/utils/db'
 
@@ -16,9 +17,16 @@ export async function generateMetadata({
   return getMetadata({ title })
 }
 
-const Home = () => {
+const Home = ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) => {
+  const lang = getLangSearchParam(searchParams)
   return (
-    <div className="text-[var(--color-text-primary)]">Secured home page</div>
+    <div className="text-[var(--color-text-primary)]">
+      <AdminLayout lang={lang}>Secured home page</AdminLayout>
+    </div>
   )
 }
 

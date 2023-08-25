@@ -2,7 +2,7 @@ import '@/app/globals.css'
 
 import type { Metadata } from 'next'
 
-import { LocaleProvider, NextAuthSessionProvider } from '@/provider'
+import { NextAuthSessionProvider } from '@/provider'
 import { SiteName } from '@/utils/settings'
 
 export const metadata: Metadata = {
@@ -20,9 +20,7 @@ export default function RootLayout({
   return (
     <html>
       <body className="flex flex-col gap-5 bg-[var(--color-secondary)]">
-        <LocaleProvider>
-          <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
-        </LocaleProvider>
+        <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
       </body>
     </html>
   )

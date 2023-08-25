@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { Blog as BlogComponent } from '@/components/blog'
+import { AdminLayout } from '@/layouts/admin'
 import { MainLayout } from '@/layouts/main'
 import {
   getLangSearchParam,
@@ -30,13 +31,14 @@ const Blog = ({
   searchParams: { [key: string]: string | string[] | undefined }
 }) => {
   const page = getPageSearchParam(searchParams)
-
   const lang = getLangSearchParam(searchParams)
 
   return (
-    <MainLayout page="blog" lang={lang}>
-      <BlogComponent page={page} limit={limit} lang={lang} mode="admin" />
-    </MainLayout>
+    <AdminLayout lang={lang}>
+      <MainLayout page="blog" lang={lang}>
+        <BlogComponent page={page} limit={limit} lang={lang} mode="admin" />
+      </MainLayout>
+    </AdminLayout>
   )
 }
 

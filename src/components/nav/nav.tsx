@@ -3,7 +3,7 @@ import { Disclosure } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IoMenuOutline } from 'react-icons/io5'
 import { TfiClose } from 'react-icons/tfi'
 
@@ -12,7 +12,6 @@ import {
   LanguageSwitcher,
   LanguageSwitcherMobile,
 } from '@/components/language-switcher'
-import { LocaleContext } from '@/provider/context'
 import { classNames, translate } from '@/utils'
 import { DEFAULT_AUTHOR_IMG } from '@/utils/settings'
 
@@ -21,12 +20,12 @@ import { SocialLinks } from './social'
 type PropTypes = {
   navItems: React.ReactNode
   navItemsMobile: React.ReactNode
+  lang: string
 }
 
-export const Nav = ({ navItems, navItemsMobile }: PropTypes) => {
+export const Nav = ({ navItems, navItemsMobile, lang }: PropTypes) => {
   const [colorChange, setColorchange] = useState(false)
   const { data: session } = useSession()
-  const { contextLocale: lang } = useContext(LocaleContext)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {

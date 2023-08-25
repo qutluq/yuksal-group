@@ -19,6 +19,7 @@ export const MainLayout = ({ page, lang, children }: PropTypes) => {
         <Nav
           navItems={<NavItems page={page} lang={lang} />}
           navItemsMobile={<NavItemsMobile page={page} lang={lang} />}
+          lang={lang}
         />
         {page !== 'home' && <Breadcrumb page={page} lang={lang} />}
       </div>

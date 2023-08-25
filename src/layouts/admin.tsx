@@ -3,11 +3,13 @@ import { useSession } from 'next-auth/react'
 
 import { NoAccessMessage } from '@/components/admin'
 
-export default function AdminLayout({
+export const AdminLayout = ({
   children,
+  lang,
 }: {
   children: React.ReactNode
-}) {
+  lang: string
+}) => {
   const { data: session } = useSession(undefined)
 
   //session === undefined if next-auth session has not hydrated
@@ -15,6 +17,6 @@ export default function AdminLayout({
   return session === undefined ? null : session?.user.role === 'admin' ? (
     [children]
   ) : (
-    <NoAccessMessage />
+    <NoAccessMessage lang={lang} />
   )
 }

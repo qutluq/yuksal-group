@@ -1,9 +1,8 @@
 'use client'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { localeLanguages } from '@/locales'
-import { LocaleContext } from '@/provider/context'
 import { classNames, setSearchParamsLang } from '@/utils'
 
 import nextConfig from '../../../next.config'
@@ -14,7 +13,6 @@ export const LanguageSwitcherMobile = ({ lang }: { lang: string }) => {
 
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const { setContextLocale } = useContext(LocaleContext)
 
   const locales = nextConfig.i18n?.locales || ['en']
   const selectLanguage = (code: string) => {
@@ -25,7 +23,6 @@ export const LanguageSwitcherMobile = ({ lang }: { lang: string }) => {
     document.cookie = `NEXT_LOCALE=${selectedLang}; max-age=${
       2 * (3 * 365 + 366) * 7 * 24 * 60 * 60
     }; path=/`
-    setContextLocale(selectedLang)
     const query = setSearchParamsLang(searchParams, selectedLang)
     router.push(`${pathname}${query}`)
   }, [selectedLang])

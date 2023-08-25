@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { Admin as AdminComponent } from '@/components/admin'
+import { AdminLayout } from '@/layouts/admin'
 import { getLangSearchParam, toTitleCase, translate } from '@/utils'
 import { getMetadata } from '@/utils/db'
 
@@ -17,10 +18,17 @@ export async function generateMetadata({
   return getMetadata({ title })
 }
 
-const Admin = () => {
+const Admin = ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) => {
+  const lang = getLangSearchParam(searchParams)
   return (
     <div className="text-[var(--color-text-primary)]">
-      <AdminComponent />
+      <AdminLayout lang={lang}>
+        <AdminComponent lang={lang} />
+      </AdminLayout>
     </div>
   )
 }
