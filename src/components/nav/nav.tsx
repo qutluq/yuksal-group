@@ -46,11 +46,11 @@ export const Nav = ({ navItems, navItemsMobile }: PropTypes) => {
       {({ open }) => (
         <div
           className={classNames(
-            'fixed z-10 flex h-[46px] w-full flex-row  items-center justify-center bg-[var(--color-secondary)] md:h-[76px]',
+            'fixed z-10 flex h-[76px] w-full flex-row  items-center justify-center bg-[var(--color-secondary)]',
             colorChange ? 'md:border-b md:border-white' : 'md:bg-transparent',
           )}
         >
-          <div className="flex w-full flex-row items-center justify-between border-b-[1px] border-white px-2 md:w-[768px]  md:border-none  lg:w-[1024px]">
+          <div className="flex h-full w-full flex-row items-center justify-between border-b-[1px] border-white px-2 md:w-[768px]  md:border-none  lg:w-[1024px]">
             <Disclosure.Button className={'md:hidden'}>
               <IoMenuOutline
                 className={classNames('text-3xl text-white', open && 'hidden')}
