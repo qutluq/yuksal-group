@@ -29,8 +29,8 @@ export async function middleware(req: NextRequest) {
     if (!cookieLocale) {
       return NextResponse.redirect(
         new URL(
-          `${req.nextUrl.pathname}/${req.nextUrl.search}${
-            req.nextUrl.search ? '&' : '?'
+          `${req.nextUrl.pathname}${
+            req.nextUrl.search ? `${req.nextUrl.search}&` : '?'
           }lang=${defaultLocale}`,
           req.url,
         ),
@@ -40,8 +40,8 @@ export async function middleware(req: NextRequest) {
     // If cookie set redirect to the set language
     return NextResponse.redirect(
       new URL(
-        `${req.nextUrl.pathname}/${req.nextUrl.search}${
-          req.nextUrl.search ? '&' : '?'
+        `${req.nextUrl.pathname}${
+          req.nextUrl.search ? `${req.nextUrl.search}&` : '?'
         }lang=${cookieLocale}`,
         req.url,
       ),
