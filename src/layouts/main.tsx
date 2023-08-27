@@ -12,7 +12,7 @@ export const MainLayout = ({ page, lang, children }: PropTypes) => {
   return (
     <>
       <div
-        className={`h-48 
+        className={`flex h-48 w-full flex-col items-center
               bg-[url('/img/blog-bread-cover-img-640x160.png')] bg-cover 
               bg-center md:h-[480px] md:bg-[var(--color-secondary)] md:bg-[url('/img/blog-bread-cover-img.png')]`}
       >
