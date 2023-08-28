@@ -1,20 +1,21 @@
 import Image from 'next/image'
-import Link from 'next/link'
-import { TfiFacebook, TfiInstagram, TfiYoutube } from 'react-icons/tfi'
 
-import { Button } from '@/components/button'
 import type { Post as PostType } from '@/types/blog'
 import type { User as UserType } from '@/types/user'
-import { classNames, formatDate } from '@/utils'
+import { formatDate } from '@/utils'
 import { DEFAULT_AUTHOR_IMG } from '@/utils/settings'
+
+import { PostNeighbours } from './post-neighbours'
+import { Sharing } from './sharing'
 type PropTypes = {
   author: UserType
   post: PostType
   neighbours: { previousPost: PostType | null; nextPost: PostType | null }
   slug: string
+  lang: string
 }
 
-export const Post = ({ author, post, neighbours, slug }: PropTypes) => {
+export const Post = ({ author, post, neighbours, slug, lang }: PropTypes) => {
   return (
     <div className="flex min-h-[700px] w-full flex-col items-center justify-start gap-7 bg-[var(--color-secondary)]">
       <article className="flex w-5/6 flex-col gap-7 text-[var(--color-text-primary)] md:w-3/4 lg:w-2/3">
@@ -47,27 +48,7 @@ export const Post = ({ author, post, neighbours, slug }: PropTypes) => {
       </article>
 
       <div className="mx-auto flex w-2/3 flex-row gap-5">
-        <p className="pt-1 text-xl text-[var(--color-text-secondary)]">
-          Share:
-        </p>
-        <Link
-          href={`https://www.facebook.com/sharer/sharer.php?u=https://www.yuksal-group.com/blog/${slug}/`}
-          target="_blank"
-        >
-          <TfiYoutube className="text-3xl text-white" />
-        </Link>
-        <Link
-          href={`https://www.facebook.com/sharer/sharer.php?u=https://www.yuksal-group.com/blog/${slug}/`}
-          target="_blank"
-        >
-          <TfiFacebook className="text-3xl text-white" />
-        </Link>
-        <Link
-          href={`https://www.facebook.com/sharer/sharer.php?u=https://www.yuksal-group.com/blog/${slug}/`}
-          target="_blank"
-        >
-          <TfiInstagram className="text-3xl text-white" />
-        </Link>
+        <Sharing slug={slug} lang={lang} />
       </div>
 
       <Image
@@ -79,42 +60,7 @@ export const Post = ({ author, post, neighbours, slug }: PropTypes) => {
       />
 
       <div className="flex flex-col justify-between gap-3 md:w-[600px] md:flex-row md:gap-0 lg:w-[800px]">
-        <div
-          className={classNames(
-            'border-y',
-            neighbours.previousPost === null
-              ? 'border-y-gray-500'
-              : 'border-y-white',
-          )}
-        >
-          <Button
-            href={neighbours.previousPost?.slug || '#'}
-            disabled={neighbours.previousPost === null}
-            variant="text"
-          >
-            <p className="flex w-full flex-row justify-center overflow-hidden truncate md:w-60">
-              {neighbours.previousPost?.title || 'Previous'}
-            </p>
-          </Button>
-        </div>
-        <div
-          className={classNames(
-            'border-y',
-            neighbours.nextPost === null
-              ? 'border-y-gray-500'
-              : 'border-y-white',
-          )}
-        >
-          <Button
-            href={neighbours.nextPost?.slug || '#'}
-            disabled={neighbours.nextPost === null}
-            variant="text"
-          >
-            <p className="flex w-full flex-row justify-center overflow-hidden truncate md:w-60">
-              {neighbours.nextPost?.title || 'Next'}
-            </p>
-          </Button>
-        </div>
+        <PostNeighbours neighbours={neighbours} lang={lang} />
       </div>
     </div>
   )
