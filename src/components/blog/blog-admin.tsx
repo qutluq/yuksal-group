@@ -2,12 +2,15 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { BsClock } from 'react-icons/bs'
 import { FiEdit } from 'react-icons/fi'
 
 import { Button } from '@/components/button'
+import { ModalDialog } from '@/components/modal'
 import { PaginationClientSide } from '@/components/pagination/pagination-client-side'
+import { useModal } from '@/hooks/useModal'
 import { usePaginatedPostsClientSide } from '@/hooks/usePaginatedPostsClientSide'
 import { classNames, formatDate, translate } from '@/utils'
 import { deletePostClientSide } from '@/utils/api'
@@ -21,12 +24,25 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
   const { page, setPage, posts, totalPosts, setUpdate } =
     usePaginatedPostsClientSide()
 
-  const handleClickDelete = async (id: number) => {
-    deletePostClientSide(id).then((response) => {
-      if (response.ok) {
-        setUpdate(true)
-      }
-    })
+  const { modalClosed, setModalClosed, agreed, setAgreed } = useModal()
+  const [deleteId, setDeleteId] = useState(-1)
+  const [title, setTitle] = useState('')
+
+  useEffect(() => {
+    if (modalClosed && agreed) {
+      deletePostClientSide(deleteId).then((response) => {
+        if (response.ok) {
+          setUpdate(true)
+        }
+      })
+      setDeleteId(-1)
+    }
+  }, [modalClosed])
+
+  const handleClickDelete = async (id: number, title: string) => {
+    setDeleteId(id)
+    setTitle(title)
+    setModalClosed(false)
   }
 
   const handleClickEdit = (id: number) => {
@@ -93,7 +109,7 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
                   <div className="hover:bg-slate-300/30">
                     <Button
                       variant={'text'}
-                      onClick={() => handleClickDelete(post.id!)}
+                      onClick={() => handleClickDelete(post.id!, post.title)}
                     >
                       <AiTwotoneDelete />
                     </Button>
@@ -112,6 +128,21 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
           total={totalPosts}
         />
       </div>
+      {!modalClosed && (
+        <ModalDialog
+          title="Delete post"
+          body={
+            <div className="flex flex-col items-center">
+              Are you sure you want to delete the post
+              {<p className="font-bold">{title}?</p>}
+            </div>
+          }
+          btnTitleAgree="Yes"
+          btnTitleCancel="Cancel"
+          setAgreed={setAgreed}
+          setModalClosed={setModalClosed}
+        />
+      )}
     </>
   )
 }
