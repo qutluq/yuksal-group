@@ -61,6 +61,7 @@ const Post = async ({
         post={post}
         neighbours={neighbours}
         slug={params.slug}
+        lang={lang}
       />
     </MainLayout>
   )
