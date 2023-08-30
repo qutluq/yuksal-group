@@ -32,21 +32,19 @@ export const PaginationClientSide = ({
       </p>
 
       <div className="hidden flex-row items-center justify-center gap-1 md:flex">
-        <div className="w-24">
-          <Button
-            title="Previous"
-            onClick={() => setPage(page - 1)}
-            disabled={page <= 1}
-          />
-        </div>
+        <Button
+          title="Previous"
+          onClick={() => setPage(page - 1)}
+          disabled={page <= 1}
+          className="w-28"
+        />
 
-        <div className="w-24">
-          <Button
-            title="Next"
-            onClick={() => setPage(page + 1)}
-            disabled={page >= totalPages}
-          />
-        </div>
+        <Button
+          title="Next"
+          onClick={() => setPage(page + 1)}
+          disabled={page >= totalPages}
+          className="w-28"
+        />
       </div>
       <div className="flex flex-row items-center justify-center gap-1 md:hidden">
         <Button

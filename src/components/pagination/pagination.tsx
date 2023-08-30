@@ -27,31 +27,29 @@ export const Pagination = ({ pathname, page, limit, total }: PropTypes) => {
       </p>
 
       <div className="hidden flex-row items-center justify-center gap-1 md:flex">
-        <div className="w-24">
-          <Button
-            href={{
-              pathname,
-              query: {
-                page: page > 1 ? page - 1 : 1,
-              },
-            }}
-            title="Previous"
-            disabled={page <= 1}
-          />
-        </div>
+        <Button
+          href={{
+            pathname,
+            query: {
+              page: page > 1 ? page - 1 : 1,
+            },
+          }}
+          title="Previous"
+          disabled={page <= 1}
+          className="w-28"
+        />
 
-        <div className="w-24">
-          <Button
-            href={{
-              pathname,
-              query: {
-                page: page < total ? page + 1 : total,
-              },
-            }}
-            title="Next"
-            disabled={page >= totalPages}
-          />
-        </div>
+        <Button
+          href={{
+            pathname,
+            query: {
+              page: page < total ? page + 1 : total,
+            },
+          }}
+          title="Next"
+          disabled={page >= totalPages}
+          className="w-28"
+        />
       </div>
       <div className="flex flex-row items-center justify-center gap-1 md:hidden">
         <Button

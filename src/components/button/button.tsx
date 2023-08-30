@@ -1,18 +1,19 @@
 import type { LinkProps } from 'next/link'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
+import type { MouseEvent } from 'react'
 
 import { classNames } from '@/utils'
 
 import type { HrefType } from './types'
-
 type PropTypes = Omit<LinkProps, 'href'> & {
   href?: string | HrefType
   title?: string
   variant?: 'text' | 'contained'
-  onClick?: () => void
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void
   disabled?: boolean
   children?: ReactNode
+  className?: string
 }
 
 export const Button = ({
@@ -21,6 +22,7 @@ export const Button = ({
   variant = 'contained',
   disabled = false,
   onClick,
+  className = '',
   children,
   ...props
 }: PropTypes) =>
@@ -34,6 +36,7 @@ export const Button = ({
           ? 'text-[var(--color-primary)]'
           : 'text-[var(--color-text-primary)]',
         disabled && 'pointer-events-none opacity-50',
+        className,
       )}
       {...props}
     >
@@ -49,6 +52,7 @@ export const Button = ({
           ? 'text-[var(--color-primary)]'
           : 'text-[var(--color-text-primary)]',
         disabled && 'pointer-events-none opacity-50',
+        className,
       )}
       disabled={disabled}
       onClick={onClick}
