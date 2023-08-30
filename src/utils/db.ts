@@ -42,6 +42,16 @@ export const getMetadata = ({
   } as Metadata
 }
 
+export const deletePost = async (id: number) => {
+  const deletedPost = await prisma.post.delete({
+    where: {
+      id: id,
+    },
+  })
+
+  return deletedPost
+}
+
 export const getPosts = cache(
   async ({
     page,

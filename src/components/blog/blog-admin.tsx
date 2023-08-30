@@ -10,6 +10,7 @@ import { Button } from '@/components/button'
 import { PaginationClientSide } from '@/components/pagination/pagination-client-side'
 import { usePaginatedPostsClientSide } from '@/hooks/usePaginatedPostsClientSide'
 import { classNames, formatDate, translate } from '@/utils'
+import { deletePostClientSide } from '@/utils/api'
 import { DEFAULT_POSTER_POSTS_IMG, PAGINATION_LIMIT } from '@/utils/settings'
 
 type PropTypes = {
@@ -21,8 +22,11 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
     usePaginatedPostsClientSide()
 
   const handleClickDelete = async (id: number) => {
-    console.log({ id })
-    throw new Error('Function not implemented.')
+    deletePostClientSide(id).then((response) => {
+      if (response.ok) {
+        setUpdate(true)
+      }
+    })
   }
 
   const handleClickEdit = (id: number) => {
