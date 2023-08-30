@@ -11,14 +11,13 @@ type PropTypes = {
   page: number
   limit: number
   lang: string
-  mode?: 'admin' | 'user'
 }
 
-export const Blog = async ({ page, limit, lang, mode = 'user' }: PropTypes) => {
+export const Blog = async ({ page, limit, lang }: PropTypes) => {
   const { posts, total: totalPosts } = await getPosts({
     page,
     limit,
-    select: mode === 'admin' ? 'all' : 'published',
+    select: 'published',
   })
 
   return (
@@ -40,11 +39,6 @@ export const Blog = async ({ page, limit, lang, mode = 'user' }: PropTypes) => {
                 fill
                 objectFit="cover"
               />
-              {!post.published && mode === 'admin' && (
-                <div className="absolute bottom-0 left-0 bg-red-300 text-3xl">
-                  {translate('Unpublished', lang)}
-                </div>
-              )}
             </div>
 
             <div className="flex flex-col justify-between gap-3 px-2 md:h-[220px] md:w-[334px] md:gap-0 lg:h-[300px] lg:w-[448px] lg:gap-3 lg:px-4">
@@ -76,7 +70,7 @@ export const Blog = async ({ page, limit, lang, mode = 'user' }: PropTypes) => {
       </div>
       <div className="py-5">
         <Pagination
-          pathname={`${mode === 'user' ? '/' : '/admin/'}blog`}
+          pathname={'/blog'}
           page={page}
           limit={limit}
           total={totalPosts}

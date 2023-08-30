@@ -1,16 +1,10 @@
 import type { Metadata } from 'next'
 
-import { Blog as BlogComponent } from '@/components/blog'
+import { BlogAdmin } from '@/components/blog'
 import { AdminLayout } from '@/layouts/admin'
 import { MainLayout } from '@/layouts/main'
-import {
-  getLangSearchParam,
-  getPageSearchParam,
-  toTitleCase,
-  translate,
-} from '@/utils'
+import { getLangSearchParam, toTitleCase, translate } from '@/utils'
 import { getMetadata } from '@/utils/db'
-import { PAGINATION_LIMIT as limit } from '@/utils/settings'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,13 +24,12 @@ const Blog = ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) => {
-  const page = getPageSearchParam(searchParams)
   const lang = getLangSearchParam(searchParams)
 
   return (
     <AdminLayout lang={lang}>
       <MainLayout page="blog" lang={lang}>
-        <BlogComponent page={page} limit={limit} lang={lang} mode="admin" />
+        <BlogAdmin lang={lang} />
       </MainLayout>
     </AdminLayout>
   )
