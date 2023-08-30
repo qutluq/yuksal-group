@@ -1,13 +1,13 @@
 export type Post = {
-  id: number
-  title: string
-  slug: string
-  content: string
-  description: string
-  readingTime: number
+  id?: number
   authorId: number
+  content: string
+  createdAt?: Date
+  description: string
   published: boolean
-  createdAt: Date
   publishedAt: Date | null
+  readingTime: number
+  slug: string
+  title: string
   updatedAt: Date
 }
