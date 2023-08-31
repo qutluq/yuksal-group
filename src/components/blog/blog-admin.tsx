@@ -8,6 +8,7 @@ import { BsClock } from 'react-icons/bs'
 import { FiEdit } from 'react-icons/fi'
 
 import { Button } from '@/components/button'
+import { LoadingBlog } from '@/components/fallback'
 import { ModalDialog } from '@/components/modal'
 import { PaginationClientSide } from '@/components/pagination/pagination-client-side'
 import { useModal } from '@/hooks/useModal'
@@ -21,7 +22,7 @@ type PropTypes = {
 }
 
 export const BlogAdmin = ({ lang }: PropTypes) => {
-  const { page, setPage, posts, totalPosts, setUpdate } =
+  const { loading, page, setPage, posts, totalPosts, setUpdate } =
     usePaginatedPostsClientSide()
 
   const { modalClosed, setModalClosed, agreed, setAgreed } = useModal()
@@ -48,6 +49,9 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
   const handleClickEdit = (id: number) => {
     console.log({ id })
     throw new Error('Function not implemented.')
+  }
+  if (loading) {
+    return <LoadingBlog />
   }
 
   return (

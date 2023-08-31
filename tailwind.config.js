@@ -18,6 +18,9 @@ module.exports = {
           '0%': { transform: 'translateX(-50%);' },
           '100%': { transform: 'translateX(0%);' },
         },
+        shimmer: {
+          '100%': { transform: 'translateX(100%)' },
+        },
       },
       animation: {
         translateX: 'translate 1s ease-in-out',

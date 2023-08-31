@@ -4,12 +4,14 @@ import type { Post } from '@/types/blog'
 import { getPostsClientSide } from '@/utils/api'
 import { PAGINATION_LIMIT } from '@/utils/settings'
 export const usePaginatedPostsClientSide = () => {
+  const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [update, setUpdate] = useState(false)
   const [posts, setPosts] = useState<Post[]>([])
   const [totalPosts, setTotalPosts] = useState<number>(0)
 
   const updatePosts = () => {
+    setLoading(true)
     getPostsClientSide(page, PAGINATION_LIMIT)
       .then((response) => {
         {
@@ -20,6 +22,9 @@ export const usePaginatedPostsClientSide = () => {
         const { posts: blogposts, total } = data
         setPosts(blogposts)
         setTotalPosts(total)
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }
 
@@ -44,5 +49,5 @@ export const usePaginatedPostsClientSide = () => {
     updatePosts()
   }, [page])
 
-  return { page, setPage, posts, totalPosts, setUpdate }
+  return { loading, page, setPage, posts, totalPosts, setUpdate }
 }
