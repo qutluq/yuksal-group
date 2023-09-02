@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+import { SanitizedHTML } from '@/components/html'
 import type { Post as PostType } from '@/types/blog'
 import type { User as UserType } from '@/types/user'
 import { formatDate } from '@/utils'
@@ -43,7 +44,7 @@ export const Post = ({ author, post, neighbours, slug, lang }: PropTypes) => {
           </div>
         </div>
         <div className="whitespace-pre-wrap text-base text-[var(--color-text-primary)]">
-          {post.content}
+          <SanitizedHTML html={post.content} />
         </div>
       </article>
 
