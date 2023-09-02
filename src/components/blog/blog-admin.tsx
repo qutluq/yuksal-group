@@ -46,10 +46,6 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
     setModalClosed(false)
   }
 
-  const handleClickEdit = (id: number) => {
-    console.log({ id })
-    throw new Error('Function not implemented.')
-  }
   if (loading) {
     return <LoadingBlog />
   }
@@ -102,10 +98,7 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
 
                 <div className="flex flex-row gap-3">
                   <div className="hover:bg-slate-300/30">
-                    <Button
-                      variant={'text'}
-                      onClick={() => handleClickEdit(post.id!)}
-                    >
+                    <Button variant={'text'} href={`/admin/blog/${post.slug}`}>
                       <FiEdit />
                     </Button>
                   </div>

@@ -1,31 +1,19 @@
 import type { NextRequest } from 'next/server'
-import { getServerSession } from 'next-auth/next'
 
-import { options as authOptions } from '@/app/api/auth/options'
-import { deletePost } from '@/utils/db'
+import { accessPermitted } from '@/utils/api'
+import { deletePost, getAuthor, getPost } from '@/utils/db'
 
-export async function DELETE(
+export const DELETE = async (
   request: NextRequest,
   {
     params,
   }: {
     params: { id: string }
   },
-) {
-  const session = await getServerSession(authOptions)
-
-  //early return if user is not logged in
-  if (!session) {
-    return new Response('You must be logged in.', {
-      status: 401,
-    })
-  }
-
-  //early return if user is not admin
-  if (session.user.role !== 'admin') {
-    return new Response('Only admin can create a blog post.', {
-      status: 403,
-    })
+) => {
+  const { permitted, response } = await accessPermitted()
+  if (!permitted) {
+    return response
   }
 
   const id = Number(params.id)
@@ -37,6 +25,61 @@ export async function DELETE(
   } catch (error) {
     return new Response(`Can not delete: ${error}`, {
       status: 409,
+    })
+  }
+}
+
+export const GET = async (
+  request: NextRequest,
+  {
+    params,
+  }: {
+    params: { id: string }
+  },
+) => {
+  const { permitted, response } = await accessPermitted()
+  if (!permitted) {
+    return response
+  }
+
+  const { id: slug } = params
+  try {
+    const postRecords = await getPost(slug)
+
+    if (postRecords.length === 0) {
+      return new Response(
+        JSON.stringify({ post: null, author: null, message: 'Post not found' }),
+        {
+          status: 404,
+        },
+      )
+    }
+
+    const post = postRecords[0]
+    const author = await getAuthor(post.authorId)
+
+    if (!author) {
+      return new Response(
+        JSON.stringify({
+          post: null,
+          author: null,
+          message: 'Post author not found',
+        }),
+        {
+          status: 404,
+        },
+      )
+    }
+
+    return new Response(
+      JSON.stringify({ post: post, author: author, message: 'success' }),
+      {
+        status: 200,
+      },
+    )
+  } catch (error) {
+    return new Response(`Post not found: ${error}`, {
+      status: 404,
     })
   }
 }
