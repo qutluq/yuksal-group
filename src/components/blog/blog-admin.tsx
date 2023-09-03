@@ -25,12 +25,12 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
   const { loading, page, setPage, posts, totalPosts, setUpdate } =
     usePaginatedPostsClientSide()
 
-  const { modalClosed, setModalClosed, agreed, setAgreed } = useModal()
+  const { modalClosed, setModalClosed, confirmed, setConfirmed } = useModal()
   const [deleteId, setDeleteId] = useState(-1)
   const [title, setTitle] = useState('')
 
   useEffect(() => {
-    if (modalClosed && agreed) {
+    if (modalClosed && confirmed) {
       deletePostClientSide(deleteId).then((response) => {
         if (response.ok) {
           setUpdate(true)
@@ -130,13 +130,13 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
           title="Delete post"
           body={
             <div className="flex flex-col items-center">
-              Are you sure you want to delete the post
-              {<p className="font-bold">{title}?</p>}
+              {translate('Are you sure you want to delete the post', lang)}
+              {<p className="font-bold"> {title}?</p>}
             </div>
           }
           btnTitleAgree="Yes"
           btnTitleCancel="Cancel"
-          setAgreed={setAgreed}
+          setConfirmed={setConfirmed}
           setModalClosed={setModalClosed}
         />
       )}

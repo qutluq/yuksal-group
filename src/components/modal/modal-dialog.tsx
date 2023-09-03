@@ -9,7 +9,7 @@ type PropTypes = {
   btnTitleCancel: string
   btnTitleAgree: string
   setModalClosed: (close: boolean) => void
-  setAgreed: (answer: boolean) => void
+  setConfirmed: (answer: boolean) => void
 }
 
 export const ModalDialog = ({
@@ -18,10 +18,10 @@ export const ModalDialog = ({
   btnTitleCancel,
   btnTitleAgree,
   setModalClosed,
-  setAgreed,
+  setConfirmed,
 }: PropTypes) => {
   const handleClick = (agree: boolean) => {
-    setAgreed(agree)
+    setConfirmed(agree)
     setModalClosed(true)
   }
 
@@ -50,7 +50,7 @@ export const ModalDialog = ({
               e.stopPropagation()
               handleClick(true)
             }}
-            className="w-20"
+            className="w-40"
           >
             {btnTitleAgree}
           </Button>
@@ -59,7 +59,7 @@ export const ModalDialog = ({
               e.stopPropagation()
               handleClick(false)
             }}
-            className="w-20"
+            className="w-40"
           >
             {btnTitleCancel}
           </Button>
