@@ -28,4 +28,95 @@ export const translations = {
     ru: 'Необходима авторизация',
     ug: 'Салаһийәт кимликини киргүзүш керәк',
   },
+  'featured-image': {
+    en: 'Featured image',
+    ru: 'Основное изображение',
+    ug: 'Асасий рәсим',
+  },
+  'min-read': {
+    en: 'min read',
+    ru: 'мин на чтение',
+    ug: 'мин оқуш',
+  },
+  upload: {
+    en: 'Upload',
+    ru: 'Загрузить',
+    ug: 'Қачилаш',
+  },
+  save: {
+    en: 'Save',
+    ru: 'Сохранить',
+    ug: 'Сақлаш',
+  },
+  publish: {
+    en: 'Publish',
+    ru: 'Опубликовать',
+    ug: 'Нәшир қилиш',
+  },
+  unpublish: {
+    en: 'Unpublish',
+    ru: 'Отменить публикации',
+    ug: 'Нәширдин бекар қилиш',
+  },
+  title: {
+    en: 'Title',
+    ru: 'Название',
+    ug: 'Нами',
+  },
+  'post-can-not-be-saved': {
+    en: 'Post can not be saved!',
+    ru: 'Пост не может быть сохранен!',
+    ug: 'Мақалини сақлиғили мүмкин болмиди!',
+  },
+  'post-saved': {
+    en: 'Post saved!',
+    ru: 'Пост сохранен!',
+    ug: 'Мақалә сақланди!',
+  },
+  'no-image-chosen': {
+    en: 'No image chosen',
+    ru: 'Не выбрано изображение',
+    ug: 'Рәсимни таллап елиң',
+  },
+  'image-upload-failed': {
+    en: 'Image upload failed!',
+    ru: 'Загрузка изображения не выполнена!',
+    ug: 'Рәсим қачилаш мүмкин болмиди!',
+  },
+  'image-uploaded-successfully': {
+    en: 'Image uploaded successfully!',
+    ru: 'Изображение загружено!',
+    ug: 'Рәсим қачиланди!',
+  },
+
+  'unsaved-changes': {
+    en: 'Unsaved changes',
+    ru: 'Несохраненные изменения',
+    ug: 'Сақланмиған өзгиришләр',
+  },
+  'changes-are-unsaved-are-you-sure-you-want-to-leave-the-page': {
+    en: 'Changes are unsaved. Are you sure you want to leave the page?',
+    ru: 'Имеются несохраненные изменения. Вы уверены что хотите продолжить?',
+    ug: 'Сақаланмиған өзгиришләр бар. Сиз давам қилишни һәқиқәтәнму халамсиз?',
+  },
+  yes: {
+    en: 'Yes',
+    ru: 'Да',
+    ug: 'Һә-ә',
+  },
+  cancel: {
+    en: 'Cancel',
+    ru: 'Отмена',
+    ug: 'Бекар қилиш',
+  },
+  'post-does-not-exist': {
+    en: 'Post does not exist.',
+    ru: 'Пост не существует',
+    ug: 'Мақалә моҗут әмәс',
+  },
+  'are-you-sure-you-want-to-delete-the-post': {
+    en: 'Are you sure you want to delete the post',
+    ru: 'Вы действительно хотите удалить пост',
+    ug: 'Сиз һәқиқәтәнму бу мақалини өчиришни халамсиз',
+  },
 }
