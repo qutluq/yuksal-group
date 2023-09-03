@@ -6,15 +6,19 @@ type PropTypes = {
   page: TypeMenuPage
   lang: string
   children: React.ReactNode
+  bgImg?: string
 }
 
-export const MainLayout = ({ page, lang, children }: PropTypes) => {
+export const MainLayout = ({ page, lang, children, bgImg }: PropTypes) => {
   return (
     <>
       <div
-        className={`flex h-48 w-full flex-col items-center
-              bg-[url('/img/blog-bread-cover-img-640x160.png')] bg-cover 
-              bg-center md:h-[480px] md:bg-[var(--color-secondary)] md:bg-[url('/img/blog-bread-cover-img.png')]`}
+        className={
+          'flex h-48 w-full flex-col items-center bg-cover bg-center md:h-[480px] md:bg-[var(--color-secondary)]'
+        }
+        style={{
+          backgroundImage: `url(${bgImg || '/img/blog-bread-cover-img.png'})`,
+        }}
       >
         <Nav
           navItems={<NavItems page={page} lang={lang} />}

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
+import { RouteChangesProvider } from 'nextjs-router-events'
 
 import { PostAdmin } from '@/components/blog/post-admin'
 import { AdminLayout } from '@/layouts/admin'
-import { MainLayout } from '@/layouts/main'
 import { getLangSearchParam, toTitleCase } from '@/utils'
 import { getMetadata } from '@/utils/db'
 
@@ -25,12 +25,13 @@ const Post = ({
   searchParams: { [key: string]: string | string[] | undefined }
 }) => {
   const lang = getLangSearchParam(searchParams)
+  const { slug } = params
 
   return (
     <AdminLayout lang={lang}>
-      <MainLayout page="blog" lang={lang}>
-        <PostAdmin slug={params.slug} />
-      </MainLayout>
+      <RouteChangesProvider>
+        <PostAdmin slug={slug} lang={lang} />
+      </RouteChangesProvider>
     </AdminLayout>
   )
 }

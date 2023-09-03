@@ -86,6 +86,23 @@ export const getPosts = cache(
   },
 )
 
+export const updatePost = cache(async (id: number, post: Post) => {
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  const { authorId, ...data } = post
+  try {
+    await prisma.post.update({
+      where: {
+        id: id,
+      },
+      data: data,
+    })
+  } catch (error) {
+    console.error(`❌ Can not update post with id ${id}: `, error)
+    return false
+  }
+  return true
+})
+
 export const getPost = cache(async (slug: string) => {
   const result = await prisma.post.findMany({
     take: 1,

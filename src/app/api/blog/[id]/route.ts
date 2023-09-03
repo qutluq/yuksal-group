@@ -1,7 +1,42 @@
 import type { NextRequest } from 'next/server'
 
 import { accessPermitted } from '@/utils/api'
-import { deletePost, getAuthor, getPost } from '@/utils/db'
+import { deletePost, getAuthor, getPost, updatePost } from '@/utils/db'
+
+export const PUT = async (
+  request: NextRequest,
+  {
+    params,
+  }: {
+    params: { id: string }
+  },
+) => {
+  const { permitted, response } = await accessPermitted()
+  if (!permitted) {
+    return response
+  }
+
+  const id = Number(params.id)
+
+  try {
+    const post = await request.json()
+    const updated = await updatePost(id, post)
+
+    if (!updated) {
+      return new Response(JSON.stringify({ message: 'Post was not updated' }), {
+        status: 400,
+      })
+    }
+  } catch (error) {
+    return new Response(`Internal error: ${error}`, {
+      status: 500,
+    })
+  }
+
+  return new Response(JSON.stringify({ message: 'Success' }), {
+    status: 200,
+  })
+}
 
 export const DELETE = async (
   request: NextRequest,

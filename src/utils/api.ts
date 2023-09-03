@@ -1,6 +1,7 @@
 import { getServerSession } from 'next-auth/next'
 
 import { options as authOptions } from '@/app/api/auth/options'
+import type { Post } from '@/types/blog'
 
 export const accessPermitted = async () => {
   const session = await getServerSession(authOptions)
@@ -28,6 +29,33 @@ export const accessPermitted = async () => {
   return { permitted: true, response: null }
 }
 
+export const updatePostClientSide = async (id: number, data: Post) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/${id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    },
+  )
+
+  return response
+}
+
+export const createPostClientSide = async (data: Post) => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blog`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+
+  return response
+}
+
 export const deletePostClientSide = async (id: number) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/${id}`,
@@ -42,6 +70,17 @@ export const deletePostClientSide = async (id: number) => {
 export const getPostsClientSide = async (page: number = 1, limit: number) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog?page=${page}&limit=${limit}`,
+    {
+      method: 'GET',
+    },
+  )
+
+  return response
+}
+
+export const getPostClientSide = async (slug) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/${slug}`,
     {
       method: 'GET',
     },

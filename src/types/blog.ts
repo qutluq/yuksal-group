@@ -6,6 +6,7 @@ export type Post = {
   description: string
   published: boolean
   publishedAt: Date | null
+  featuredImage?: string
   readingTime: number
   slug: string
   title: string
