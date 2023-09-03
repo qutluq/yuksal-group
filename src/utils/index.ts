@@ -97,6 +97,18 @@ export const formatDate = (date: Date | null) => {
   return new Intl.DateTimeFormat('en-US', options).format(date)
 }
 
+export const formatDateJS = (date: Date | null) => {
+  if (!date) {
+    return ''
+  }
+
+  return [
+    date.getFullYear(),
+    date.getMonth() > 8 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1),
+    date.getDate() > 9 ? date.getDate() : '0' + date.getDate(),
+  ].join('-')
+}
+
 export const slugify = (str: string) =>
   String(str)
     .normalize('NFKD') // split accented characters into their base characters and diacritical marks
@@ -106,3 +118,8 @@ export const slugify = (str: string) =>
     .replace(/[^a-z0-9 -]/g, '') // remove non-alphanumeric characters
     .replace(/\s+/g, '-') // replace spaces with hyphens
     .replace(/-+/g, '-') // remove consecutive hyphens
+
+export const getFilenameAndExtension = (name: string) => {
+  const splitName = name.split('.')
+  return [splitName.slice(0, -1).join('.'), splitName.slice(-1)[0]]
+}
