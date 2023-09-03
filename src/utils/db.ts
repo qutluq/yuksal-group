@@ -1,8 +1,8 @@
-import type { Post } from '@prisma/client'
 import { PrismaClient } from '@prisma/client'
 import type { Metadata } from 'next'
 import { cache } from 'react'
 
+import type { Post } from '@/types/blog'
 import { SiteDescription, SiteName, SiteUrl } from '@/utils/settings'
 // Instantiate a single instance PrismaClient and save it on the globalThis object.
 // Then we keep a check to only instantiate PrismaClient if it's not on the globalThis object otherwise use the same
@@ -152,7 +152,7 @@ export const getNeighbourPosts = async (post: Post) => {
   })
 
   return {
-    nextPost: nextPost,
-    previousPost: previousPost,
+    nextPost: nextPost as Post,
+    previousPost: previousPost as Post,
   }
 }
