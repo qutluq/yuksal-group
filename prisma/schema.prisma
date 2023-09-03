@@ -18,16 +18,17 @@ model User {
 }
 
 model Post {
-  id          Int       @id @default(autoincrement())
-  title       String
-  slug        String
-  content     String
-  description String
-  readingTime Int
-  authorId    Int
-  published   Boolean
-  createdAt   DateTime  @default(now())
-  publishedAt DateTime?
-  updatedAt   DateTime
-  author      User      @relation(fields: [authorId], references: [id])
+  id            Int       @id @default(autoincrement())
+  title         String
+  slug          String
+  content       String
+  featuredImage String?
+  description   String
+  readingTime   Int
+  authorId      Int
+  published     Boolean
+  createdAt     DateTime  @default(now())
+  publishedAt   DateTime?
+  updatedAt     DateTime
+  author        User      @relation(fields: [authorId], references: [id])
 }
