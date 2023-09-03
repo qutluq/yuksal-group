@@ -34,7 +34,7 @@ export const setSearchParamsLang = (searchParams, selectedLanguage: string) => {
 
 export const translate = cache((text: string, lang: string) => {
   const translation = translations[slugify(text)]
-  return translation ? translation[lang] : text
+  return translation ? translation[lang] : `translation not found: ${text}`
 })
 
 export const toUppercase = (txt: string) => txt.toUpperCase()
