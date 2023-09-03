@@ -13,9 +13,23 @@ type PropTypes = {
 }
 
 const defaultOptions = {
-  allowedTags: ['b', 'i', 'em', 'strong', 'a'],
+  allowedTags: [
+    'b',
+    'i',
+    'em',
+    'strong',
+    'a',
+    'u',
+    'h1',
+    'h2',
+    'h3',
+    'br',
+    'ol',
+    'li',
+    'ul',
+  ],
   allowedAttributes: {
-    a: ['href'],
+    a: ['href', 'rel', 'target'],
   },
   allowedIframeHostnames: ['www.youtube.com'],
 }

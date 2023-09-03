@@ -1,3 +1,5 @@
+import './style.css' // Import css modules stylesheet as styles
+
 import Image from 'next/image'
 
 import { SanitizedHTML } from '@/components/html'
@@ -43,7 +45,10 @@ export const Post = ({ author, post, neighbours, slug, lang }: PropTypes) => {
             </div>
           </div>
         </div>
-        <div className="whitespace-pre-wrap text-base text-[var(--color-text-primary)]">
+        <div
+          className="whitespace-pre-wrap text-base text-[var(--color-text-primary)]"
+          id="content"
+        >
           <SanitizedHTML html={post.content} />
         </div>
       </article>

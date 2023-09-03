@@ -1,0 +1,34 @@
+a {
+  color: #4ab4ff; /* Blue color, or any other color you prefer */
+  text-decoration: none; /* Remove underline by default */
+  cursor: pointer; /* Show a pointer cursor on hover */
+  font-weight: bold; /* Optional: Make the text bold for emphasis */
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h2 {
+  font-size: 1.17em;
+}
+
+ol {
+    list-style: decimal;
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    display: list-item;
+    list-style-type: disc;
+    list-style-position: outside;
+    padding-left: 1.5em;
+    margin: 0;
+    padding: 0;
+    counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+}
