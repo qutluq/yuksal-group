@@ -87,7 +87,7 @@ export const Nav = ({ navItems, navItemsMobile, lang }: PropTypes) => {
           </Disclosure>
         </div>
         <Link href={'/'}>
-          <Image src="/img/logo.png" alt="Logo" width={192} height={32} />
+          <Image src="/assets/logo.png" alt="Logo" width={192} height={32} />
         </Link>
 
         <nav className=" hidden gap-1 tracking-widest md:flex lg:gap-3">

@@ -17,7 +17,9 @@ export const MainLayout = ({ page, lang, children, bgImg }: PropTypes) => {
           'flex h-48 w-full flex-col items-center bg-cover bg-center md:h-[480px] md:bg-[var(--color-secondary)]'
         }
         style={{
-          backgroundImage: `url(${bgImg || '/img/blog-bread-cover-img.png'})`,
+          backgroundImage: `url(${
+            bgImg || '/assets/blog-bread-cover-img.png'
+          })`,
         }}
       >
         <Nav

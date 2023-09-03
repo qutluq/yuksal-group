@@ -58,7 +58,7 @@ export const Post = ({ author, post, neighbours, slug, lang }: PropTypes) => {
       </div>
 
       <Image
-        src={'/img/nazim-signature.png'}
+        src={'/assets/nazim-signature.png'}
         alt=""
         className="object-cover py-10"
         width={200}
