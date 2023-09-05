@@ -28,7 +28,7 @@ const Blog = ({
 
   return (
     <AdminLayout lang={lang}>
-      <MainLayout page="blog" lang={lang}>
+      <MainLayout page="blog" lang={lang} mode="admin">
         <BlogAdmin lang={lang} />
       </MainLayout>
     </AdminLayout>

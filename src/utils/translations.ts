@@ -56,7 +56,7 @@ export const translations = {
   unpublish: {
     en: 'Unpublish',
     ru: 'Отменить публикации',
-    ug: 'Нәширдин бекар қилиш',
+    ug: 'Нәширни бекар қилиш',
   },
   title: {
     en: 'Title',

@@ -2,7 +2,6 @@
 import { Disclosure } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { IoMenuOutline } from 'react-icons/io5'
 import { PiDotsThreeOutlineVerticalFill } from 'react-icons/pi'
@@ -13,6 +12,7 @@ import {
   LanguageSwitcher,
   LanguageSwitcherMobile,
 } from '@/components/language-switcher'
+import { useAdminSession } from '@/hooks/useAdminSession'
 import { classNames, translate } from '@/utils'
 import { DEFAULT_AUTHOR_IMG } from '@/utils/settings'
 
@@ -26,7 +26,7 @@ type PropTypes = {
 
 export const Nav = ({ navItems, navItemsMobile, lang }: PropTypes) => {
   const [colorChange, setColorchange] = useState(false)
-  const { data: session } = useSession()
+  const { isAdminSession, session } = useAdminSession()
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -96,7 +96,7 @@ export const Nav = ({ navItems, navItemsMobile, lang }: PropTypes) => {
 
         <div className="hidden md:block md:w-2 lg:hidden"> </div>
 
-        {session && (
+        {isAdminSession && (
           <div className="flex-row gap-7 lg:flex">
             <div className="w-8 lg:hidden"> </div>
             <div className="right-20 hidden pt-[6px] md:fixed md:block lg:static">
@@ -139,7 +139,7 @@ export const Nav = ({ navItems, navItemsMobile, lang }: PropTypes) => {
           </div>
         )}
 
-        {!session && (
+        {!isAdminSession && (
           <div className="flex flex-row gap-3">
             <div className="hidden flex-row lg:flex">
               <SocialLinks />

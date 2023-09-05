@@ -125,7 +125,12 @@ export const PostAdmin = ({ slug, lang }: PropTypes) => {
   }
 
   return (
-    <MainLayout page="blog" lang={lang} bgImg={postState.featuredImage}>
+    <MainLayout
+      page="blog"
+      lang={lang}
+      bgImg={postState.featuredImage}
+      mode={'admin'}
+    >
       {postState.updateDB && (
         <div className="fixed z-20 h-screen w-screen opacity-30">
           <LoadingLogo />

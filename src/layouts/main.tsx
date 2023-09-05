@@ -7,9 +7,16 @@ type PropTypes = {
   lang: string
   children: React.ReactNode
   bgImg?: string
+  mode?: 'user' | 'admin'
 }
 
-export const MainLayout = ({ page, lang, children, bgImg }: PropTypes) => {
+export const MainLayout = ({
+  page,
+  lang,
+  children,
+  bgImg,
+  mode = 'user',
+}: PropTypes) => {
   return (
     <>
       <div
@@ -23,8 +30,10 @@ export const MainLayout = ({ page, lang, children, bgImg }: PropTypes) => {
         }}
       >
         <Nav
-          navItems={<NavItems page={page} lang={lang} />}
-          navItemsMobile={<NavItemsMobile page={page} lang={lang} />}
+          navItems={<NavItems page={page} lang={lang} mode={mode} />}
+          navItemsMobile={
+            <NavItemsMobile page={page} lang={lang} mode={mode} />
+          }
           lang={lang}
         />
         {page !== 'home' && <Breadcrumb page={page} lang={lang} />}

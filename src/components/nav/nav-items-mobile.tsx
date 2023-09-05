@@ -5,15 +5,17 @@ import { NavItem } from './nav-item'
 type PropTypes = {
   page: string
   lang: string
+  mode?: 'user' | 'admin'
 }
 
-export const NavItemsMobile = ({ page, lang }: PropTypes) =>
+export const NavItemsMobile = ({ page, lang, mode = 'user' }: PropTypes) =>
   NAV_MENU().map((item) => (
     <NavItem
       key={item.slug}
       item={item}
       page={page}
       lang={lang}
+      mode={mode}
       variant="mobile"
     />
   ))
