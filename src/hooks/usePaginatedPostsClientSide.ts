@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import type { Post } from '@/types/blog'
-import { getPostsClientSide } from '@/utils/api'
+import { getPostsClientSide } from '@/utils/api-client'
 import { PAGINATION_LIMIT } from '@/utils/settings'
 export const usePaginatedPostsClientSide = () => {
   const [loading, setLoading] = useState(false)

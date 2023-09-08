@@ -1,7 +1,9 @@
 import { writeFile } from 'fs/promises'
 
 import { getFilenameAndExtension, slugify } from '@/utils'
-import { accessPermitted } from '@/utils/api'
+import { accessPermitted } from '@/utils/api-client'
+
+//TODO: remove this file
 
 export async function POST(request: Request) {
   const { permitted, response } = await accessPermitted()

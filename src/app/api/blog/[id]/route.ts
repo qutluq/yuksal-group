@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server'
 
-import { accessPermitted } from '@/utils/api'
+import { accessPermitted } from '@/utils/api-client'
 import { deletePost, getAuthor, getPost, updatePost } from '@/utils/db'
 
 export const PUT = async (
