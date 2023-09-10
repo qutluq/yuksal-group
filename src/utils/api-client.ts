@@ -2,7 +2,6 @@ import { getServerSession } from 'next-auth/next'
 
 import { options as authOptions } from '@/app/api/auth/options'
 import type { Post } from '@/types/blog'
-
 export const accessPermitted = async () => {
   const session = await getServerSession(authOptions)
 
@@ -86,5 +85,30 @@ export const getPostClientSide = async (slug) => {
     },
   )
 
+  return response
+}
+
+export const getImageClientSide = async (
+  filename: string,
+  size: 'sm' | 'md' | undefined,
+) => {
+  const response = fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/image/images?filename=${filename}${
+      size ? '&size=' : ''
+    }${size ? size : ''}`,
+    {
+      method: 'GET',
+    },
+  )
+  return response
+}
+
+export const getImageFilenamesClientSide = async () => {
+  const response = fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/image/images/`,
+    {
+      method: 'GET',
+    },
+  )
   return response
 }
