@@ -1,4 +1,9 @@
-import { getAllMediaFilenames, getMediaFile } from '@/utils/api-server'
+import {
+  accessPermitted,
+  createMediaFile,
+  getAllMediaFilenames,
+  getMediaFile,
+} from '@/utils/api-server'
 
 type PropTypes = {
   params: { path: string[] }
@@ -58,4 +63,29 @@ export async function GET(request: Request, { params }: PropTypes) {
       })
     }
   }
+}
+
+export async function POST(request: Request, { params }: PropTypes) {
+  const { permitted, response } = await accessPermitted()
+  if (!permitted) {
+    return response
+  }
+
+  const formData = await request.formData()
+  const image: File | null = formData.get('file') as unknown as File
+  // const image = await request.blob()
+
+  if (!image) {
+    return new Response(
+      JSON.stringify({
+        message: 'No image received from the client.',
+      }),
+      {
+        status: 500,
+      },
+    )
+  }
+
+  const dir = params.path.join('/')
+  return createMediaFile(dir, image.name, formData)
 }

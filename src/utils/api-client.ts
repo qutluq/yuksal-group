@@ -84,3 +84,19 @@ export const getImageFilenamesClientSide = async () => {
   )
   return response
 }
+
+export const uploadImageClientSide = async (file) => {
+  const formData = new FormData()
+
+  formData.append('file', file, file.name) // 'file' is the field name, and 'filename.txt' is the desired file name
+
+  const response = fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/image/images`,
+    {
+      method: 'POST',
+      body: formData,
+    },
+  )
+
+  return response
+}

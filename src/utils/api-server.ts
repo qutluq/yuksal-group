@@ -31,6 +31,27 @@ export const accessPermitted = async () => {
   return { permitted: true, response: null }
 }
 
+export const createMediaFile = async (dir, filename, formData) => {
+  try {
+    const url = `${joinURLSegments(
+      process.env.NEXT_PUBLIC_MEDIA_SERVER_URL,
+      dir,
+      filename,
+    )}`
+
+    const response = await fetch(url, {
+      method: 'POST',
+      body: formData,
+    })
+    return response
+  } catch (error) {
+    console.error('Unable to fetch image', { error })
+    return new Response(null, {
+      status: 500,
+    })
+  }
+}
+
 export const getMediaFile = async (dir, filename, size) => {
   try {
     const url = `${joinURLSegments(
