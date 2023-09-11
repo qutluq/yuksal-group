@@ -15,8 +15,8 @@ const accept = (type) => {
 export const FileInputButton = ({ onChange, acceptType }: PropTypes) => {
   return (
     <div className="relative flex flex-row gap-3">
-      <div className="flex h-12 w-12 items-center justify-center rounded-md bg-gray-300">
-        <HiArrowUpTray className="text-black" />
+      <div className="flex h-12 w-12 items-center justify-center rounded-md bg-gray-500">
+        <HiArrowUpTray className="text-white" />
       </div>
 
       <input
