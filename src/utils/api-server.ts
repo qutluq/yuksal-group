@@ -1,4 +1,35 @@
+import { getServerSession } from 'next-auth/next'
+
+import { options as authOptions } from '@/app/api/auth/options'
 import { joinURLSegments } from '@/utils'
+
+export const accessPermitted = async () => {
+  const session = await getServerSession(authOptions)
+
+  //early return if user is not logged in
+  if (!session) {
+    console.error('Authorisation required')
+    return {
+      permitted: false,
+      response: new Response(null, {
+        status: 401,
+      }),
+    }
+  }
+
+  //early return if user is not admin
+  if (session.user.role !== 'admin') {
+    console.error('Admin role required')
+    return {
+      permitted: false,
+      response: new Response(null, {
+        status: 403,
+      }),
+    }
+  }
+
+  return { permitted: true, response: null }
+}
 
 export const getMediaFile = async (dir, filename, size) => {
   try {
@@ -7,8 +38,6 @@ export const getMediaFile = async (dir, filename, size) => {
       dir,
       filename,
     )}${size ? '?size=' : ''}${size ? size : ''}`
-
-    console.log({ size, url })
 
     const response = await fetch(url)
     return response
