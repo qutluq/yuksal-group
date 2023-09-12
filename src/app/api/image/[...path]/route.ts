@@ -73,7 +73,6 @@ export async function POST(request: Request, { params }: PropTypes) {
 
   const formData = await request.formData()
   const image: File | null = formData.get('file') as unknown as File
-  // const image = await request.blob()
 
   if (!image) {
     return new Response(
