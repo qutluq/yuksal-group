@@ -52,6 +52,25 @@ export const createMediaFile = async (dir, filename, formData) => {
   }
 }
 
+export const deleteMediaFile = async (filePath) => {
+  try {
+    const url = `${joinURLSegments(
+      process.env.NEXT_PUBLIC_MEDIA_SERVER_URL,
+      filePath,
+    )}`
+
+    const response = await fetch(url, {
+      method: 'DELETE',
+    })
+    return response
+  } catch (error) {
+    console.error('Unable to delete image', { error })
+    return new Response(null, {
+      status: 500,
+    })
+  }
+}
+
 export const getMediaFile = async (dir, filename, size) => {
   try {
     const url = `${joinURLSegments(

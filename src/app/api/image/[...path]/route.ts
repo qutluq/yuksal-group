@@ -1,6 +1,7 @@
 import {
   accessPermitted,
   createMediaFile,
+  deleteMediaFile,
   getAllMediaFilenames,
   getMediaFile,
 } from '@/utils/api-server'
@@ -87,4 +88,14 @@ export async function POST(request: Request, { params }: PropTypes) {
 
   const dir = params.path.join('/')
   return createMediaFile(dir, image.name, formData)
+}
+
+export async function DELETE(request: Request, { params }: PropTypes) {
+  const { permitted, response } = await accessPermitted()
+  if (!permitted) {
+    return response
+  }
+
+  const filePath = params.path.join('/')
+  return deleteMediaFile(filePath)
 }
