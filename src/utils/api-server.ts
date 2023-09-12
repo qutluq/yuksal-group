@@ -60,7 +60,7 @@ export const getMediaFile = async (dir, filename, size) => {
       filename,
     )}${size ? '?size=' : ''}${size ? size : ''}`
 
-    const response = await fetch(url)
+    const response = await fetch(url, { next: { tags: ['images-cache'] } })
     return response
   } catch (error) {
     console.error('Unable to fetch image', { error })

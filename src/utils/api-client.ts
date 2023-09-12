@@ -100,3 +100,23 @@ export const uploadImageClientSide = async (file) => {
 
   return response
 }
+
+export const revalidateImageCache = () => {
+  fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate?tag=images-cache&secret=${process.env.NEXT_PUBLIC_MY_SECRET_TOKEN}`,
+    {
+      method: 'POST',
+    },
+  )
+    .then((response) => {
+      if (!response.ok) {
+        return response.json()
+      }
+    })
+    .then((json) => {
+      console.error(`Image cache validation failed ${json.message}`)
+    })
+    .catch((error) => {
+      console.error(`Error occured ${error}`)
+    })
+}
