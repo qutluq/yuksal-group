@@ -21,6 +21,31 @@ module.exports = {
         shimmer: {
           '100%': { transform: 'translateX(100%)' },
         },
+        wiggle: {
+          '0%, 25%, 50%, 75%, 100%': { transform: 'rotate(-3deg)' },
+          '12%, 37%, 62%, 87%': { transform: 'rotate(3deg)' },
+        },
+
+        zoom: {
+          '0%, 100%': {
+            transform: 'scale(1)',
+          },
+          '12%': {
+            transform: 'scale(3)',
+          },
+          '25%': {
+            transform: 'scale(1)',
+          },
+          '50%': {
+            transform: 'scale(3)',
+          },
+          '62%': {
+            transform: 'scale(1)',
+          },
+          '75%': {
+            transform: 'scale(3)',
+          },
+        },
       },
       animation: {
         translateX: 'translate 1s ease-in-out',
