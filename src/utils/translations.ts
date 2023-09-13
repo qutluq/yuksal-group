@@ -78,11 +78,6 @@ export const translations = {
     ru: 'Не выбрано изображение',
     ug: 'Рәсимни таллап елиң',
   },
-  'image-upload-failed': {
-    en: 'Image upload failed!',
-    ru: 'Загрузка изображения не выполнена!',
-    ug: 'Рәсим қачилаш мүмкин болмиди!',
-  },
   'image-uploaded-successfully': {
     en: 'Image uploaded successfully!',
     ru: 'Изображение загружено!',
@@ -109,6 +104,11 @@ export const translations = {
     ru: 'Отмена',
     ug: 'Бекар қилиш',
   },
+  close: {
+    en: 'Close',
+    ru: 'Закрыть',
+    ug: 'Йепиш',
+  },
   'post-does-not-exist': {
     en: 'Post does not exist.',
     ru: 'Пост не существует',
@@ -123,5 +123,55 @@ export const translations = {
     en: 'Set',
     ru: 'Назначить',
     ug: 'Бәлгүләш',
+  },
+  'can-not-upload-image': {
+    en: 'Can not upload image',
+    ru: 'Картинка не была загружена',
+    ug: 'Рәсимни қачилаш мүмкин болмиди',
+  },
+  'are-you-sure-you-want-to-rewrite-the-original-image-with-same-name': {
+    en: 'Are you sure you want to rewrite the original image with same name?',
+    ru: 'Вы действительно хотите перезаписать существующее изображение с тем же названием на сервере?',
+    ug: 'Сиз һәқиқәтәнму сервердики охшаш нам билән сақланған рәсимни өчүрүп, йеңи рәсимни қачилашни халамсиз?',
+  },
+  'upload-duplicate-image': {
+    en: 'Upload duplicate image',
+    ru: 'Загрузка дублированного изображения',
+    ug: 'Нами охшаш рәсимни қачилаш',
+  },
+  'image-upload-failed': {
+    en: 'Image upload failed',
+    ru: 'Загрузка изображения не удалась',
+    ug: 'Рәсим қачилаш нәтиҗилик болмиди',
+  },
+  'image-was-deleted-successfully': {
+    en: 'Image was deleted successfully!!',
+    ru: 'Изображение удалено!!',
+    ug: 'Рәсим жуйулди!!',
+  },
+  'image-delete-failed': {
+    en: 'Image delete failed!!',
+    ru: 'Удаление изображения не удалось!!',
+    ug: 'Рәсим жуйулуш нәтиҗисиз болди!!',
+  },
+  'remove-image': {
+    en: 'Remove image',
+    ru: 'Удаление изображения',
+    ug: 'Рәсим жуйуш',
+  },
+  'are-you-sure-you-want-to-delete-image': {
+    en: 'Are you sure you want to delete image:',
+    ru: 'Вы уверены что хотите удалить изображение:',
+    ug: 'Бу рәсимни һәқиқәтәнму жуйушни халамсиз:',
+  },
+  'no-file-chosen-for-upload': {
+    en: 'No file chosen for upload!',
+    ru: 'Не выбран файл для загрузки!',
+    ug: 'Қачилаш үчүн файл талланмиған!',
+  },
+  'image-need-to-be-uploaded-first': {
+    en: 'Image need to be uploaded first!',
+    ru: 'Изображение сперва должно быть загружено!',
+    ug: 'Рәсим башта қачилиниши керәк!',
   },
 }

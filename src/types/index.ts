@@ -5,3 +5,9 @@ export type TypeMenuPage =
   | 'about'
   | 'gallery'
   | 'contact'
+
+export type ImageFile = {
+  id: string
+  href: string
+  file: File | null
+}

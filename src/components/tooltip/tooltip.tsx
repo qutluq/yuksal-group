@@ -8,7 +8,7 @@ export const Tooltip = ({ children, text }: PropTypes) => {
     <>
       <div
         className={
-          'absolute top-[-10] z-20 h-full w-full opacity-0 hover:bg-black/70 hover:opacity-100'
+          'absolute top-[-10] z-10 h-full w-full opacity-0 hover:bg-black/70 hover:opacity-100'
         }
       >
         {text}
