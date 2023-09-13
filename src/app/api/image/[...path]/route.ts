@@ -86,6 +86,7 @@ export async function POST(request: Request, { params }: PropTypes) {
     )
   }
 
+  //TODO: if image is being used in blog table, return error response
   const dir = params.path.join('/')
   return createMediaFile(dir, image.name, formData)
 }
@@ -95,6 +96,9 @@ export async function DELETE(request: Request, { params }: PropTypes) {
   if (!permitted) {
     return response
   }
+
+  //TODO: check if image is used in blog table
+  //if used return error response
 
   const filePath = params.path.join('/')
   return deleteMediaFile(filePath)
