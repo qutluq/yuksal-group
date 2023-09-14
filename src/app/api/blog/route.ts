@@ -1,4 +1,4 @@
-import { accessPermitted } from '@/utils/api'
+import { accessPermitted } from '@/utils/api-server'
 import { getPosts } from '@/utils/db'
 
 export async function GET(request: Request) {

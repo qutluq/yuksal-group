@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 import type { Post } from '@/types/blog'
 import type { User } from '@/types/user'
-import { getPostClientSide } from '@/utils/api'
+import { getPostClientSide } from '@/utils/api-client'
 export const usePostClientSide = (slug: string) => {
   const [loading, setLoading] = useState(true)
   const [post, setPost] = useState<Post | undefined>(undefined)

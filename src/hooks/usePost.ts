@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import { usePostClientSide } from '@/hooks/usePostClientSide'
 import { useTextEditor } from '@/hooks/useTextEditor'
 import { translate } from '@/utils'
-import { updatePostClientSide } from '@/utils/api'
+import { updatePostClientSide } from '@/utils/api-client'
 
 export const usePost = (slug: string, lang: string) => {
   const { loading, post, author, setPost } = usePostClientSide(slug)
