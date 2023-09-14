@@ -44,9 +44,7 @@ const main = async () => {
       })
 
     default:
-      console.log(
-        '❌ please provide correct action for seeding: --action seed or --action update-translations',
-      )
+      console.log('❌ please provide correct action for seeding: --action seed')
       break
   }
 }
