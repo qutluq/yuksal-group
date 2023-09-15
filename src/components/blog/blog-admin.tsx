@@ -14,7 +14,7 @@ import { PaginationClientSide } from '@/components/pagination/pagination-client-
 import { useModal } from '@/hooks/useModal'
 import { usePaginatedPostsClientSide } from '@/hooks/usePaginatedPostsClientSide'
 import { classNames, formatDate, translate } from '@/utils'
-import { deletePostClientSide } from '@/utils/api'
+import { deletePostClientSide } from '@/utils/api-client'
 import { DEFAULT_POSTER_POSTS_IMG, PAGINATION_LIMIT } from '@/utils/settings'
 
 type PropTypes = {

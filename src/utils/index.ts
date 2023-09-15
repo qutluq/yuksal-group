@@ -1,5 +1,3 @@
-import { cache } from 'react'
-
 import { localeLanguages } from '@/locales'
 
 import nextConfig from '../../next.config'
@@ -32,10 +30,10 @@ export const setSearchParamsLang = (searchParams, selectedLanguage: string) => {
   return query
 }
 
-export const translate = cache((text: string, lang: string) => {
+export const translate = (text: string, lang: string) => {
   const translation = translations[slugify(text)]
   return translation ? translation[lang] : `translation not found: ${text}`
-})
+}
 
 export const toUppercase = (txt: string) => txt.toUpperCase()
 
@@ -122,4 +120,21 @@ export const slugify = (str: string) =>
 export const getFilenameAndExtension = (name: string) => {
   const splitName = name.split('.')
   return [splitName.slice(0, -1).join('.'), splitName.slice(-1)[0]]
+}
+
+export const joinURLSegments = (...segments) => {
+  // Filter out empty segments and trim leading/trailing slashes
+  const cleanedSegments = segments.map((segment) =>
+    segment.trim().replace(/^\/|\/$/g, ''),
+  )
+
+  // Join the cleaned segments with slashes
+  const joinedURL = cleanedSegments.join('/')
+
+  // Add a leading slash if the URL is not empty and does not start with a protocol (e.g., "http://")
+  if (joinedURL && !joinedURL.match(/^[a-zA-Z]+:\/\//)) {
+    return '/' + joinedURL
+  }
+
+  return joinedURL
 }
