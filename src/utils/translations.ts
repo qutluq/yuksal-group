@@ -174,4 +174,14 @@ export const translations = {
     ru: 'Изображение сперва должно быть загружено!',
     ug: 'Рәсим башта қачилиниши керәк!',
   },
+  'no-file-chosen': {
+    en: 'No file chosen',
+    ru: 'Не выбран файл',
+    ug: 'Файл талланмиған',
+  },
+  'choose-file': {
+    en: 'Choose file',
+    ru: 'Выбрать файл',
+    ug: 'Файлни таллаш',
+  },
 }
