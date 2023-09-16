@@ -48,5 +48,5 @@ export const useServerImages = () => {
     }
   }, [filenames])
 
-  return { images: images, setImages, updateImage }
+  return { images, setImages, updateImage }
 }

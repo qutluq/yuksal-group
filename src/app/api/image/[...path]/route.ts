@@ -58,7 +58,7 @@ export async function GET(request: Request, { params }: PropTypes) {
         })
       }
     } else {
-      console.log(`Unknown set of query parameters`)
+      console.error(`Unknown set of query parameters`)
       return new Response(null, {
         status: 500,
       })
