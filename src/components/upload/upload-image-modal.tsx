@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/button'
 import { useServerImages } from '@/hooks/useServerImages'
@@ -15,17 +15,25 @@ type PropTypes = {
   lang: string
   handleSetImage: (string) => void
   handleClose: (boolean) => void
+  currentImage: ImageFile | undefined
 }
 
 export const UploadImageDialog = ({
   lang,
   handleSetImage,
   handleClose,
+  currentImage,
 }: PropTypes) => {
   const [chosenImage, setChosenImage] = useState<ImageFile>()
   const { images, setImages, updateImage } = useServerImages()
   const [duplicateName, setDuplicateName] = useState('')
   const [animateUploadBtn, setAnimateUploadBtn] = useState(false)
+
+  useEffect(() => {
+    if (currentImage) {
+      setChosenImage(currentImage)
+    }
+  }, [currentImage])
 
   useTimeout(animateUploadBtn, () => setAnimateUploadBtn(false), 1000)
 
