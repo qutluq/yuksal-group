@@ -10,7 +10,7 @@ export const usePostUnsavedChanges = (
 ) => {
   const onBeforeRouteChange = useCallback(() => {
     if (unsavedChangesExist) {
-      setModalClosed(false)
+      setUnsavedModalClosed(false)
       return false
     }
 
@@ -18,13 +18,18 @@ export const usePostUnsavedChanges = (
   }, [unsavedChangesExist])
 
   const { allowRouteChange } = useRouteChangeEvents({ onBeforeRouteChange })
-  const { modalClosed, setModalClosed, confirmed, setConfirmed } = useModal()
+  const {
+    modalClosed: modalUnsavedlosed,
+    setModalClosed: setUnsavedModalClosed,
+    confirmed,
+    setConfirmed: setUnsavedConfirmed,
+  } = useModal()
 
   useEffect(() => {
-    if (modalClosed && confirmed) {
+    if (modalUnsavedlosed && confirmed) {
       allowRouteChange()
     }
-  }, [modalClosed])
+  }, [modalUnsavedlosed])
 
   useEffect(() => {
     const confirmationMessage = translate(
@@ -46,5 +51,5 @@ export const usePostUnsavedChanges = (
       window.removeEventListener('beforeunload', beforeUnloadHandler)
     }
   }, [unsavedChangesExist])
-  return { modalClosed, setModalClosed, setConfirmed }
+  return { modalUnsavedlosed, setUnsavedModalClosed, setUnsavedConfirmed }
 }

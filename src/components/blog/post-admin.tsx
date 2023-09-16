@@ -3,15 +3,18 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import Image from 'next/image'
 import type { CSSProperties } from 'react'
-import { toast, ToastContainer } from 'react-toastify'
+import { useState } from 'react'
+import { ToastContainer } from 'react-toastify'
 
 import { Button } from '@/components/button'
 import { LoadingLogo } from '@/components/fallback'
 import { ModalDialog } from '@/components/modal'
 import { TextEditor } from '@/components/quill-editor'
+import { UploadImageDialog } from '@/components/upload'
 import { usePost } from '@/hooks/usePost'
 import { usePostUnsavedChanges } from '@/hooks/usePostUnsavedChanges'
 import { MainLayout } from '@/layouts/main'
+import type { ImageFile } from '@/types'
 import { formatDateJS, translate } from '@/utils'
 import { DEFAULT_AUTHOR_IMG } from '@/utils/settings'
 type PropTypes = {
@@ -21,10 +24,9 @@ type PropTypes = {
 
 export const PostAdmin = ({ slug, lang }: PropTypes) => {
   const { state: postState } = usePost(slug, lang)
-  const { modalClosed, setModalClosed, setConfirmed } = usePostUnsavedChanges(
-    postState.unsavedChangesExist,
-    lang,
-  )
+  const { modalUnsavedlosed, setUnsavedModalClosed, setUnsavedConfirmed } =
+    usePostUnsavedChanges(postState.unsavedChangesExist, lang)
+  const [modalChooseClosed, setModalChooseClosed] = useState(true)
 
   const handleClickSave = () => {
     postState.setPost((state) => ({
@@ -33,7 +35,7 @@ export const PostAdmin = ({ slug, lang }: PropTypes) => {
       title: postState.title,
       readingTime: postState.readingTime,
       publishedAt: postState.publishedAt,
-      featuredImage: postState.featuredImage,
+      featuredImage: postState?.featuredImage?.id,
     }))
     postState.setUpdateDB(true)
   }
@@ -45,41 +47,10 @@ export const PostAdmin = ({ slug, lang }: PropTypes) => {
       title: postState.title,
       readingTime: postState.readingTime,
       publishedAt: postState.publishedAt,
-      featuredImage: postState.featuredImage,
+      featuredImage: postState?.featuredImage?.id,
       published: !postState.published, //if published then unpublish
     }))
     postState.setUpdateDB(true)
-  }
-
-  const handleFeaturedImageUpload = () => {
-    if (!postState.featuredImageFile) {
-      toast.info(translate('No image chosen', lang))
-      return
-    }
-
-    try {
-      const imageData = new FormData()
-      imageData.set('image', postState.featuredImageFile)
-
-      fetch('/api/upload/image', {
-        method: 'POST',
-        body: imageData,
-      }).then(async (response) => {
-        if (!response.ok || response.status > 600) {
-          const { message } = await response.json()
-          console.error(`Can not upload image: ${message}`)
-          toast.error(translate('Image upload failed!', lang))
-          return
-        }
-        const { imagePath } = await response.json()
-        postState.setFeaturedImage(imagePath)
-        postState.setUnsavedChangesExist(true)
-        toast.success(translate('Image uploaded successfully!', lang))
-      })
-    } catch (error) {
-      console.error(error)
-      toast.error(translate('Image upload failed!', lang))
-    }
   }
 
   const handleTitleChange = (e) => {
@@ -99,13 +70,15 @@ export const PostAdmin = ({ slug, lang }: PropTypes) => {
     postState.setContent(val)
     postState.setUnsavedChangesExist(true)
   }
-  const handleFeaturedChange = (e) => {
-    const img = e.target.files?.[0]
+  const handleSetImage = (img: ImageFile) => {
     if (img) {
-      postState.setFeaturedImageFile(img)
-      postState.setFeaturedImage(URL.createObjectURL(img))
+      postState.setFeaturedImage(img)
       postState.setUnsavedChangesExist(true)
     }
+  }
+
+  const handleChooseClose = (closed: boolean) => {
+    setModalChooseClosed(closed)
   }
 
   if (postState.loading) {
@@ -128,7 +101,7 @@ export const PostAdmin = ({ slug, lang }: PropTypes) => {
     <MainLayout
       page="blog"
       lang={lang}
-      bgImg={postState.featuredImage}
+      bgImg={postState?.featuredImage?.href}
       mode={'admin'}
     >
       {postState.updateDB && (
@@ -136,7 +109,7 @@ export const PostAdmin = ({ slug, lang }: PropTypes) => {
           <LoadingLogo />
         </div>
       )}
-      {!modalClosed && (
+      {!modalUnsavedlosed && (
         <ModalDialog
           title={translate('Unsaved changes', lang)}
           body={
@@ -149,24 +122,28 @@ export const PostAdmin = ({ slug, lang }: PropTypes) => {
           }
           btnTitleAgree={translate('Yes', lang)}
           btnTitleCancel={translate('Cancel', lang)}
-          setConfirmed={setConfirmed}
-          setModalClosed={setModalClosed}
+          setConfirmed={setUnsavedConfirmed}
+          setModalClosed={setUnsavedModalClosed}
+        />
+      )}
+      {!modalChooseClosed && (
+        <UploadImageDialog
+          lang={lang}
+          handleSetImage={handleSetImage}
+          handleClose={handleChooseClose}
+          currentImage={postState.featuredImage}
         />
       )}
       <div className="flex min-h-[700px] w-full flex-col items-center justify-start gap-7 bg-[var(--color-secondary)]">
-        <div className="flex flex-row gap-3">
-          <label htmlFor="featured_image">
-            {translate('Featured image', lang)} :
-          </label>
-          <input
-            type="file"
-            id="featured_image"
-            name="featured_image"
-            onChange={handleFeaturedChange}
-          />
-          <Button onClick={handleFeaturedImageUpload}>
-            {translate('Upload', lang)}
-          </Button>
+        <div className="flex flex-row items-center gap-3">
+          <span>{translate('Featured image', lang)} :</span>
+          <div className="w-52 truncate">
+            {postState?.featuredImage?.id || translate('No file chosen', lang)}
+          </div>
+          <Button
+            onClick={() => setModalChooseClosed(false)}
+            title={translate('Choose file', lang)}
+          ></Button>
         </div>
         <article className="flex w-5/6 flex-col gap-7 text-[var(--color-text-primary)] md:w-3/4 lg:w-2/3">
           <div className="mx-auto flex w-fit flex-col items-start">

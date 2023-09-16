@@ -3,9 +3,9 @@ import { toast } from 'react-toastify'
 
 import { usePostClientSide } from '@/hooks/usePostClientSide'
 import { useTextEditor } from '@/hooks/useTextEditor'
+import type { ImageFile } from '@/types'
 import { translate } from '@/utils'
 import { updatePostClientSide } from '@/utils/api-client'
-
 export const usePost = (slug: string, lang: string) => {
   const { loading, post, author, setPost } = usePostClientSide(slug)
   const [updateDB, setUpdateDB] = useState(false)
@@ -13,9 +13,8 @@ export const usePost = (slug: string, lang: string) => {
   const [title, setTitle] = useState('')
   const [readingTime, setReadingTime] = useState(0)
   const [publishedAt, setPublishedAt] = useState<Date | null>(null)
-  const [featuredImage, setFeaturedImage] = useState<string>()
+  const [featuredImage, setFeaturedImage] = useState<ImageFile>()
   const [unsavedChangesExist, setUnsavedChangesExist] = useState(false)
-  const [featuredImageFile, setFeaturedImageFile] = useState<File>()
   const [published, setPublished] = useState(false)
 
   useEffect(() => {
@@ -45,7 +44,11 @@ export const usePost = (slug: string, lang: string) => {
       setTitle(post.title)
       setReadingTime(post.readingTime)
       setPublishedAt(post.publishedAt)
-      setFeaturedImage(post.featuredImage)
+      setFeaturedImage({
+        id: post.featuredImage,
+        href: '',
+        file: null,
+      } as ImageFile)
       setPublished(post.published)
     }
   }, [post])
@@ -71,8 +74,6 @@ export const usePost = (slug: string, lang: string) => {
       setFeaturedImage,
       unsavedChangesExist,
       setUnsavedChangesExist,
-      featuredImageFile,
-      setFeaturedImageFile,
       published,
     },
   }
