@@ -1,63 +1,100 @@
 import type { Post } from '@/types/blog'
 
 export const updatePostClientSide = async (id: number, data: Post) => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/${id}`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       },
-      body: JSON.stringify(data),
-    },
-  )
-
-  return response
+    )
+    return response
+  } catch (error) {
+    console.error(`Post Update failed: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
 }
 
 export const createPostClientSide = async (data: Post) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blog`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      },
+    )
 
-  return response
+    return response
+  } catch (error) {
+    console.error(`Post Create failed: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
 }
 
 export const deletePostClientSide = async (id: number) => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/${id}`,
-    {
-      method: 'DELETE',
-    },
-  )
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/${id}`,
+      {
+        method: 'DELETE',
+      },
+    )
 
-  return response
+    return response
+  } catch (error) {
+    console.error(`Post Delete failed: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
 }
 
 export const getPostsClientSide = async (page: number = 1, limit: number) => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog?page=${page}&limit=${limit}`,
-    {
-      method: 'GET',
-    },
-  )
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog?page=${page}&limit=${limit}`,
+      {
+        method: 'GET',
+      },
+    )
 
-  return response
+    return response
+  } catch (error) {
+    console.error(`Posts Get failed: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
 }
 
 export const getPostClientSide = async (slug) => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/${slug}`,
-    {
-      method: 'GET',
-    },
-  )
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/${slug}`,
+      {
+        method: 'GET',
+      },
+    )
 
-  return response
+    return response
+  } catch (error) {
+    console.error(`Post Get failed: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
 }
 
 export const getImageClientSide = async (

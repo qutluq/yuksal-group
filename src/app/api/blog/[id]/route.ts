@@ -23,12 +23,13 @@ export const PUT = async (
     const updated = await updatePost(id, post)
 
     if (!updated) {
-      return new Response(JSON.stringify({ message: 'Post was not updated' }), {
+      return new Response(JSON.stringify({ message: 'Post did not update' }), {
         status: 400,
       })
     }
   } catch (error) {
-    return new Response(`Internal error: ${error}`, {
+    console.error(`PUT: Internal error: ${error}`)
+    return new Response(JSON.stringify({ message: 'Internal server error' }), {
       status: 500,
     })
   }
@@ -54,11 +55,12 @@ export const DELETE = async (
   const id = Number(params.id)
   try {
     deletePost(id)
-    return new Response(`Deleted post with id: ${id}`, {
+    return new Response(JSON.stringify({ message: 'Post deleted' }), {
       status: 200,
     })
   } catch (error) {
-    return new Response(`Can not delete: ${error}`, {
+    console.error(`Can not delete: ${error}`)
+    return new Response(JSON.stringify({ message: 'Can not delete post' }), {
       status: 409,
     })
   }
@@ -113,8 +115,16 @@ export const GET = async (
       },
     )
   } catch (error) {
-    return new Response(`Post not found: ${error}`, {
-      status: 404,
-    })
+    console.error(`Post not found: ${error}`)
+    return new Response(
+      JSON.stringify({
+        post: null,
+        author: null,
+        message: 'Post not found',
+      }),
+      {
+        status: 404,
+      },
+    )
   }
 }

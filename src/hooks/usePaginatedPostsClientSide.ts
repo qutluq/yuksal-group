@@ -15,13 +15,19 @@ export const usePaginatedPostsClientSide = () => {
     getPostsClientSide(page, PAGINATION_LIMIT)
       .then((response) => {
         {
-          return response.json()
+          if (response.ok || (response.status > 199 && response.status < 300)) {
+            return response.json()
+          }
+          throw new Error(`getPosts failed, response status=${response.status}`)
         }
       })
       .then((data) => {
         const { posts: blogposts, total } = data
         setPosts(blogposts)
         setTotalPosts(total)
+      })
+      .catch((error) => {
+        console.error(error)
       })
       .finally(() => {
         setLoading(false)
