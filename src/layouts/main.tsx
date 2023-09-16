@@ -6,7 +6,7 @@ type PropTypes = {
   page: TypeMenuPage
   lang: string
   children: React.ReactNode
-  bgImg?: string
+  bgImg: string
   mode?: 'user' | 'admin'
 }
 
@@ -24,9 +24,7 @@ export const MainLayout = ({
           'flex h-48 w-full flex-col items-center bg-cover bg-center md:h-[480px] md:bg-[var(--color-secondary)]'
         }
         style={{
-          backgroundImage: `url(${
-            bgImg || '/assets/blog-bread-cover-img.png'
-          })`,
+          backgroundImage: `url(${bgImg})`,
         }}
       >
         <Nav

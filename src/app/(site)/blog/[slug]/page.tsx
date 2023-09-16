@@ -5,6 +5,7 @@ import { MainLayout } from '@/layouts/main'
 import { Post } from '@/types/blog'
 import { getLangSearchParam, toTitleCase, translate } from '@/utils'
 import { getAuthor, getMetadata, getNeighbourPosts, getPost } from '@/utils/db'
+import { DEFAULT_COVER_POSTS_IMG } from '@/utils/settings'
 
 export const dynamic = 'force-dynamic'
 
@@ -56,7 +57,7 @@ const Post = async ({
   const author = await getAuthor(post.authorId)
 
   return (
-    <MainLayout page="blog" lang={lang}>
+    <MainLayout page="blog" lang={lang} bgImg={DEFAULT_COVER_POSTS_IMG}>
       <BlogPost
         author={author!}
         post={post}

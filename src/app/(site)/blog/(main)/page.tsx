@@ -9,7 +9,10 @@ import {
   translate,
 } from '@/utils'
 import { getMetadata } from '@/utils/db'
-import { PAGINATION_LIMIT as limit } from '@/utils/settings'
+import {
+  DEFAULT_COVER_POSTS_IMG,
+  PAGINATION_LIMIT as limit,
+} from '@/utils/settings'
 
 export const dynamic = 'force-dynamic'
 
@@ -33,7 +36,7 @@ const Blog = ({
   const lang = getLangSearchParam(searchParams)
 
   return (
-    <MainLayout page="blog" lang={lang}>
+    <MainLayout page="blog" lang={lang} bgImg={DEFAULT_COVER_POSTS_IMG}>
       <BlogComponent page={page} limit={limit} lang={lang}></BlogComponent>
     </MainLayout>
   )
