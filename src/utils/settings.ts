@@ -1,6 +1,8 @@
 export const PAGINATION_LIMIT = 10
 export const DEFAULT_POSTER_POSTS_IMG = '/assets/default-poster-posts.jpg' //aspect ratio: 450:300
 export const DEFAULT_COVER_POSTS_IMG = '/assets/blog-bread-cover-img.png' //aspect ratio: 1920:480
+export const DEFAULT_COVER_POSTS_PLACEHOLDER_IMG =
+  '/assets/default-cover-posts-placeholder-img.png' //aspect ratio: 1920:480
 export const DEFAULT_AUTHOR_IMG = '/assets/default-author-img.png' //aspect ratio: 450:300
 export const LOGO_IMG = '/assets/logo.png' //aspect ratio: 200:36
 export const SiteName = 'Yuksal Group'

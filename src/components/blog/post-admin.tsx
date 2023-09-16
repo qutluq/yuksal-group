@@ -101,7 +101,7 @@ export const PostAdmin = ({ slug, lang }: PropTypes) => {
     <MainLayout
       page="blog"
       lang={lang}
-      bgImg={postState?.featuredImage?.href || ''}
+      bgImg={postState?.featuredImage?.id || ''}
       mode={'admin'}
     >
       {postState.updateDB && (

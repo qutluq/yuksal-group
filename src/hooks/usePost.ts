@@ -28,7 +28,7 @@ export const usePost = (slug: string, lang: string) => {
           if (response.status > 299 || !response.ok) {
             const { message } = await response.json()
             console.error(
-              `Error occured while updating post: ${message}, response status ${response.status}`,
+              `Update failed: ${message}, response status ${response.status}`,
             )
             toast.error(translate('Post can not be saved!', lang))
             return
@@ -50,6 +50,15 @@ export const usePost = (slug: string, lang: string) => {
         file: null,
       } as ImageFile)
       setPublished(post.published)
+      if (!post?.featuredImage) {
+        setFeaturedImage({ id: '', href: '', file: null } as ImageFile)
+      } else {
+        setFeaturedImage({
+          id: post.featuredImage,
+          href: '',
+          file: null,
+        } as ImageFile)
+      }
     }
   }, [post])
 
