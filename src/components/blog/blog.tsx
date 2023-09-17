@@ -1,11 +1,10 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { BsClock } from 'react-icons/bs'
 
+import { PosterBlog } from '@/components/image'
 import { Pagination } from '@/components/pagination'
 import { classNames, formatDate, translate } from '@/utils'
 import { getPosts } from '@/utils/db'
-import { DEFAULT_POSTER_POSTS_IMG } from '@/utils/settings'
 
 type PropTypes = {
   page: number
@@ -32,13 +31,7 @@ export const Blog = async ({ page, limit, lang }: PropTypes) => {
             )}
           >
             <div className="relative flex h-[220px] flex-row justify-center  overflow-hidden md:mx-2 md:w-[334px] lg:mx-4 lg:h-[300px] lg:w-[448px]">
-              <Image
-                src={DEFAULT_POSTER_POSTS_IMG}
-                alt=""
-                className="rounded-xl"
-                fill
-                objectFit="cover"
-              />
+              <PosterBlog image={post.featuredImage || ''} />
             </div>
 
             <div className="flex flex-col justify-between gap-3 px-2 md:h-[220px] md:w-[334px] md:gap-0 lg:h-[300px] lg:w-[448px] lg:gap-3 lg:px-4">

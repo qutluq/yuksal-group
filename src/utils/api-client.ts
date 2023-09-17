@@ -99,7 +99,7 @@ export const getPostClientSide = async (slug) => {
 
 export const getImageClientSide = async (
   filename: string,
-  size: 'sm' | 'md' | undefined,
+  size: 'sm' | 'md' | undefined = undefined,
 ) => {
   const response = fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/image/images?filename=${filename}${

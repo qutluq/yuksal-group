@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 
 import { Post as BlogPost } from '@/components/blog'
-import { MainLayout } from '@/layouts/main'
 import { Post } from '@/types/blog'
 import { getLangSearchParam, toTitleCase, translate } from '@/utils'
 import { getAuthor, getMetadata, getNeighbourPosts, getPost } from '@/utils/db'
@@ -56,15 +55,13 @@ const Post = async ({
   const author = await getAuthor(post.authorId)
 
   return (
-    <MainLayout page="blog" lang={lang}>
-      <BlogPost
-        author={author!}
-        post={post}
-        neighbours={neighbours}
-        slug={params.slug}
-        lang={lang}
-      />
-    </MainLayout>
+    <BlogPost
+      author={author!}
+      post={post}
+      neighbours={neighbours}
+      slug={params.slug}
+      lang={lang}
+    />
   )
 }
 

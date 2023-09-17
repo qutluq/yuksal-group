@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { AiTwotoneDelete } from 'react-icons/ai'
@@ -9,13 +8,14 @@ import { FiEdit } from 'react-icons/fi'
 
 import { Button } from '@/components/button'
 import { LoadingBlog } from '@/components/fallback'
+import { PosterBlog } from '@/components/image'
 import { ModalDialog } from '@/components/modal'
 import { PaginationClientSide } from '@/components/pagination/pagination-client-side'
 import { useModal } from '@/hooks/useModal'
 import { usePaginatedPostsClientSide } from '@/hooks/usePaginatedPostsClientSide'
 import { classNames, formatDate, translate } from '@/utils'
 import { deletePostClientSide } from '@/utils/api-client'
-import { DEFAULT_POSTER_POSTS_IMG, PAGINATION_LIMIT } from '@/utils/settings'
+import { PAGINATION_LIMIT } from '@/utils/settings'
 
 type PropTypes = {
   lang: string
@@ -62,13 +62,7 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
             )}
           >
             <div className="relative flex h-[220px] flex-row justify-center  overflow-hidden md:mx-2 md:w-[334px] lg:mx-4 lg:h-[300px] lg:w-[448px]">
-              <Image
-                src={DEFAULT_POSTER_POSTS_IMG}
-                alt=""
-                className="rounded-xl"
-                fill
-                objectFit="cover"
-              />
+              <PosterBlog image={post.featuredImage || ''} />
               {!post.published && (
                 <div className="absolute bottom-0 left-0 bg-red-300 text-3xl">
                   {translate('Unpublished', lang)}

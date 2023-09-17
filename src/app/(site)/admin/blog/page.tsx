@@ -5,6 +5,7 @@ import { AdminLayout } from '@/layouts/admin'
 import { MainLayout } from '@/layouts/main'
 import { getLangSearchParam, toTitleCase, translate } from '@/utils'
 import { getMetadata } from '@/utils/db'
+import { DEFAULT_COVER_POSTS_IMG } from '@/utils/settings'
 
 export const dynamic = 'force-dynamic'
 
@@ -28,7 +29,12 @@ const Blog = ({
 
   return (
     <AdminLayout lang={lang}>
-      <MainLayout page="blog" lang={lang} mode="admin">
+      <MainLayout
+        page="blog"
+        lang={lang}
+        mode="admin"
+        bgImg={DEFAULT_COVER_POSTS_IMG}
+      >
         <BlogAdmin lang={lang} />
       </MainLayout>
     </AdminLayout>
