@@ -1,7 +1,9 @@
 import '@/app/globals.css'
 
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 
+import Loading from '@/app/(site)/loading'
 import { NextAuthSessionProvider } from '@/provider'
 import { SiteName } from '@/utils/settings'
 
@@ -20,7 +22,9 @@ export default function RootLayout({
   return (
     <html>
       <body className="flex flex-col gap-5 bg-[var(--color-secondary)]">
-        <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
+        <Suspense fallback={<Loading />}>
+          <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
+        </Suspense>
       </body>
     </html>
   )
