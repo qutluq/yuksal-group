@@ -2,8 +2,13 @@ import type { Metadata } from 'next'
 
 import { Post as BlogPost } from '@/components/blog'
 import { Post } from '@/types/blog'
-import { getLangSearchParam, toTitleCase, translate } from '@/utils'
-import { getAuthor, getMetadata, getNeighbourPosts, getPost } from '@/utils/db'
+import {
+  getLangSearchParam,
+  getMetadata,
+  toTitleCase,
+  translate,
+} from '@/utils'
+import { getAuthor, getNeighbourPosts, getPost } from '@/utils/db'
 
 export const dynamic = 'force-dynamic'
 

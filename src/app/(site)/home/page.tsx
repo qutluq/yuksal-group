@@ -2,8 +2,12 @@ import type { Metadata } from 'next'
 import React from 'react'
 
 import { MainLayout } from '@/layouts/main'
-import { getLangSearchParam, toTitleCase, translate } from '@/utils'
-import { getMetadata } from '@/utils/db'
+import {
+  getLangSearchParam,
+  getMetadata,
+  toTitleCase,
+  translate,
+} from '@/utils'
 import { DEFAULT_COVER_POSTS_IMG } from '@/utils/settings'
 
 export const dynamic = 'force-dynamic'

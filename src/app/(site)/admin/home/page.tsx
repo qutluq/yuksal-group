@@ -1,8 +1,12 @@
 import type { Metadata } from 'next'
 
 import { AdminLayout } from '@/layouts/admin'
-import { getLangSearchParam, toTitleCase, translate } from '@/utils'
-import { getMetadata } from '@/utils/db'
+import {
+  getLangSearchParam,
+  getMetadata,
+  toTitleCase,
+  translate,
+} from '@/utils'
 
 export const dynamic = 'force-dynamic'
 

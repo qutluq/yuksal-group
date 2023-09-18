@@ -4,11 +4,11 @@ import { Blog as BlogComponent } from '@/components/blog'
 import { MainLayout } from '@/layouts/main'
 import {
   getLangSearchParam,
+  getMetadata,
   getPageSearchParam,
   toTitleCase,
   translate,
 } from '@/utils'
-import { getMetadata } from '@/utils/db'
 import { DEFAULT_COVER_POSTS_IMG } from '@/utils/settings'
 
 export const dynamic = 'force-dynamic'

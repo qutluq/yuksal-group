@@ -1,9 +1,7 @@
 import { PrismaClient } from '@prisma/client'
-import type { Metadata } from 'next'
 import { cache } from 'react'
 
 import type { Post } from '@/types/blog'
-import { SiteDescription, SiteName, SiteUrl } from '@/utils/settings'
 // Instantiate a single instance PrismaClient and save it on the globalThis object.
 // Then we keep a check to only instantiate PrismaClient if it's not on the globalThis object otherwise use the same
 // instance again if already present to prevent instantiating extra PrismaClient instances.
@@ -18,29 +16,6 @@ const globalForPrisma = globalThis as unknown as {
 export const prisma = globalForPrisma.prisma ?? new PrismaClient()
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
-
-export const getMetadata = ({
-  title,
-  description = '',
-}: {
-  title: string
-  description?: string
-}) => {
-  const desc = description === '' ? SiteDescription : description
-  return {
-    title: `${title}`,
-    description: desc,
-    authors: [{ name: 'Qutluq', url: 'https://github.com/qutluq' }],
-    colorScheme: 'dark',
-    openGraph: {
-      title,
-      description: desc,
-      url: SiteUrl,
-      siteName: SiteName,
-      type: 'website',
-    },
-  } as Metadata
-}
 
 export const deletePost = async (id: number) => {
   const deletedPost = await prisma.post.delete({
