@@ -35,14 +35,14 @@ model Post {
 }
 
 model Settings {
-  id                               Int    @id @default(autoincrement())
-  paginationLimit                  Int
-  defaultPosterPostsImg            String
-  defaultPosterPostsPlaceholderImg String
-  defaultCoverPostsImg             String
-  defaultCoverPostsPlaceholderImg  String
-  logoImg                          String
-  siteName                         String
-  siteDescription                  String
-  siteUrl                          String
+  id                               Int    @id
+  paginationLimit                  Int    @default(10)
+  defaultPosterPostsImg            String @default("")
+  defaultPosterPostsPlaceholderImg String @default("")
+  defaultCoverPostsImg             String @default("")
+  defaultCoverPostsPlaceholderImg  String @default("")
+  logoImg                          String @default("")
+  siteName                         String @default("")
+  siteDescription                  String @default("")
+  siteUrl                          String @default("")
 }
