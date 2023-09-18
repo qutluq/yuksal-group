@@ -82,7 +82,7 @@ export const PostAdmin = ({ slug, lang }: PropTypes) => {
   }
 
   if (postState.loading) {
-    return <div>Loading...</div>
+    return <LoadingLogo />
   }
 
   if (!postState.post) {
