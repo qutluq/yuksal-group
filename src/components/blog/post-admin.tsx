@@ -181,9 +181,7 @@ export const PostAdmin = ({ slug, lang }: PropTypes) => {
                     <p>{translate('min read', lang)}</p>
                   </div>
                   &#183;
-                  <div
-                    style={{ 'color-scheme': 'only light' } as CSSProperties}
-                  >
+                  <div style={{ colorScheme: 'only light' } as CSSProperties}>
                     <input
                       value={formatDateJS(
                         postState.publishedAt
