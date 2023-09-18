@@ -5,17 +5,17 @@ import { PosterBlog } from '@/components/image'
 import { Pagination } from '@/components/pagination'
 import { classNames, formatDate, translate } from '@/utils'
 import { getPosts } from '@/utils/db'
+import { PAGINATION_LIMIT } from '@/utils/settings'
 
 type PropTypes = {
   page: number
-  limit: number
   lang: string
 }
 
-export const Blog = async ({ page, limit, lang }: PropTypes) => {
+export const Blog = async ({ page, lang }: PropTypes) => {
   const { posts, total: totalPosts } = await getPosts({
     page,
-    limit,
+    limit: PAGINATION_LIMIT,
     select: 'published',
   })
 
@@ -65,7 +65,7 @@ export const Blog = async ({ page, limit, lang }: PropTypes) => {
         <Pagination
           pathname={'/blog'}
           page={page}
-          limit={limit}
+          limit={PAGINATION_LIMIT}
           total={totalPosts}
         />
       </div>
