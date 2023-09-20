@@ -11,3 +11,17 @@ export type ImageFile = {
   href: string
   file: File | null
 }
+
+export type Settings = {
+  siteName: string
+  siteDescription: string
+  siteUrl: string
+
+  defaultPosterPostsImg: string
+  defaultPosterPostsPlaceholderImg: string
+  defaultCoverPostsImg: string
+  defaultCoverPostsPlaceholderImg: string
+  logoImg: string
+
+  paginationLimit: number
+}

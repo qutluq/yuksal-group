@@ -1,3 +1,4 @@
+import type { Settings } from '@/types'
 import type { Post } from '@/types/blog'
 
 export const updatePostClientSide = async (id: number, data: Post) => {
@@ -167,4 +168,33 @@ export const revalidateImageCache = () => {
     .catch((error) => {
       console.error(`Error occured ${error}`)
     })
+}
+
+export const getSettingsClientSide = async () => {
+  const response = fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/settings/`, {
+    method: 'GET',
+  })
+  return response
+}
+
+export const updateSettingsClientSide = async (settings: Settings) => {
+  try {
+    const response = fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/settings/`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settings),
+      },
+    )
+
+    return response
+  } catch (error) {
+    console.error(`Settings update failed: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
 }

@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { cache } from 'react'
 
+import type { Settings } from '@/types'
 import type { Post } from '@/types/blog'
 // Instantiate a single instance PrismaClient and save it on the globalThis object.
 // Then we keep a check to only instantiate PrismaClient if it's not on the globalThis object otherwise use the same
@@ -129,5 +130,41 @@ export const getNeighbourPosts = async (post: Post) => {
   return {
     nextPost: nextPost as Post,
     previousPost: previousPost as Post,
+  }
+}
+
+export const getSettings = async () => {
+  const result = await prisma.settings.findUnique({
+    where: { id: 1 },
+  })
+
+  if (!result) {
+    //no settings record found
+    const newRecord = await prisma.settings.create({ data: { id: 1 } })
+    return newRecord
+  }
+
+  return result
+}
+
+export const updateSettings = async (settings: Settings) => {
+  try {
+    const result = await prisma.settings.findUnique({
+      where: { id: 1 },
+    })
+
+    if (result) {
+      //settings record exist
+      const newRecord = await prisma.settings.update({
+        where: { id: 1 },
+        data: settings,
+      })
+      return newRecord
+    }
+
+    return result
+  } catch (error) {
+    console.error(`Can not update settings: ${error}`)
+    return null
   }
 }
