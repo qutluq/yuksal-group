@@ -6,10 +6,12 @@ import { LoadingLogo } from '@/components/fallback'
 import { ModalDialog } from '@/components/modal'
 import { usePostUnsavedChanges } from '@/hooks/usePostUnsavedChanges'
 import type { ImageFile, Settings as DbSettings } from '@/types'
+import { settingsKeys } from '@/types'
 import { translate } from '@/utils'
 import {
   getImageClientSide,
-  getSettingsClientSide,
+  getSettingClientSide,
+  revalidateSettingsCache,
   updateSettingsClientSide,
 } from '@/utils/api-client'
 
@@ -23,6 +25,7 @@ type UploadModal = {
     | 'defaultPosterPostsPlaceholderImg'
     | 'defaultCoverPostsImg'
     | 'defaultCoverPostsPlaceholderImg'
+    | 'logoImg'
     | ''
 }
 
@@ -41,51 +44,36 @@ export const Settings = ({ lang }: PropTypes) => {
     usePostUnsavedChanges(unsavedChangesExist, lang)
 
   useEffect(() => {
-    getSettingsClientSide()
-      .then(async (response) => {
-        if (response.ok && response.status > 199 && response.status < 300) {
-          // eslint-disable-next-line unused-imports/no-unused-vars
-          const { id, ...settingsInitial } = await response.json()
-
-          setSettings(() => ({ ...settingsInitial }))
-
-          const imageFields = [
-            'defaultPosterPostsImg',
-            'defaultPosterPostsPlaceholderImg',
-            'defaultCoverPostsImg',
-            'defaultCoverPostsPlaceholderImg',
-            'logoImg',
-          ]
-
-          Object.keys(settingsInitial).map((field) => {
-            const image = settingsInitial[field]
-            if (!imageFields.includes(field)) return
-            if (!image) return
-            getImageClientSide(image)
-              .then(async (response) => {
-                const image_blob = await response.blob()
-                const imageUrl = URL.createObjectURL(image_blob)
-                setSettings((state) => ({
-                  ...state,
-                  [field]: {
-                    file: null,
-                    id: settingsInitial[field],
-                    href: imageUrl,
-                  } as ImageFile,
-                }))
-              })
-              .catch((error) => {
-                console.error(`Can't fetch image: ${error}`)
-              })
+    const imageFields = [
+      'defaultPosterPostsImg',
+      'defaultPosterPostsPlaceholderImg',
+      'defaultCoverPostsImg',
+      'defaultCoverPostsPlaceholderImg',
+      'logoImg',
+    ]
+    settingsKeys.map(async (name) => {
+      const value = await getSettingClientSide(name)
+      if (imageFields.includes(name)) {
+        getImageClientSide(value)
+          .then(async (response) => {
+            const image_blob = await response.blob()
+            const imageUrl = URL.createObjectURL(image_blob)
+            setSettings((state) => ({
+              ...state,
+              [name]: {
+                file: null,
+                id: value,
+                href: imageUrl,
+              } as ImageFile,
+            }))
           })
-
-          return
-        }
-        console.error(`Can not fetch settings, status: ${response.status}`)
-      })
-      .catch((error) => {
-        console.error(`Can not fetch settings: ${error}`)
-      })
+          .catch((error) => {
+            console.error(`Can't fetch image: ${error}`)
+          })
+      } else {
+        setSettings((state) => ({ ...state, [name]: value }))
+      }
+    })
   }, [])
 
   const setSettingValue = (value: string | number, field: string) => {
@@ -119,8 +107,9 @@ export const Settings = ({ lang }: PropTypes) => {
           alert(translate('Failed to update settings', lang))
           return
         }
-        alert(translate('Settings updated', lang))
         setUnsavedChangesExist(false)
+        revalidateSettingsCache()
+        alert(translate('Settings updated', lang))
       })
       .catch((error) => {
         console.error(`Can not fetch settings: ${error}`)

@@ -1,4 +1,6 @@
-import type { Settings } from '@/types'
+import Cookies from 'js-cookie'
+
+import type { Settings, SettingsKeys } from '@/types'
 import type { Post } from '@/types/blog'
 
 export const updatePostClientSide = async (id: number, data: Post) => {
@@ -108,6 +110,8 @@ export const getImageClientSide = async (
     }${size ? size : ''}`,
     {
       method: 'GET',
+      next: { tags: ['images-cache'] },
+      cache: 'force-cache',
     },
   )
   return response
@@ -118,6 +122,8 @@ export const getImageFilenamesClientSide = async () => {
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/image/images/`,
     {
       method: 'GET',
+      next: { tags: ['images-cache'] },
+      cache: 'force-cache',
     },
   )
   return response
@@ -170,9 +176,38 @@ export const revalidateImageCache = () => {
     })
 }
 
+export const getSettingClientSide = async (setting: SettingsKeys) => {
+  const cookieName = `setting${setting}`
+  const cookieValue = Cookies.get(cookieName)
+
+  if (cookieValue) {
+    return cookieValue
+  }
+  //settings cookies not set
+  const response = await getSettingsClientSide()
+  if (response.ok && response.status > 199 && response.status < 300) {
+    try {
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      const { id, ...settings } = await response.json()
+      const inThreeHours = new Date(new Date().getTime() + 1 * 1 * 1 * 1000)
+      Object.keys(settings).map((name) => {
+        const value = settings[name]
+        Cookies.set(`setting${name}`, value, { expires: inThreeHours }) //set session cookie
+      })
+      return settings[setting]
+    } catch (error) {
+      console.error(`Cookies set failed`)
+      return undefined
+    }
+  }
+  console.error(`Can not fetch settings, status: ${response.status}`)
+}
+
 export const getSettingsClientSide = async () => {
   const response = fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/settings/`, {
     method: 'GET',
+    next: { tags: ['settings-cache'] },
+    cache: 'force-cache',
   })
   return response
 }
@@ -197,4 +232,24 @@ export const updateSettingsClientSide = async (settings: Settings) => {
       status: 500,
     })
   }
+}
+
+export const revalidateSettingsCache = () => {
+  fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate?tag=settings-cache&secret=${process.env.NEXT_PUBLIC_MY_SECRET_TOKEN}`,
+    {
+      method: 'POST',
+    },
+  )
+    .then((response) => {
+      if (!response.ok) {
+        return response.json()
+      }
+    })
+    .then((json) => {
+      console.error(`Image cache validation failed ${json.message}`)
+    })
+    .catch((error) => {
+      console.error(`Error occured ${error}`)
+    })
 }

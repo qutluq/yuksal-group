@@ -25,3 +25,19 @@ export type Settings = {
 
   paginationLimit: number
 }
+
+export type SettingsKeys = keyof Settings
+
+export const settingsKeys: (keyof Settings)[] = [
+  'siteName',
+  'siteDescription',
+  'siteUrl',
+
+  'defaultPosterPostsImg',
+  'defaultPosterPostsPlaceholderImg',
+  'defaultCoverPostsImg',
+  'defaultCoverPostsPlaceholderImg',
+  'logoImg',
+
+  'paginationLimit',
+]

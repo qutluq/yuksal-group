@@ -1,5 +1,7 @@
 import type { ImageFile } from '@/types'
 
+import type { Settings } from './settings'
+
 export type Settings = {
   siteName: string
   siteDescription: string
