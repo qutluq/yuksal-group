@@ -7,7 +7,6 @@ import {
   toTitleCase,
   translate,
 } from '@/utils'
-import { DEFAULT_COVER_POSTS_IMG } from '@/utils/settings'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,7 +29,7 @@ const About = ({
   const lang = getLangSearchParam(searchParams)
 
   return (
-    <MainLayout page="about" lang={lang} bgImg={DEFAULT_COVER_POSTS_IMG}>
+    <MainLayout page="about" lang={lang}>
       <div className="text-[var(--color-text-primary)]">
         <p>About</p>
         <p>

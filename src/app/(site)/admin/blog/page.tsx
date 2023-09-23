@@ -9,7 +9,6 @@ import {
   toTitleCase,
   translate,
 } from '@/utils'
-import { DEFAULT_COVER_POSTS_IMG } from '@/utils/settings'
 
 export const dynamic = 'force-dynamic'
 
@@ -33,12 +32,7 @@ const Blog = ({
 
   return (
     <AdminLayout lang={lang}>
-      <MainLayout
-        page="blog"
-        lang={lang}
-        mode="admin"
-        bgImg={DEFAULT_COVER_POSTS_IMG}
-      >
+      <MainLayout page="blog" lang={lang} mode="admin">
         <BlogAdmin lang={lang} />
       </MainLayout>
     </AdminLayout>
