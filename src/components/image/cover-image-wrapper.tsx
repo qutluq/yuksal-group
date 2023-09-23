@@ -2,16 +2,16 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-import { classNames } from '@/utils'
+import { useContextSettings } from '@/hooks/useContextSettings'
 import { getImageClientSide } from '@/utils/api-client'
-import { DEFAULT_COVER_POSTS_PLACEHOLDER_IMG } from '@/utils/settings'
 
 type PropTypes = {
-  bgImg: string
+  bgImg?: string
   children: React.ReactNode
 }
 export const CoverImageWrapper = ({ bgImg, children }: PropTypes) => {
   const [featuredImage, setFeaturedImage] = useState('')
+  const { settings } = useContextSettings()
 
   useEffect(() => {
     if (!bgImg) {
@@ -36,9 +36,9 @@ export const CoverImageWrapper = ({ bgImg, children }: PropTypes) => {
     >
       <div className="absolute h-48 w-full overflow-hidden md:h-[480px]">
         <Image
-          src={featuredImage || DEFAULT_COVER_POSTS_PLACEHOLDER_IMG}
+          src={featuredImage || settings.defaultPosterPostsImg?.href}
           alt=""
-          className={classNames('object-cover', !featuredImage && 'opacity-0')}
+          className="object-cover"
           fill
         />
       </div>
