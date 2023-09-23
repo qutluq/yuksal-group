@@ -2,22 +2,21 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-import { getImageClientSide } from '@/utils/api-client'
-import {
-  DEFAULT_POSTER_POSTS_IMG,
-  DEFAULT_POSTER_POSTS_PLACEHOLDER_IMG,
-} from '@/utils/settings'
+import { useContextSettings } from '@/hooks/useContextSettings'
 
 type PropTypes = {
   image: string
+  imageUrls: { [key: string]: string }
 }
 
-export const PosterBlog = ({ image }: PropTypes) => {
+export const PosterBlog = ({ image, imageUrls }: PropTypes) => {
   const [posterImage, setPosterImage] = useState('')
+  const { settings, initialized } = useContextSettings()
 
   useEffect(() => {
+    if (!initialized) return
     if (!image) {
-      setPosterImage(DEFAULT_POSTER_POSTS_IMG)
+      setPosterImage(settings.defaultPosterPostsImg?.href)
       return
     }
 
@@ -25,21 +24,12 @@ export const PosterBlog = ({ image }: PropTypes) => {
       setPosterImage(image)
       return
     }
-
-    getImageClientSide(image)
-      .then(async (response) => {
-        const image_blob = await response.blob()
-        const imageUrl = URL.createObjectURL(image_blob)
-        setPosterImage(imageUrl)
-      })
-      .catch((error) => {
-        console.error(`Can't fetch image: ${error}`)
-      })
-  }, [image])
+    setPosterImage(imageUrls[image])
+  }, [image, imageUrls, initialized])
 
   return (
     <Image
-      src={posterImage || DEFAULT_POSTER_POSTS_PLACEHOLDER_IMG}
+      src={posterImage || settings.defaultPosterPostsPlaceholderImg?.href}
       alt=""
       className="rounded-xl"
       fill

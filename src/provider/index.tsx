@@ -13,8 +13,6 @@ export const NextAuthSessionProvider = ({ children }) => {
 export const SettingsProvider = ({ children }) => {
   const settings = useSettings()
 
-  console.log('Providing ...')
-
   return (
     <SettingsContext.Provider value={settings}>
       {children}

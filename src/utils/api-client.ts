@@ -2,7 +2,6 @@ import Cookies from 'js-cookie'
 
 import type { Settings, SettingsKeys } from '@/types'
 import type { Post } from '@/types/blog'
-
 export const updatePostClientSide = async (id: number, data: Post) => {
   try {
     const response = await fetch(
@@ -116,6 +115,33 @@ export const getImageClientSide = async (
   )
   return response
 }
+
+const getImageUrlsClientSideMemo = () => {
+  //memoize getImageUrlClientSide
+  const cache: { [key: string]: string } = {}
+
+  return async (filenames: (string | undefined)[]) => {
+    if (filenames.length === 0) return {}
+    for (const filename of filenames) {
+      if (!filename) continue
+      if (filename in cache) {
+        continue
+      }
+
+      try {
+        const response = await getImageClientSide(filename)
+        const image_blob = await response.blob()
+        const imageUrl = URL.createObjectURL(image_blob)
+        cache[filename] = imageUrl
+      } catch (error) {
+        console.error(`Can't fetch image: ${error}`)
+      }
+    }
+    return cache
+  }
+}
+
+export const getImageUrlsClientSide = getImageUrlsClientSideMemo()
 
 export const getImageFilenamesClientSide = async () => {
   const response = fetch(

@@ -15,15 +15,22 @@ import { useModal } from '@/hooks/useModal'
 import { usePaginatedPostsClientSide } from '@/hooks/usePaginatedPostsClientSide'
 import { classNames, formatDate, translate } from '@/utils'
 import { deletePostClientSide } from '@/utils/api-client'
-import { PAGINATION_LIMIT } from '@/utils/settings'
 
 type PropTypes = {
   lang: string
 }
 
 export const BlogAdmin = ({ lang }: PropTypes) => {
-  const { loading, page, setPage, posts, totalPosts, setUpdate } =
-    usePaginatedPostsClientSide()
+  const {
+    loading,
+    page,
+    setPage,
+    posts,
+    totalPosts,
+    setUpdate,
+    paginationLimit,
+    imageUrls,
+  } = usePaginatedPostsClientSide()
 
   const { modalClosed, setModalClosed, confirmed, setConfirmed } = useModal()
   const [deleteId, setDeleteId] = useState(-1)
@@ -62,7 +69,10 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
             )}
           >
             <div className="relative flex h-[220px] flex-row justify-center  overflow-hidden md:mx-2 md:w-[334px] lg:mx-4 lg:h-[300px] lg:w-[448px]">
-              <PosterBlog image={post.featuredImage || ''} />
+              <PosterBlog
+                image={post.featuredImage || ''}
+                imageUrls={imageUrls}
+              />
               {!post.published && (
                 <div className="absolute bottom-0 left-0 bg-red-300 text-3xl">
                   {translate('Unpublished', lang)}
@@ -115,7 +125,7 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
         <PaginationClientSide
           page={page}
           setPage={setPage}
-          limit={PAGINATION_LIMIT}
+          limit={paginationLimit!}
           total={totalPosts}
         />
       </div>
