@@ -8,9 +8,7 @@ export type Settings = {
   siteUrl: string
 
   defaultPosterPostsImg: ImageFile | undefined
-  defaultPosterPostsPlaceholderImg: ImageFile | undefined
   defaultCoverPostsImg: ImageFile | undefined
-  defaultCoverPostsPlaceholderImg: ImageFile | undefined
   logoImg: ImageFile | undefined
 
   paginationLimit: number

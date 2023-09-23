@@ -188,18 +188,9 @@ export const revalidateImageCache = () => {
     {
       method: 'POST',
     },
-  )
-    .then((response) => {
-      if (!response.ok) {
-        return response.json()
-      }
-    })
-    .then((json) => {
-      console.error(`Image cache validation failed ${json.message}`)
-    })
-    .catch((error) => {
-      console.error(`Error occured ${error}`)
-    })
+  ).catch((error) => {
+    console.error(`Image cache validation failed ${error}`)
+  })
 }
 
 export const getSettingClientSide = async (setting: SettingsKeys) => {
@@ -266,16 +257,7 @@ export const revalidateSettingsCache = () => {
     {
       method: 'POST',
     },
-  )
-    .then((response) => {
-      if (!response.ok) {
-        return response.json()
-      }
-    })
-    .then((json) => {
-      console.error(`Image cache validation failed ${json.message}`)
-    })
-    .catch((error) => {
-      console.error(`Error occured ${error}`)
-    })
+  ).catch((error) => {
+    console.error(`Image cache validation failed ${error}`)
+  })
 }

@@ -7,12 +7,7 @@ import type { Settings } from './types'
 
 type PropTypes = {
   settings: Settings
-  field:
-    | 'defaultPosterPostsImg'
-    | 'defaultPosterPostsPlaceholderImg'
-    | 'defaultCoverPostsImg'
-    | 'defaultCoverPostsPlaceholderImg'
-    | 'logoImg'
+  field: 'defaultPosterPostsImg' | 'defaultCoverPostsImg' | 'logoImg'
   setUploadModal: (object) => void
   setUnsavedChangesExist: (boolean) => void
 }

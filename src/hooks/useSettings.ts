@@ -16,6 +16,7 @@ export const useSettings = () => {
   const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
+    console.log('useSettings init...')
     setInitialized(false)
     promiseAll([
       getSettingClientSide('siteName'),
@@ -23,14 +24,12 @@ export const useSettings = () => {
       getSettingClientSide('siteUrl'),
       getSettingClientSide('paginationLimit'),
       getSettingClientSide('defaultPosterPostsImg'),
-      getSettingClientSide('defaultPosterPostsPlaceholderImg'),
       getSettingClientSide('defaultCoverPostsImg'),
-      getSettingClientSide('defaultCoverPostsPlaceholderImg'),
       getSettingClientSide('logoImg'),
     ]).then((cookieSettings: (string | number)[]) => {
       const [siteName, siteDescription, siteUrl, paginationLimit, ...images] =
         cookieSettings
-      const [poster, posterPlaceholder, cover, coverPlaceholder, logo] = images
+      const [poster, cover, logo] = images
 
       getImageUrlsClientSide(images as string[])
         .then((imageUrlsObject) => {
@@ -45,17 +44,9 @@ export const useSettings = () => {
                   id: poster,
                   href: imageUrlsObject[poster],
                 },
-                defaultPosterPostsPlaceholderImg: {
-                  id: posterPlaceholder,
-                  href: imageUrlsObject[posterPlaceholder],
-                },
                 defaultCoverPostsImg: {
                   id: cover,
                   href: imageUrlsObject[cover],
-                },
-                defaultCoverPostsPlaceholderImg: {
-                  id: coverPlaceholder,
-                  href: imageUrlsObject[coverPlaceholder],
                 },
                 logoImg: { id: logo, href: imageUrlsObject[logo] },
               }) as SettingsInitialized,

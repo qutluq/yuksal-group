@@ -20,13 +20,7 @@ import { ImageUploadDialog } from './image-upload-dialog'
 import type { Settings as SettingsType } from './types'
 type UploadModal = {
   closed: boolean
-  field:
-    | 'defaultPosterPostsImg'
-    | 'defaultPosterPostsPlaceholderImg'
-    | 'defaultCoverPostsImg'
-    | 'defaultCoverPostsPlaceholderImg'
-    | 'logoImg'
-    | ''
+  field: 'defaultPosterPostsImg' | 'defaultCoverPostsImg' | 'logoImg' | ''
 }
 
 type PropTypes = {
@@ -46,9 +40,7 @@ export const Settings = ({ lang }: PropTypes) => {
   useEffect(() => {
     const imageFields = [
       'defaultPosterPostsImg',
-      'defaultPosterPostsPlaceholderImg',
       'defaultCoverPostsImg',
-      'defaultCoverPostsPlaceholderImg',
       'logoImg',
     ]
     settingsKeys.map(async (name) => {
@@ -92,11 +84,7 @@ export const Settings = ({ lang }: PropTypes) => {
     const dbSettings = {
       ...settings,
       defaultPosterPostsImg: settings.defaultPosterPostsImg?.id || '',
-      defaultPosterPostsPlaceholderImg:
-        settings.defaultPosterPostsPlaceholderImg?.id || '',
       defaultCoverPostsImg: settings.defaultCoverPostsImg?.id || '',
-      defaultCoverPostsPlaceholderImg:
-        settings.defaultCoverPostsPlaceholderImg?.id || '',
       logoImg: settings.logoImg?.id || '',
     } as DbSettings
 
@@ -207,40 +195,12 @@ export const Settings = ({ lang }: PropTypes) => {
 
           <div className="flex flex-col gap-2 px-2">
             <span className="h-12 w-72 text-sm">{`${translate(
-              'Default poster placeholder in posts',
-              lang,
-            )}(450x300): `}</span>
-
-            <ImageInput
-              field="defaultPosterPostsPlaceholderImg"
-              setUploadModal={setUploadModal}
-              settings={settings}
-              setUnsavedChangesExist={setUnsavedChangesExist}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2 px-2">
-            <span className="h-12 w-72 text-sm">{`${translate(
               'Default cover in posts',
               lang,
             )}(1920x480): `}</span>
 
             <ImageInput
               field="defaultCoverPostsImg"
-              setUploadModal={setUploadModal}
-              settings={settings}
-              setUnsavedChangesExist={setUnsavedChangesExist}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2 px-2">
-            <span className="h-12 w-72 text-sm">{`${translate(
-              'Default cover placeholder in posts',
-              lang,
-            )}(1920x480): `}</span>
-
-            <ImageInput
-              field="defaultCoverPostsPlaceholderImg"
               setUploadModal={setUploadModal}
               settings={settings}
               setUnsavedChangesExist={setUnsavedChangesExist}

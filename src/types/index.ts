@@ -18,9 +18,7 @@ export type Settings = {
   siteUrl: string
 
   defaultPosterPostsImg: string
-  defaultPosterPostsPlaceholderImg: string
   defaultCoverPostsImg: string
-  defaultCoverPostsPlaceholderImg: string
   logoImg: string
 
   paginationLimit: number
@@ -28,9 +26,7 @@ export type Settings = {
 
 type SettingsImages = {
   defaultPosterPostsImg: ImageFile
-  defaultPosterPostsPlaceholderImg: ImageFile
   defaultCoverPostsImg: ImageFile
-  defaultCoverPostsPlaceholderImg: ImageFile
   logoImg: ImageFile
 }
 
@@ -38,16 +34,13 @@ export type SettingsInitialized = Omit<Settings, keyof SettingsImages> &
   SettingsImages
 
 export type SettingsKeys = keyof Settings
-
 export const settingsKeys: (keyof Settings)[] = [
   'siteName',
   'siteDescription',
   'siteUrl',
 
   'defaultPosterPostsImg',
-  'defaultPosterPostsPlaceholderImg',
   'defaultCoverPostsImg',
-  'defaultCoverPostsPlaceholderImg',
   'logoImg',
 
   'paginationLimit',

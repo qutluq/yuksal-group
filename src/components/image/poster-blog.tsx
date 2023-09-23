@@ -29,7 +29,7 @@ export const PosterBlog = ({ image, imageUrls }: PropTypes) => {
 
   return (
     <Image
-      src={posterImage || settings.defaultPosterPostsPlaceholderImg?.href}
+      src={posterImage || settings.defaultPosterPostsImg?.href}
       alt=""
       className="rounded-xl"
       fill
