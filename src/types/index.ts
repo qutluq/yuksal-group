@@ -26,6 +26,17 @@ export type Settings = {
   paginationLimit: number
 }
 
+type SettingsImages = {
+  defaultPosterPostsImg: ImageFile
+  defaultPosterPostsPlaceholderImg: ImageFile
+  defaultCoverPostsImg: ImageFile
+  defaultCoverPostsPlaceholderImg: ImageFile
+  logoImg: ImageFile
+}
+
+export type SettingsInitialized = Omit<Settings, keyof SettingsImages> &
+  SettingsImages
+
 export type SettingsKeys = keyof Settings
 
 export const settingsKeys: (keyof Settings)[] = [
