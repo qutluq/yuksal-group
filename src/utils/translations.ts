@@ -63,6 +63,11 @@ export const translations = {
     ru: 'Название',
     ug: 'Нами',
   },
+  settings: {
+    en: 'Settings',
+    ru: 'Настройки',
+    ug: 'Бәлгүләшләр',
+  },
   'post-can-not-be-saved': {
     en: 'Post can not be saved!',
     ru: 'Пост не может быть сохранен!',
@@ -198,5 +203,80 @@ export const translations = {
     en: 'Choose file',
     ru: 'Выбрать файл',
     ug: 'Файлни таллаш',
+  },
+  'site-settings': {
+    en: 'Site settings',
+    ru: 'Настройки сайта',
+    ug: 'Торбәтниң бәлгүләшлири',
+  },
+  'site-name': {
+    en: 'Site name',
+    ru: 'Название сайта',
+    ug: 'Торбәт нами',
+  },
+  'site-description': {
+    en: 'Site description',
+    ru: 'Краткое описание сайта',
+    ug: 'Торбәтниң қисқичә ениқлимиси',
+  },
+  'site-url': {
+    en: 'Site URL',
+    ru: 'URL сайта',
+    ug: 'Торбәтниң адреси',
+  },
+  metadata: {
+    en: 'Metadata',
+    ru: 'Метаданные',
+    ug: 'Мета мәлумат',
+  },
+  images: {
+    en: 'Images',
+    ru: 'Картинки',
+    ug: 'Рәсимләр',
+  },
+  'default-poster-in-posts': {
+    en: 'Default poster in posts',
+    ru: 'Постер по умолчанию в постах',
+    ug: 'Мақалиләрдики дефолт постер',
+  },
+  'default-cover-placeholder-in-posts': {
+    en: 'Default cover placeholder in posts',
+    ru: 'Заполнитель по умолчанию для обложки в постах',
+    ug: 'Мақалиләрдики мукавиниң орнини толтурғучиси',
+  },
+  'default-cover-in-posts': {
+    en: 'Default cover in posts',
+    ru: 'Обложка по умолчанию в постах',
+    ug: 'Мақалиләрдики дефолт муқава',
+  },
+  'default-poster-placeholder-in-posts': {
+    en: 'Default poster placeholder in posts',
+    ru: 'Заполнитель по умолчанию для постера в постах',
+    ug: 'Мақалиләрдики постерниң орнини толтурғучи',
+  },
+  logo: {
+    en: 'Logo',
+    ru: 'Лого',
+    ug: 'Лого',
+  },
+  lists: {
+    en: 'Lists',
+    ru: 'Списки',
+    ug: 'Тизимликләр',
+  },
+  'items-per-page-eg-posts-per-page-on-blog-page': {
+    en: 'Items per page, e.g. posts per page on blog page',
+    ru: 'Количество элементов на одной странице, например, постов на странице блог',
+    ug: 'Бир бәттики элементларниң сани, мәсилән, блог бетидики мақалиләр сани',
+  },
+  'failed-to-update-settings': {
+    en: 'Failed to update settings',
+    ru: 'Не удалось обновить настройки',
+    ug: 'Бәлгүләшләрни сақлаш мүмкин болмиди',
+  },
+  'settings-updated': {
+    en: 'Settings updated',
+    ru: 'Настройки обновлены',
+    ug: 'Бәлгүләшләр сақланди',
   },
 }

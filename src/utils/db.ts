@@ -1,9 +1,8 @@
 import { PrismaClient } from '@prisma/client'
-import type { Metadata } from 'next'
 import { cache } from 'react'
 
+import type { Settings, SettingsKeys } from '@/types'
 import type { Post } from '@/types/blog'
-import { SiteDescription, SiteName, SiteUrl } from '@/utils/settings'
 // Instantiate a single instance PrismaClient and save it on the globalThis object.
 // Then we keep a check to only instantiate PrismaClient if it's not on the globalThis object otherwise use the same
 // instance again if already present to prevent instantiating extra PrismaClient instances.
@@ -18,29 +17,6 @@ const globalForPrisma = globalThis as unknown as {
 export const prisma = globalForPrisma.prisma ?? new PrismaClient()
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
-
-export const getMetadata = ({
-  title,
-  description = '',
-}: {
-  title: string
-  description?: string
-}) => {
-  const desc = description === '' ? SiteDescription : description
-  return {
-    title: `${title}`,
-    description: desc,
-    authors: [{ name: 'Qutluq', url: 'https://github.com/qutluq' }],
-    colorScheme: 'dark',
-    openGraph: {
-      title,
-      description: desc,
-      url: SiteUrl,
-      siteName: SiteName,
-      type: 'website',
-    },
-  } as Metadata
-}
 
 export const deletePost = async (id: number) => {
   const deletedPost = await prisma.post.delete({
@@ -82,7 +58,7 @@ export const getPosts = cache(
       ...conditions,
     })
 
-    return { posts: results, total: count }
+    return { posts: results as Post[], total: count }
   },
 )
 
@@ -154,5 +130,55 @@ export const getNeighbourPosts = async (post: Post) => {
   return {
     nextPost: nextPost as Post,
     previousPost: previousPost as Post,
+  }
+}
+
+export const getSettings = cache(async () => {
+  const result = await prisma.settings.findUnique({
+    where: { id: 1 },
+  })
+
+  if (!result) {
+    //no settings record found
+    const newRecord = await prisma.settings.create({ data: { id: 1 } })
+    return newRecord
+  }
+
+  return result
+})
+
+export const getSetting = cache(async (setting: SettingsKeys) => {
+  const result = await prisma.settings.findUnique({
+    where: { id: 1 },
+  })
+
+  if (!result) {
+    //no settings record found
+    const newRecord = await prisma.settings.create({ data: { id: 1 } })
+    return newRecord[setting]
+  }
+
+  return result[setting]
+})
+
+export const updateSettings = async (settings: Settings) => {
+  try {
+    const result = await prisma.settings.findUnique({
+      where: { id: 1 },
+    })
+
+    if (result) {
+      //settings record exist
+      const newRecord = await prisma.settings.update({
+        where: { id: 1 },
+        data: settings,
+      })
+      return newRecord
+    }
+
+    return result
+  } catch (error) {
+    console.error(`Can not update settings: ${error}`)
+    return null
   }
 }

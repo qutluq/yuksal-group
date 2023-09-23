@@ -1,10 +1,36 @@
+import type { Metadata } from 'next'
+
 import { localeLanguages } from '@/locales'
 
 import nextConfig from '../../next.config'
+import { SiteDescription, SiteName, SiteUrl } from './settings'
 import { translations } from './translations'
 
 export const classNames = (...classes: (string | boolean)[]) =>
   classes.filter(Boolean).join(' ')
+
+export const getMetadata = ({
+  title,
+  description = '',
+}: {
+  title: string
+  description?: string
+}) => {
+  const desc = description === '' ? SiteDescription : description
+  return {
+    title: `${title}`,
+    description: desc,
+    authors: [{ name: 'Qutluq', url: 'https://github.com/qutluq' }],
+    colorScheme: 'dark',
+    openGraph: {
+      title,
+      description: desc,
+      url: SiteUrl,
+      siteName: SiteName,
+      type: 'website',
+    },
+  } as Metadata
+}
 
 export const setSearchParamsLang = (searchParams, selectedLanguage: string) => {
   let query = ''

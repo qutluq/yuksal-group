@@ -15,6 +15,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   posts     Post[]
+  image     String?
 }
 
 model Post {
@@ -31,4 +32,17 @@ model Post {
   publishedAt   DateTime?
   updatedAt     DateTime
   author        User      @relation(fields: [authorId], references: [id])
+}
+
+model Settings {
+  id                               Int    @id
+  paginationLimit                  Int    @default(10)
+  defaultPosterPostsImg            String @default("")
+  defaultPosterPostsPlaceholderImg String @default("")
+  defaultCoverPostsImg             String @default("")
+  defaultCoverPostsPlaceholderImg  String @default("")
+  logoImg                          String @default("")
+  siteName                         String @default("")
+  siteDescription                  String @default("")
+  siteUrl                          String @default("")
 }

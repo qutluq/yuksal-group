@@ -4,9 +4,8 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 
 import Loading from '@/app/(site)/loading'
-import { NextAuthSessionProvider } from '@/provider'
+import { NextAuthSessionProvider, SettingsProvider } from '@/provider'
 import { SiteName } from '@/utils/settings'
-
 export const metadata: Metadata = {
   title: {
     template: `%s | ${SiteName}`,
@@ -23,7 +22,9 @@ export default function RootLayout({
     <html>
       <body className="flex flex-col gap-5 bg-[var(--color-secondary)]">
         <Suspense fallback={<Loading />}>
-          <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
+          <NextAuthSessionProvider>
+            <SettingsProvider>{children}</SettingsProvider>
+          </NextAuthSessionProvider>
         </Suspense>
       </body>
     </html>

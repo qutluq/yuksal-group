@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 
+import { Settings as SettingsComponent } from '@/components/admin'
 import { AdminLayout } from '@/layouts/admin'
 import {
   getLangSearchParam,
@@ -16,12 +17,12 @@ export async function generateMetadata({
   searchParams: { [key: string]: string | string[] | undefined }
 }): Promise<Metadata> {
   const lang = getLangSearchParam(searchParams)
-  const title = toTitleCase(translate('home', lang))
+  const title = toTitleCase(translate('settings', lang))
 
   return getMetadata({ title })
 }
 
-const Home = ({
+const Settings = ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
@@ -29,9 +30,11 @@ const Home = ({
   const lang = getLangSearchParam(searchParams)
   return (
     <div className="text-[var(--color-text-primary)]">
-      <AdminLayout lang={lang}>Secured home page</AdminLayout>
+      <AdminLayout lang={lang}>
+        <SettingsComponent lang={lang} />
+      </AdminLayout>
     </div>
   )
 }
 
-export default Home
+export default Settings

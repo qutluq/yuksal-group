@@ -1,5 +1,7 @@
-import type { Post } from '@/types/blog'
+import Cookies from 'js-cookie'
 
+import type { Settings, SettingsKeys } from '@/types'
+import type { Post } from '@/types/blog'
 export const updatePostClientSide = async (id: number, data: Post) => {
   try {
     const response = await fetch(
@@ -107,16 +109,47 @@ export const getImageClientSide = async (
     }${size ? size : ''}`,
     {
       method: 'GET',
+      next: { tags: ['images-cache'] },
+      cache: 'force-cache',
     },
   )
   return response
 }
+
+const getImageUrlsClientSideMemo = () => {
+  //memoize getImageUrlClientSide
+  const cache: { [key: string]: string } = {}
+
+  return async (filenames: (string | undefined)[]) => {
+    if (filenames.length === 0) return {}
+    for (const filename of filenames) {
+      if (!filename) continue
+      if (filename in cache) {
+        continue
+      }
+
+      try {
+        const response = await getImageClientSide(filename)
+        const image_blob = await response.blob()
+        const imageUrl = URL.createObjectURL(image_blob)
+        cache[filename] = imageUrl
+      } catch (error) {
+        console.error(`Can't fetch image: ${error}`)
+      }
+    }
+    return cache
+  }
+}
+
+export const getImageUrlsClientSide = getImageUrlsClientSideMemo()
 
 export const getImageFilenamesClientSide = async () => {
   const response = fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/image/images/`,
     {
       method: 'GET',
+      next: { tags: ['images-cache'] },
+      cache: 'force-cache',
     },
   )
   return response
@@ -155,16 +188,76 @@ export const revalidateImageCache = () => {
     {
       method: 'POST',
     },
-  )
-    .then((response) => {
-      if (!response.ok) {
-        return response.json()
-      }
+  ).catch((error) => {
+    console.error(`Image cache validation failed ${error}`)
+  })
+}
+
+export const getSettingClientSide = async (setting: SettingsKeys) => {
+  const cookieName = `setting${setting}`
+  const cookieValue = Cookies.get(cookieName)
+
+  if (cookieValue) {
+    return cookieValue
+  }
+  //settings cookies not set
+  const response = await getSettingsClientSide()
+  if (response.ok && response.status > 199 && response.status < 300) {
+    try {
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      const { id, ...settings } = await response.json()
+      const inThreeHours = new Date(new Date().getTime() + 1 * 1 * 1 * 1000)
+      Object.keys(settings).map((name) => {
+        const value = settings[name]
+        Cookies.set(`setting${name}`, value, { expires: inThreeHours }) //set session cookie
+      })
+      return settings[setting]
+    } catch (error) {
+      console.error(`Cookies set failed`)
+      return undefined
+    }
+  }
+  console.error(`Can not fetch settings, status: ${response.status}`)
+}
+
+export const getSettingsClientSide = async () => {
+  const response = fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/settings/`, {
+    method: 'GET',
+    next: { tags: ['settings-cache'] },
+    cache: 'force-cache',
+  })
+  return response
+}
+
+export const updateSettingsClientSide = async (settings: Settings) => {
+  try {
+    const response = fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/settings/`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settings),
+      },
+    )
+
+    return response
+  } catch (error) {
+    console.error(`Settings update failed: ${error}`)
+    return new Response(null, {
+      status: 500,
     })
-    .then((json) => {
-      console.error(`Image cache validation failed ${json.message}`)
-    })
-    .catch((error) => {
-      console.error(`Error occured ${error}`)
-    })
+  }
+}
+
+export const revalidateSettingsCache = () => {
+  fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate?tag=settings-cache&secret=${process.env.NEXT_PUBLIC_MY_SECRET_TOKEN}`,
+    {
+      method: 'POST',
+    },
+  ).catch((error) => {
+    console.error(`Image cache validation failed ${error}`)
+  })
 }

@@ -1,6 +1,5 @@
-import { NAV_MENU } from '@/utils/settings'
-
 import { NavItem } from './nav-item'
+import { NAV_MENU } from './settings'
 
 type PropTypes = {
   page: string

@@ -4,15 +4,11 @@ import { Blog as BlogComponent } from '@/components/blog'
 import { MainLayout } from '@/layouts/main'
 import {
   getLangSearchParam,
+  getMetadata,
   getPageSearchParam,
   toTitleCase,
   translate,
 } from '@/utils'
-import { getMetadata } from '@/utils/db'
-import {
-  DEFAULT_COVER_POSTS_IMG,
-  PAGINATION_LIMIT as limit,
-} from '@/utils/settings'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,8 +32,8 @@ const Blog = ({
   const lang = getLangSearchParam(searchParams)
 
   return (
-    <MainLayout page="blog" lang={lang} bgImg={DEFAULT_COVER_POSTS_IMG}>
-      <BlogComponent page={page} limit={limit} lang={lang}></BlogComponent>
+    <MainLayout page="blog" lang={lang}>
+      <BlogComponent page={page} lang={lang}></BlogComponent>
     </MainLayout>
   )
 }

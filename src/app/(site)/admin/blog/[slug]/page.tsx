@@ -3,8 +3,7 @@ import { RouteChangesProvider } from 'nextjs-router-events'
 
 import { PostAdmin } from '@/components/blog/post-admin'
 import { AdminLayout } from '@/layouts/admin'
-import { getLangSearchParam, toTitleCase } from '@/utils'
-import { getMetadata } from '@/utils/db'
+import { getLangSearchParam, getMetadata, toTitleCase } from '@/utils'
 
 export async function generateMetadata({
   params,

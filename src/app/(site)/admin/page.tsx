@@ -2,8 +2,12 @@ import type { Metadata } from 'next'
 
 import { Admin as AdminComponent } from '@/components/admin'
 import { AdminLayout } from '@/layouts/admin'
-import { getLangSearchParam, toTitleCase, translate } from '@/utils'
-import { getMetadata } from '@/utils/db'
+import {
+  getLangSearchParam,
+  getMetadata,
+  toTitleCase,
+  translate,
+} from '@/utils'
 
 export const dynamic = 'force-dynamic'
 

@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
 
 import { MainLayout } from '@/layouts/main'
-import { getLangSearchParam, toTitleCase, translate } from '@/utils'
-import { getMetadata } from '@/utils/db'
-import { DEFAULT_COVER_POSTS_IMG } from '@/utils/settings'
+import {
+  getLangSearchParam,
+  getMetadata,
+  toTitleCase,
+  translate,
+} from '@/utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -26,7 +29,7 @@ const About = ({
   const lang = getLangSearchParam(searchParams)
 
   return (
-    <MainLayout page="about" lang={lang} bgImg={DEFAULT_COVER_POSTS_IMG}>
+    <MainLayout page="about" lang={lang}>
       <div className="text-[var(--color-text-primary)]">
         <p>About</p>
         <p>
