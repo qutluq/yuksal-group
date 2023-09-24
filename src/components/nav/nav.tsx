@@ -104,36 +104,40 @@ export const Nav = ({ navItems, navItemsMobile, lang }: PropTypes) => {
             </div>
 
             <Disclosure>
-              <div className="fixed right-5 lg:static">
-                <Disclosure.Button>
-                  <Image
-                    src={DEFAULT_AUTHOR_IMG}
-                    alt=""
-                    className="rounded-full object-cover"
-                    width={35}
-                    height={35}
-                  />
-                </Disclosure.Button>
-              </div>
-              <div
-                className={classNames(
-                  'fixed right-5',
-                  !colorChange && 'top-[80px] md:top-[70px]',
-                  colorChange && 'top-[80px] md:top-[86px]',
-                )}
-              >
-                <Disclosure.Panel className={'flex flex-col items-start gap-3'}>
-                  <p>{session?.user?.name}</p>
-                  <div className="flex flex-col justify-end">
-                    <SocialLinks variant="submenu" />
-                  </div>
-                  <div className="block border-t md:hidden">
-                    <LanguageSwitcherMobile lang={lang} />
-                  </div>
-                  <div className="flex w-full flex-row justify-center">
-                    <SingOutButton title={translate('Sign out', lang)} />
-                  </div>
-                </Disclosure.Panel>
+              <div className="relative ">
+                <div className="fixed right-5 lg:static">
+                  <Disclosure.Button>
+                    <Image
+                      src={DEFAULT_AUTHOR_IMG}
+                      alt=""
+                      className="rounded-full object-cover"
+                      width={35}
+                      height={35}
+                    />
+                  </Disclosure.Button>
+                </div>
+                <div
+                  className={classNames(
+                    'fixed right-5 w-36 lg:absolute 2xl:right-[-45px]',
+                    !colorChange && 'top-[80px] md:top-[70px]',
+                    colorChange && 'top-[80px] md:top-[86px]',
+                  )}
+                >
+                  <Disclosure.Panel
+                    className={'flex flex-col items-start gap-3'}
+                  >
+                    <p className="w-full text-center">{session?.user?.name}</p>
+                    <div className="flex w-full flex-col justify-center">
+                      <SocialLinks variant="submenu" />
+                    </div>
+                    <div className="block border-t md:hidden">
+                      <LanguageSwitcherMobile lang={lang} />
+                    </div>
+                    <div className="flex w-full flex-row justify-center">
+                      <SingOutButton title={translate('Sign out', lang)} />
+                    </div>
+                  </Disclosure.Panel>
+                </div>
               </div>
             </Disclosure>
           </div>

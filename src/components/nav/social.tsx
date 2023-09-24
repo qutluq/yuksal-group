@@ -10,7 +10,7 @@ export const SocialLinks = ({ variant = 'main' }: PropTypes) => (
     <Link
       href="https://www.facebook.com"
       target="_blank"
-      className="p-2 hover:rounded-md hover:bg-zinc-500/40"
+      className="p-2 text-center hover:rounded-md hover:bg-zinc-500/40"
     >
       {variant === 'main' && <FaFacebookF className="text-gray-50" />}
       {variant === 'submenu' && 'Facebook'}
@@ -18,7 +18,7 @@ export const SocialLinks = ({ variant = 'main' }: PropTypes) => (
     <Link
       href="https://www.twitter.com"
       target="_blank"
-      className="p-2 hover:rounded-md hover:bg-zinc-500/40"
+      className="p-2 text-center hover:rounded-md hover:bg-zinc-500/40"
     >
       {variant === 'main' && <FaTwitter className="text-gray-50" />}
       {variant === 'submenu' && 'Twitter'}
@@ -26,7 +26,7 @@ export const SocialLinks = ({ variant = 'main' }: PropTypes) => (
     <Link
       href="https://www.instagram.com"
       target="_blank"
-      className="p-2 hover:rounded-md hover:bg-zinc-500/40"
+      className="p-2 text-center hover:rounded-md hover:bg-zinc-500/40"
     >
       {variant === 'main' && <FaInstagram className="text-gray-50" />}
       {variant === 'submenu' && 'Instagram'}
