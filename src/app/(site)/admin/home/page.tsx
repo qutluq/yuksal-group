@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { AdminLayout } from '@/layouts/admin'
+import { MainLayout } from '@/layouts/main'
 import {
   getLangSearchParam,
   getMetadata,
@@ -29,7 +30,11 @@ const Home = ({
   const lang = getLangSearchParam(searchParams)
   return (
     <div className="text-[var(--color-text-primary)]">
-      <AdminLayout lang={lang}>Secured home page</AdminLayout>
+      <AdminLayout lang={lang}>
+        <MainLayout page="home" lang={lang} mode="admin">
+          Secured home page
+        </MainLayout>
+      </AdminLayout>
     </div>
   )
 }

@@ -5,3 +5,9 @@ export const NAV_MENU = () => [
   { id: 'gallery', name: 'gallery', slug: 'gallery' },
   { id: 'contact', name: 'contact', slug: 'contact' },
 ]
+
+export const NAV_MENU_ADMIN = () => [
+  { id: 'home', name: 'home', slug: 'home' },
+  { id: 'blog', name: 'blog', slug: 'blog' },
+  { id: 'settings', name: 'settings', slug: 'settings' },
+]
