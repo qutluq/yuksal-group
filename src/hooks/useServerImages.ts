@@ -19,15 +19,14 @@ export const useServerImages = () => {
   }
 
   useEffect(() => {
-    try {
-      getImageFilenamesClientSide().then(async (response) => {
+    getImageFilenamesClientSide()
+      .then(async (response) => {
         const { filenames: serverFilenames } = await response.json()
         setFilenames(serverFilenames)
       })
-    } catch (error) {
-      console.error('Filenames was not fetched!')
-      console.error(error)
-    }
+      .catch((error) => {
+        console.error(`Filenames fetch failed: ${error}`)
+      })
   }, [])
 
   useEffect(() => {
