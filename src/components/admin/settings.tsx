@@ -5,7 +5,8 @@ import { Button } from '@/components/button'
 import { LoadingLogo } from '@/components/fallback'
 import { ModalDialog } from '@/components/modal'
 import { usePostUnsavedChanges } from '@/hooks/usePostUnsavedChanges'
-import type { ImageFile, Settings as DbSettings } from '@/types'
+import type { ImageFile, Settings as DbSettings, SettingsImages } from '@/types'
+import type { SettingsInitialized } from '@/types'
 import { settingsKeys } from '@/types'
 import { translate } from '@/utils'
 import {
@@ -17,10 +18,9 @@ import {
 
 import { ImageInput } from './image-input'
 import { ImageUploadDialog } from './image-upload-dialog'
-import type { Settings as SettingsType } from './types'
 type UploadModal = {
   closed: boolean
-  field: 'defaultPosterPostsImg' | 'defaultCoverPostsImg' | 'logoImg' | ''
+  field: keyof SettingsImages | ''
 }
 
 type PropTypes = {
@@ -28,7 +28,9 @@ type PropTypes = {
 }
 
 export const Settings = ({ lang }: PropTypes) => {
-  const [settings, setSettings] = useState<SettingsType>({} as SettingsType)
+  const [settings, setSettings] = useState<SettingsInitialized>(
+    {} as SettingsInitialized,
+  )
   const [uploadModal, setUploadModal] = useState<UploadModal>({
     closed: true,
     field: '',
@@ -38,11 +40,7 @@ export const Settings = ({ lang }: PropTypes) => {
     usePostUnsavedChanges(unsavedChangesExist, lang)
 
   useEffect(() => {
-    const imageFields = [
-      'defaultPosterPostsImg',
-      'defaultCoverPostsImg',
-      'logoImg',
-    ]
+    const imageFields = ['defaultPosterPostsImg', 'defaultCoverPostsImg']
     settingsKeys.map(async (name) => {
       const value = await getSettingClientSide(name)
       if (imageFields.includes(name)) {
@@ -85,7 +83,6 @@ export const Settings = ({ lang }: PropTypes) => {
       ...settings,
       defaultPosterPostsImg: settings.defaultPosterPostsImg?.id || '',
       defaultCoverPostsImg: settings.defaultCoverPostsImg?.id || '',
-      logoImg: settings.logoImg?.id || '',
     } as DbSettings
 
     updateSettingsClientSide(dbSettings)
@@ -201,20 +198,6 @@ export const Settings = ({ lang }: PropTypes) => {
 
             <ImageInput
               field="defaultCoverPostsImg"
-              setUploadModal={setUploadModal}
-              settings={settings}
-              setUnsavedChangesExist={setUnsavedChangesExist}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2 px-2">
-            <span className="h-12 w-72 text-sm">{`${translate(
-              'Logo',
-              lang,
-            )}(200x36): `}</span>
-
-            <ImageInput
-              field="logoImg"
               setUploadModal={setUploadModal}
               settings={settings}
               setUnsavedChangesExist={setUnsavedChangesExist}

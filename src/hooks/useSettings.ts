@@ -25,11 +25,10 @@ export const useSettings = () => {
       getSettingClientSide('paginationLimit'),
       getSettingClientSide('defaultPosterPostsImg'),
       getSettingClientSide('defaultCoverPostsImg'),
-      getSettingClientSide('logoImg'),
     ]).then((cookieSettings: (string | number)[]) => {
       const [siteName, siteDescription, siteUrl, paginationLimit, ...images] =
         cookieSettings
-      const [poster, cover, logo] = images
+      const [poster, cover] = images
 
       getImageUrlsClientSide(images as string[])
         .then((imageUrlsObject) => {
@@ -48,7 +47,6 @@ export const useSettings = () => {
                   id: cover,
                   href: imageUrlsObject[cover],
                 },
-                logoImg: { id: logo, href: imageUrlsObject[logo] },
               }) as SettingsInitialized,
           )
         })

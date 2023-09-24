@@ -20,15 +20,13 @@ export type Settings = {
 
   defaultPosterPostsImg: string
   defaultCoverPostsImg: string
-  logoImg: string
 
   paginationLimit: number
 }
 
-type SettingsImages = {
+export type SettingsImages = {
   defaultPosterPostsImg: ImageFile
   defaultCoverPostsImg: ImageFile
-  logoImg: ImageFile
 }
 
 export type SettingsInitialized = Omit<Settings, keyof SettingsImages> &
@@ -42,7 +40,6 @@ export const settingsKeys: (keyof Settings)[] = [
 
   'defaultPosterPostsImg',
   'defaultCoverPostsImg',
-  'logoImg',
 
   'paginationLimit',
 ]
