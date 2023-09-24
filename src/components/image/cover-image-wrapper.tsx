@@ -36,7 +36,7 @@ export const CoverImageWrapper = ({ bgImg, children }: PropTypes) => {
     >
       <div className="absolute h-48 w-full overflow-hidden md:h-[480px]">
         <Image
-          src={featuredImage || settings.defaultPosterPostsImg?.href}
+          src={featuredImage || settings.defaultCoverPostsImg?.href}
           alt=""
           className="object-cover"
           fill
