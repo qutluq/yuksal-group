@@ -16,18 +16,30 @@ export const useSettings = () => {
   const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
-    console.log('useSettings init...')
     setInitialized(false)
     promiseAll([
       getSettingClientSide('siteName'),
       getSettingClientSide('siteDescription'),
       getSettingClientSide('siteUrl'),
       getSettingClientSide('paginationLimit'),
+      getSettingClientSide('facebookLink'),
+      getSettingClientSide('youtubeLink'),
+      getSettingClientSide('instagramLink'),
+      getSettingClientSide('tiktokLink'),
       getSettingClientSide('defaultPosterPostsImg'),
       getSettingClientSide('defaultCoverPostsImg'),
     ]).then((cookieSettings: (string | number)[]) => {
-      const [siteName, siteDescription, siteUrl, paginationLimit, ...images] =
-        cookieSettings
+      const [
+        siteName,
+        siteDescription,
+        siteUrl,
+        paginationLimit,
+        facebookLink,
+        youtubeLink,
+        instagramLink,
+        tiktokLink,
+        ...images
+      ] = cookieSettings
       const [poster, cover] = images
 
       getImageUrlsClientSide(images as string[])
@@ -35,10 +47,14 @@ export const useSettings = () => {
           setSettings(
             () =>
               ({
-                siteName: siteName,
-                siteDescription: siteDescription,
-                siteUrl: siteUrl,
-                paginationLimit: paginationLimit,
+                siteName,
+                siteDescription,
+                siteUrl,
+                paginationLimit,
+                facebookLink,
+                youtubeLink,
+                instagramLink,
+                tiktokLink,
                 defaultPosterPostsImg: {
                   id: poster,
                   href: imageUrlsObject[poster],

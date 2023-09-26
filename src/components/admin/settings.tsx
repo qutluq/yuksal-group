@@ -27,6 +27,14 @@ type PropTypes = {
   lang: string
 }
 
+const addUrlProtocol = (url: string) => {
+  if (!url) return ''
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    return `https://${url}`
+  }
+  return url
+}
+
 export const Settings = ({ lang }: PropTypes) => {
   const [settings, setSettings] = useState<SettingsInitialized>(
     {} as SettingsInitialized,
@@ -81,6 +89,10 @@ export const Settings = ({ lang }: PropTypes) => {
     }
     const dbSettings = {
       ...settings,
+      facebookLink: addUrlProtocol(settings.facebookLink),
+      youtubeLink: addUrlProtocol(settings.youtubeLink),
+      instagramLink: addUrlProtocol(settings.instagramLink),
+      tiktokLink: addUrlProtocol(settings.tiktokLink),
       defaultPosterPostsImg: settings.defaultPosterPostsImg?.id || '',
       defaultCoverPostsImg: settings.defaultCoverPostsImg?.id || '',
     } as DbSettings
@@ -227,6 +239,86 @@ export const Settings = ({ lang }: PropTypes) => {
             type="number"
             placeholder="100"
           />
+        </div>
+      </div>
+
+      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px] xl:w-[1100px]">
+        <span className="bg-gray-500 pl-2 text-lg">
+          {translate('Social network links', lang)}
+        </span>
+
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2 px-2 md:flex-row">
+            <label className="w-72" htmlFor="facebook">{`${translate(
+              'Facebook',
+              lang,
+            )}: `}</label>
+            <input
+              id="facebook"
+              value={settings.facebookLink || ''}
+              onChange={(e) => {
+                setSettingValue(e.target.value, 'facebookLink')
+                setUnsavedChangesExist(true)
+              }}
+              className="w-96 rounded-sm bg-white pl-2 text-black"
+              type="text"
+              placeholder="www.facebook.com/yuksal.group"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 px-2 md:flex-row">
+            <label className="w-72" htmlFor="youtube">{`${translate(
+              'Youtube',
+              lang,
+            )}: `}</label>
+            <input
+              id="youtube"
+              value={settings.youtubeLink || ''}
+              onChange={(e) => {
+                setSettingValue(e.target.value, 'youtubeLink')
+                setUnsavedChangesExist(true)
+              }}
+              className="w-96 rounded-sm bg-white pl-2 text-black"
+              type="text"
+              placeholder="www.youtube.com/yuksal.group"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 px-2 md:flex-row">
+            <label className="w-72" htmlFor="instagram">{`${translate(
+              'Instagram',
+              lang,
+            )}: `}</label>
+            <input
+              id="instagram"
+              value={settings.instagramLink || ''}
+              onChange={(e) => {
+                setSettingValue(e.target.value, 'instagramLink')
+                setUnsavedChangesExist(true)
+              }}
+              className="w-96 rounded-sm bg-white pl-2 text-black"
+              type="text"
+              placeholder="www.instagram.com/yuksal.group"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 px-2 md:flex-row">
+            <label className="w-72" htmlFor="tiktok">{`${translate(
+              'Tiktok',
+              lang,
+            )}: `}</label>
+            <input
+              id="tiktok"
+              value={settings.tiktokLink || ''}
+              onChange={(e) => {
+                setSettingValue(e.target.value, 'tiktokLink')
+                setUnsavedChangesExist(true)
+              }}
+              className="w-96 rounded-sm bg-white pl-2 text-black"
+              type="text"
+              placeholder="www.tiktok.com/yuksal.group"
+            />
+          </div>
         </div>
       </div>
 

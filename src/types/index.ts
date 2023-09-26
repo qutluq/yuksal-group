@@ -21,6 +21,11 @@ export type Settings = {
   defaultPosterPostsImg: string
   defaultCoverPostsImg: string
 
+  facebookLink: string
+  youtubeLink: string
+  instagramLink: string
+  tiktokLink: string
+
   paginationLimit: number
 }
 
@@ -40,6 +45,11 @@ export const settingsKeys: (keyof Settings)[] = [
 
   'defaultPosterPostsImg',
   'defaultCoverPostsImg',
+
+  'facebookLink',
+  'youtubeLink',
+  'instagramLink',
+  'tiktokLink',
 
   'paginationLimit',
 ]
