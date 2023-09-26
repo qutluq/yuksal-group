@@ -279,4 +279,29 @@ export const translations = {
     ru: 'Настройки обновлены',
     ug: 'Бәлгүләшләр сақланди',
   },
+  'social-network-links': {
+    en: 'Social network links',
+    ru: 'Ссылки на соцсети',
+    ug: 'Аммивий тор уланмилири',
+  },
+  facebook: {
+    en: 'Facebook',
+    ru: 'Facebook',
+    ug: 'Facebook',
+  },
+  youtube: {
+    en: 'Youtube',
+    ru: 'Youtube',
+    ug: 'Youtube',
+  },
+  instagram: {
+    en: 'Instagram',
+    ru: 'Instagram',
+    ug: 'Instagram',
+  },
+  tiktok: {
+    en: 'Tiktok',
+    ru: 'Tiktok',
+    ug: 'Tiktok',
+  },
 }

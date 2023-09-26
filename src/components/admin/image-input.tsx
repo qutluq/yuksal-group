@@ -2,12 +2,11 @@ import Image from 'next/image'
 import { HiArrowUpTray } from 'react-icons/hi2'
 
 import { Tooltip } from '@/components/tooltip'
-
-import type { Settings } from './types'
+import type { SettingsImages, SettingsInitialized } from '@/types'
 
 type PropTypes = {
-  settings: Settings
-  field: 'defaultPosterPostsImg' | 'defaultCoverPostsImg' | 'logoImg'
+  settings: SettingsInitialized
+  field: keyof SettingsImages
   setUploadModal: (object) => void
   setUnsavedChangesExist: (boolean) => void
 }

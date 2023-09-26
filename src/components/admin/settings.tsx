@@ -5,7 +5,8 @@ import { Button } from '@/components/button'
 import { LoadingLogo } from '@/components/fallback'
 import { ModalDialog } from '@/components/modal'
 import { usePostUnsavedChanges } from '@/hooks/usePostUnsavedChanges'
-import type { ImageFile, Settings as DbSettings } from '@/types'
+import type { ImageFile, Settings as DbSettings, SettingsImages } from '@/types'
+import type { SettingsInitialized } from '@/types'
 import { settingsKeys } from '@/types'
 import { translate } from '@/utils'
 import {
@@ -17,18 +18,27 @@ import {
 
 import { ImageInput } from './image-input'
 import { ImageUploadDialog } from './image-upload-dialog'
-import type { Settings as SettingsType } from './types'
 type UploadModal = {
   closed: boolean
-  field: 'defaultPosterPostsImg' | 'defaultCoverPostsImg' | 'logoImg' | ''
+  field: keyof SettingsImages | ''
 }
 
 type PropTypes = {
   lang: string
 }
 
+const addUrlProtocol = (url: string) => {
+  if (!url) return ''
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    return `https://${url}`
+  }
+  return url
+}
+
 export const Settings = ({ lang }: PropTypes) => {
-  const [settings, setSettings] = useState<SettingsType>({} as SettingsType)
+  const [settings, setSettings] = useState<SettingsInitialized>(
+    {} as SettingsInitialized,
+  )
   const [uploadModal, setUploadModal] = useState<UploadModal>({
     closed: true,
     field: '',
@@ -38,11 +48,7 @@ export const Settings = ({ lang }: PropTypes) => {
     usePostUnsavedChanges(unsavedChangesExist, lang)
 
   useEffect(() => {
-    const imageFields = [
-      'defaultPosterPostsImg',
-      'defaultCoverPostsImg',
-      'logoImg',
-    ]
+    const imageFields = ['defaultPosterPostsImg', 'defaultCoverPostsImg']
     settingsKeys.map(async (name) => {
       const value = await getSettingClientSide(name)
       if (imageFields.includes(name)) {
@@ -83,9 +89,12 @@ export const Settings = ({ lang }: PropTypes) => {
     }
     const dbSettings = {
       ...settings,
+      facebookLink: addUrlProtocol(settings.facebookLink),
+      youtubeLink: addUrlProtocol(settings.youtubeLink),
+      instagramLink: addUrlProtocol(settings.instagramLink),
+      tiktokLink: addUrlProtocol(settings.tiktokLink),
       defaultPosterPostsImg: settings.defaultPosterPostsImg?.id || '',
       defaultCoverPostsImg: settings.defaultCoverPostsImg?.id || '',
-      logoImg: settings.logoImg?.id || '',
     } as DbSettings
 
     updateSettingsClientSide(dbSettings)
@@ -111,7 +120,7 @@ export const Settings = ({ lang }: PropTypes) => {
     <div className="flex flex-col items-center justify-center gap-5 p-3">
       <span className="text-2xl">{translate('Site settings', lang)}</span>
 
-      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px] xl:w-[1100px]">
+      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
         <span className="bg-gray-500 pl-2 text-lg">
           {translate('Metadata', lang)}
         </span>
@@ -173,12 +182,12 @@ export const Settings = ({ lang }: PropTypes) => {
         </div>
       </div>
 
-      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px] xl:w-[1100px]">
+      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
         <span className="w-full bg-gray-500 pl-2 text-lg">
           {translate('Images', lang)}
         </span>
 
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <div className="flex flex-col gap-2 px-2">
             <span className="h-12 w-72 text-sm">{`${translate(
               'Default poster in posts',
@@ -206,24 +215,10 @@ export const Settings = ({ lang }: PropTypes) => {
               setUnsavedChangesExist={setUnsavedChangesExist}
             />
           </div>
-
-          <div className="flex flex-col gap-2 px-2">
-            <span className="h-12 w-72 text-sm">{`${translate(
-              'Logo',
-              lang,
-            )}(200x36): `}</span>
-
-            <ImageInput
-              field="logoImg"
-              setUploadModal={setUploadModal}
-              settings={settings}
-              setUnsavedChangesExist={setUnsavedChangesExist}
-            />
-          </div>
         </div>
       </div>
 
-      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px] xl:w-[1100px]">
+      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
         <span className="bg-gray-500 pl-2 text-lg">
           {translate('Lists', lang)}
         </span>
@@ -244,6 +239,86 @@ export const Settings = ({ lang }: PropTypes) => {
             type="number"
             placeholder="100"
           />
+        </div>
+      </div>
+
+      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
+        <span className="bg-gray-500 pl-2 text-lg">
+          {translate('Social network links', lang)}
+        </span>
+
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2 px-2 md:flex-row">
+            <label className="w-72" htmlFor="facebook">{`${translate(
+              'Facebook',
+              lang,
+            )}: `}</label>
+            <input
+              id="facebook"
+              value={settings.facebookLink || ''}
+              onChange={(e) => {
+                setSettingValue(e.target.value, 'facebookLink')
+                setUnsavedChangesExist(true)
+              }}
+              className="w-96 rounded-sm bg-white pl-2 text-black"
+              type="text"
+              placeholder="www.facebook.com/yuksal.group"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 px-2 md:flex-row">
+            <label className="w-72" htmlFor="youtube">{`${translate(
+              'Youtube',
+              lang,
+            )}: `}</label>
+            <input
+              id="youtube"
+              value={settings.youtubeLink || ''}
+              onChange={(e) => {
+                setSettingValue(e.target.value, 'youtubeLink')
+                setUnsavedChangesExist(true)
+              }}
+              className="w-96 rounded-sm bg-white pl-2 text-black"
+              type="text"
+              placeholder="www.youtube.com/yuksal.group"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 px-2 md:flex-row">
+            <label className="w-72" htmlFor="instagram">{`${translate(
+              'Instagram',
+              lang,
+            )}: `}</label>
+            <input
+              id="instagram"
+              value={settings.instagramLink || ''}
+              onChange={(e) => {
+                setSettingValue(e.target.value, 'instagramLink')
+                setUnsavedChangesExist(true)
+              }}
+              className="w-96 rounded-sm bg-white pl-2 text-black"
+              type="text"
+              placeholder="www.instagram.com/yuksal.group"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 px-2 md:flex-row">
+            <label className="w-72" htmlFor="tiktok">{`${translate(
+              'Tiktok',
+              lang,
+            )}: `}</label>
+            <input
+              id="tiktok"
+              value={settings.tiktokLink || ''}
+              onChange={(e) => {
+                setSettingValue(e.target.value, 'tiktokLink')
+                setUnsavedChangesExist(true)
+              }}
+              className="w-96 rounded-sm bg-white pl-2 text-black"
+              type="text"
+              placeholder="www.tiktok.com/yuksal.group"
+            />
+          </div>
         </div>
       </div>
 

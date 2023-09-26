@@ -16,30 +16,45 @@ export const useSettings = () => {
   const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
-    console.log('useSettings init...')
     setInitialized(false)
     promiseAll([
       getSettingClientSide('siteName'),
       getSettingClientSide('siteDescription'),
       getSettingClientSide('siteUrl'),
       getSettingClientSide('paginationLimit'),
+      getSettingClientSide('facebookLink'),
+      getSettingClientSide('youtubeLink'),
+      getSettingClientSide('instagramLink'),
+      getSettingClientSide('tiktokLink'),
       getSettingClientSide('defaultPosterPostsImg'),
       getSettingClientSide('defaultCoverPostsImg'),
-      getSettingClientSide('logoImg'),
     ]).then((cookieSettings: (string | number)[]) => {
-      const [siteName, siteDescription, siteUrl, paginationLimit, ...images] =
-        cookieSettings
-      const [poster, cover, logo] = images
+      const [
+        siteName,
+        siteDescription,
+        siteUrl,
+        paginationLimit,
+        facebookLink,
+        youtubeLink,
+        instagramLink,
+        tiktokLink,
+        ...images
+      ] = cookieSettings
+      const [poster, cover] = images
 
       getImageUrlsClientSide(images as string[])
         .then((imageUrlsObject) => {
           setSettings(
             () =>
               ({
-                siteName: siteName,
-                siteDescription: siteDescription,
-                siteUrl: siteUrl,
-                paginationLimit: paginationLimit,
+                siteName,
+                siteDescription,
+                siteUrl,
+                paginationLimit,
+                facebookLink,
+                youtubeLink,
+                instagramLink,
+                tiktokLink,
                 defaultPosterPostsImg: {
                   id: poster,
                   href: imageUrlsObject[poster],
@@ -48,7 +63,6 @@ export const useSettings = () => {
                   id: cover,
                   href: imageUrlsObject[cover],
                 },
-                logoImg: { id: logo, href: imageUrlsObject[logo] },
               }) as SettingsInitialized,
           )
         })
