@@ -120,7 +120,7 @@ export const Settings = ({ lang }: PropTypes) => {
     <div className="flex flex-col items-center justify-center gap-5 p-3">
       <span className="text-2xl">{translate('Site settings', lang)}</span>
 
-      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px] xl:w-[1100px]">
+      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
         <span className="bg-gray-500 pl-2 text-lg">
           {translate('Metadata', lang)}
         </span>
@@ -182,12 +182,12 @@ export const Settings = ({ lang }: PropTypes) => {
         </div>
       </div>
 
-      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px] xl:w-[1100px]">
+      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
         <span className="w-full bg-gray-500 pl-2 text-lg">
           {translate('Images', lang)}
         </span>
 
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <div className="flex flex-col gap-2 px-2">
             <span className="h-12 w-72 text-sm">{`${translate(
               'Default poster in posts',
@@ -218,7 +218,7 @@ export const Settings = ({ lang }: PropTypes) => {
         </div>
       </div>
 
-      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px] xl:w-[1100px]">
+      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
         <span className="bg-gray-500 pl-2 text-lg">
           {translate('Lists', lang)}
         </span>
@@ -242,7 +242,7 @@ export const Settings = ({ lang }: PropTypes) => {
         </div>
       </div>
 
-      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px] xl:w-[1100px]">
+      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
         <span className="bg-gray-500 pl-2 text-lg">
           {translate('Social network links', lang)}
         </span>
