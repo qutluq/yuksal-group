@@ -1,6 +1,6 @@
 import type { Settings } from '@/types'
 import { accessPermitted } from '@/utils/api-server'
-import { getSettings, updateSettings } from '@/utils/db'
+import { getSettings, updateSettings, updateSlides } from '@/utils/db'
 
 export async function GET() {
   try {
@@ -22,13 +22,16 @@ export async function POST(request: Request) {
   }
 
   try {
-    let settings = await request.json()
+    const data = await request.json()
+    // eslint-disable-next-line prefer-const
+    let { slides, ...settings } = data
     settings = {
       ...settings,
       paginationLimit: parseInt(settings.paginationLimit),
     } as Settings
 
     updateSettings(settings)
+    updateSlides(slides)
     return new Response(null, {
       status: 204,
     })

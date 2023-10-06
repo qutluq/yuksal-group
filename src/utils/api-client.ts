@@ -1,7 +1,8 @@
 import Cookies from 'js-cookie'
 
-import type { Settings, SettingsKeys } from '@/types'
+import type { ImageFile, Settings, SettingsKeys } from '@/types'
 import type { Post } from '@/types/blog'
+
 export const updatePostClientSide = async (id: number, data: Post) => {
   try {
     const response = await fetch(
@@ -109,11 +110,63 @@ export const getImageClientSide = async (
     }${size ? size : ''}`,
     {
       method: 'GET',
-      next: { tags: ['images-cache'] },
-      cache: 'force-cache',
+      // next: { tags: ['images-cache'] },
+      // cache: 'force-cache',
     },
   )
   return response
+}
+
+export const getHomepageSlidesClientSide = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/slides/`,
+      {
+        method: 'GET',
+        // next: { tags: ['slides-cache'] },
+        // cache: 'force-cache',
+      },
+    )
+
+    const data = await response.json()
+
+    const { slides } = data
+
+    return slides
+  } catch (error) {
+    console.error(`Slides fetch failed: ${error}`)
+  }
+  return []
+}
+
+export const getHomepageSlidesInitialized = async () => {
+  try {
+    const slides = await getHomepageSlidesClientSide()
+    const responses = await Promise.all(
+      slides.map((slide) => getImageClientSide(slide.image)),
+    )
+
+    const slidesInitialized = await Promise.all(
+      responses.map(async (response, index) => {
+        const slide = { ...slides[index] }
+        const image_blob = await response.blob()
+        let imageUrl = ''
+        if (image_blob.size > 0) {
+          imageUrl = URL.createObjectURL(image_blob)
+        }
+        slide.image = {
+          file: null,
+          id: slide.image,
+          href: imageUrl,
+        } as ImageFile
+        return slide
+      }),
+    )
+    return await slidesInitialized
+  } catch (error) {
+    console.error(`Can't fetch image: ${error}`)
+  }
+  return []
 }
 
 const getImageUrlsClientSideMemo = () => {
@@ -183,7 +236,7 @@ export const deleteImageClientSide = (filename) => {
 }
 
 export const revalidateImageCache = () => {
-  fetch(
+  const response = fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate?tag=images-cache&secret=${process.env.NEXT_PUBLIC_MY_SECRET_TOKEN}`,
     {
       method: 'POST',
@@ -191,6 +244,20 @@ export const revalidateImageCache = () => {
   ).catch((error) => {
     console.error(`Image cache validation failed ${error}`)
   })
+
+  return response
+}
+
+export const revalidateSlidesCache = () => {
+  const response = fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate?tag=slides-cache&secret=${process.env.NEXT_PUBLIC_MY_SECRET_TOKEN}`,
+    {
+      method: 'POST',
+    },
+  ).catch((error) => {
+    console.error(`Image cache validation failed ${error}`)
+  })
+  return response
 }
 
 export const getSettingClientSide = async (setting: SettingsKeys) => {
@@ -252,7 +319,7 @@ export const updateSettingsClientSide = async (settings: Settings) => {
 }
 
 export const revalidateSettingsCache = () => {
-  fetch(
+  const response = fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate?tag=settings-cache&secret=${process.env.NEXT_PUBLIC_MY_SECRET_TOKEN}`,
     {
       method: 'POST',
@@ -260,4 +327,6 @@ export const revalidateSettingsCache = () => {
   ).catch((error) => {
     console.error(`Image cache validation failed ${error}`)
   })
+
+  return response
 }

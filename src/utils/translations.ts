@@ -304,4 +304,29 @@ export const translations = {
     ru: 'Tiktok',
     ug: 'Tiktok',
   },
+  homepage: {
+    en: 'Homepage',
+    ru: 'Главная страница',
+    ug: 'Башбәт',
+  },
+  'homepage-carousel': {
+    en: 'Homepage-carousel',
+    ru: 'Карусель на главной странице',
+    ug: 'Башбәттики карусель',
+  },
+  content: {
+    en: 'Content',
+    ru: 'Описание',
+    ug: 'Тәпсилати',
+  },
+  slug: {
+    en: 'Slug',
+    ru: 'Слаг',
+    ug: 'Слаг',
+  },
+  'slide-background': {
+    en: 'Slide background',
+    ru: 'Фоновое изображение слайда',
+    ug: 'Слайдниң арқа рәсими',
+  },
 }
