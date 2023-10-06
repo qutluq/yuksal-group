@@ -206,8 +206,8 @@ export const getImageFilenamesClientSide = async () => {
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/image/images/`,
     {
       method: 'GET',
-      next: { tags: ['images-cache'] },
-      cache: 'force-cache',
+      // next: { tags: ['images-cache'] },
+      // cache: 'force-cache',
     },
   )
   return response
@@ -295,8 +295,8 @@ export const getSettingClientSide = async (setting: SettingsKeys) => {
 export const getSettingsClientSide = async () => {
   const response = fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/settings/`, {
     method: 'GET',
-    next: { tags: ['settings-cache'] },
-    cache: 'force-cache',
+    // next: { tags: ['settings-cache'] },
+    // cache: 'force-cache',
   })
   return response
 }
