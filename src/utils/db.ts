@@ -1,5 +1,8 @@
-import { PrismaClient } from '@prisma/client'
 import { cache } from 'react'
+
+import { PrismaClient } from '@prisma/client'
+
+import { slidesCount } from './settings'
 
 import type { Settings, SettingsKeys, Slide } from '@/types'
 import type { Post } from '@/types/blog'
@@ -71,6 +74,24 @@ export const getSlides = async () => {
       id: 'asc',
     },
   })
+
+  if (results.length === 0) {
+    const records: Slide[] = []
+    for (let i = 1; i <= slidesCount; i++) {
+      const newRecord = await prisma.slide.create({
+        data: {
+          id: i,
+          title: '',
+          content: '',
+          articleSlug: '',
+          image: '',
+          settingId: 1,
+        },
+      })
+      records.push(newRecord)
+    }
+    return records
+  }
 
   return { slides: results as Slide[] }
 }
