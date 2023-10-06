@@ -25,7 +25,7 @@ export const Home = ({ lang }: PropTypes) => {
     })
   }, [])
   return (
-    <div className="h-[480px] w-full overflow-hidden md:h-[750px] xl:h-[950px]">
+    <div className="h-[570px] w-full overflow-hidden md:h-[570px] xl:h-[950px]">
       <Carousel slides={slides} lang={lang} />
     </div>
   )
