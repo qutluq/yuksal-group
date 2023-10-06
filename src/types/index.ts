@@ -13,6 +13,20 @@ export type ImageFile = {
   file: File | null
 }
 
+export type Slide = {
+  title: string
+  content: string
+  articleSlug: string
+  image: string
+}
+
+export type SlideInitialized = {
+  title: string
+  content: string
+  articleSlug: string
+  image: ImageFile | undefined
+}
+
 export type Settings = {
   siteName: string
   siteDescription: string
@@ -26,6 +40,8 @@ export type Settings = {
   instagramLink: string
   tiktokLink: string
 
+  slides: Slide[]
+
   paginationLimit: number
 }
 
@@ -34,8 +50,11 @@ export type SettingsImages = {
   defaultCoverPostsImg: ImageFile
 }
 
-export type SettingsInitialized = Omit<Settings, keyof SettingsImages> &
-  SettingsImages
+export type SettingsInitialized = Omit<
+  Settings,
+  keyof SettingsImages | 'slides'
+> &
+  SettingsImages & { slides: SlideInitialized[] }
 
 export type SettingsKeys = keyof Settings
 export const settingsKeys: (keyof Settings)[] = [
@@ -50,6 +69,8 @@ export const settingsKeys: (keyof Settings)[] = [
   'youtubeLink',
   'instagramLink',
   'tiktokLink',
+
+  'slides',
 
   'paginationLimit',
 ]

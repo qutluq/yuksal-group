@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { cache } from 'react'
 
-import type { Settings, SettingsKeys } from '@/types'
+import type { Settings, SettingsKeys, Slide } from '@/types'
 import type { Post } from '@/types/blog'
 // Instantiate a single instance PrismaClient and save it on the globalThis object.
 // Then we keep a check to only instantiate PrismaClient if it's not on the globalThis object otherwise use the same
@@ -61,6 +61,19 @@ export const getPosts = cache(
     return { posts: results as Post[], total: count }
   },
 )
+
+export const getSlides = async () => {
+  const results = await prisma.slide.findMany({
+    where: {
+      settingId: 1,
+    },
+    orderBy: {
+      id: 'asc',
+    },
+  })
+
+  return { slides: results as Slide[] }
+}
 
 export const updatePost = cache(async (id: number, post: Post) => {
   // eslint-disable-next-line unused-imports/no-unused-vars
@@ -177,6 +190,33 @@ export const updateSettings = async (settings: Settings) => {
     }
 
     return result
+  } catch (error) {
+    console.error(`Can not update settings: ${error}`)
+    return null
+  }
+}
+
+export const updateSlides = async (slides: Slide[]) => {
+  try {
+    slides.forEach(async (slide, index) => {
+      const result = await prisma.slide.findUnique({
+        where: { id: index + 1 },
+      })
+
+      if (!result) {
+        await prisma.slide.create({
+          data: { id: index + 1, ...slide, settingId: 1 },
+        })
+        return
+      }
+
+      await prisma.slide.update({
+        where: { id: index + 1 },
+        data: { ...slide, settingId: 1 },
+      })
+    })
+
+    return true
   } catch (error) {
     console.error(`Can not update settings: ${error}`)
     return null

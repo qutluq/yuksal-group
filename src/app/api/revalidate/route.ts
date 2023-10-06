@@ -18,11 +18,12 @@ export async function POST(request: NextRequest) {
     }
 
     revalidateTag(tag)
-    return NextResponse.json({ revalidated: true, now: Date.now() })
+    return NextResponse.json(
+      { message: 'Revalidation success' },
+      { status: 200 },
+    )
   } catch (error) {
-    console.log(`Cache revalidation failed: ${error}`)
-    return new Response(null, {
-      status: 500,
-    })
+    console.error(`Cache revalidation failed: ${error}`)
+    return NextResponse.json({ message: 'Revalidation fail' }, { status: 500 })
   }
 }

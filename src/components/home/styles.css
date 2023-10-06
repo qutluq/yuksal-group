@@ -1,0 +1,49 @@
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+
+  //height: 24rem;
+  color: black;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fade-in-up {
+  opacity: 0; /* Start with zero opacity (hidden) */
+  transition:
+    opacity 3.5s ease,
+    transform 1.5s ease; /* Add transitions */
+}
+
+.fade-in-large {
+  transform: translateY(150px); /* Start position, move it down 20px */
+}
+
+.fade-in-medium {
+  transform: translateY(100px); /* Start position, move it down 20px */
+}
+
+.fade-in-small {
+  transform: translateY(50px); /* Start position, move it down 20px */
+}
+
+.fade-in-up.active {
+  opacity: 1; /* Fade in to full opacity */
+  transform: translateY(0); /* Move up to its original position */
+}

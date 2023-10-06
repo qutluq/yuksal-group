@@ -34,18 +34,30 @@ model Post {
   author        User      @relation(fields: [authorId], references: [id])
 }
 
+model Slide {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  articleSlug String
+  image       String
+  createdAt   DateTime @default(now())
+  settingId   Int
+  setting     Settings @relation(fields: [settingId], references: [id])
+}
+
 model Settings {
-  id                               Int    @id
-  paginationLimit                  Int    @default(10)
-  defaultPosterPostsImg            String @default("")
-  defaultPosterPostsPlaceholderImg String @default("")
-  defaultCoverPostsImg             String @default("")
-  defaultCoverPostsPlaceholderImg  String @default("")
-  facebookLink                     String @default("")
-  youtubeLink                      String @default("")
-  instagramLink                    String @default("")
-  tiktokLink                       String @default("")
-  siteName                         String @default("")
-  siteDescription                  String @default("")
-  siteUrl                          String @default("")
+  id                               Int     @id
+  paginationLimit                  Int     @default(10)
+  defaultPosterPostsImg            String  @default("")
+  defaultPosterPostsPlaceholderImg String  @default("")
+  defaultCoverPostsImg             String  @default("")
+  defaultCoverPostsPlaceholderImg  String  @default("")
+  facebookLink                     String  @default("")
+  youtubeLink                      String  @default("")
+  instagramLink                    String  @default("")
+  tiktokLink                       String  @default("")
+  siteName                         String  @default("")
+  siteDescription                  String  @default("")
+  siteUrl                          String  @default("")
+  homepageCarouselSlides           Slide[]
 }

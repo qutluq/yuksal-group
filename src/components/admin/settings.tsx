@@ -3,26 +3,34 @@ import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/button'
 import { LoadingLogo } from '@/components/fallback'
+import { ImageUploadDialog } from '@/components/image'
 import { ModalDialog } from '@/components/modal'
 import { usePostUnsavedChanges } from '@/hooks/usePostUnsavedChanges'
-import type { ImageFile, Settings as DbSettings, SettingsImages } from '@/types'
-import type { SettingsInitialized } from '@/types'
 import { settingsKeys } from '@/types'
 import { translate } from '@/utils'
 import {
+  getHomepageSlidesInitialized,
   getImageClientSide,
   getSettingClientSide,
+  revalidateImageCache,
   revalidateSettingsCache,
+  revalidateSlidesCache,
   updateSettingsClientSide,
 } from '@/utils/api-client'
 
-import { ImageInput } from './image-input'
-import { ImageUploadDialog } from './image-upload-dialog'
-type UploadModal = {
-  closed: boolean
-  field: keyof SettingsImages | ''
-}
+import { SettingsHome } from './settings-home'
+import { SettingsList } from './settings-list'
+import { SettingsMetadata } from './settings-metadata'
+import { SettingsSiteImages } from './settings-site-images'
+import { SettingsSocial } from './settings-social'
 
+import type {
+  Settings as DbSettings,
+  ImageFile,
+  SettingsInitialized,
+  SlideInitialized,
+} from '@/types'
+import type { SettingsField, UploadModal } from './types'
 type PropTypes = {
   lang: string
 }
@@ -41,16 +49,30 @@ export const Settings = ({ lang }: PropTypes) => {
   )
   const [uploadModal, setUploadModal] = useState<UploadModal>({
     closed: true,
+    file: undefined,
+  })
+  const [uploadedField, setUploadedField] = useState<SettingsField>({
     field: '',
+    slideIndex: -1,
   })
   const [unsavedChangesExist, setUnsavedChangesExist] = useState(false)
   const { modalUnsavedlosed, setUnsavedModalClosed, setUnsavedConfirmed } =
     usePostUnsavedChanges(unsavedChangesExist, lang)
 
   useEffect(() => {
-    const imageFields = ['defaultPosterPostsImg', 'defaultCoverPostsImg']
     settingsKeys.map(async (name) => {
+      if (name === 'slides') {
+        const slidesInitialized = await getHomepageSlidesInitialized()
+
+        setSettings((state) => ({
+          ...state,
+          slides: slidesInitialized,
+        }))
+
+        return
+      }
       const value = await getSettingClientSide(name)
+
       if (imageFields.includes(name)) {
         getImageClientSide(value)
           .then(async (response) => {
@@ -74,13 +96,53 @@ export const Settings = ({ lang }: PropTypes) => {
     })
   }, [])
 
-  const setSettingValue = (value: string | number, field: string) => {
+  const imageFields = ['defaultPosterPostsImg', 'defaultCoverPostsImg']
+  const setSettingValue = (
+    value: string | number | ImageFile,
+    field: string,
+  ) => {
     if (field === 'paginationLimit') {
       setSettings((state) => ({ ...state, paginationLimit: value as number }))
       return
     }
 
+    if (field.startsWith('slides')) {
+      setSlide(
+        uploadedField.slideIndex,
+        field.slice(6),
+        value as string | ImageFile,
+      )
+      return
+    }
+
     setSettings((state) => ({ ...state, [field]: value }))
+  }
+
+  const setSlide = (
+    index: number,
+    field: string,
+    value: string | ImageFile,
+  ) => {
+    if (!settings.slides) {
+      settings.slides = [] as SlideInitialized[]
+    }
+
+    if (settings.slides.length < index + 1) {
+      for (let i = Math.max(settings.slides.length - 1, 0); i <= index; i++) {
+        settings.slides.push({
+          articleSlug: '',
+          content: '',
+          title: '',
+          image: undefined,
+        })
+      }
+    }
+
+    const slide = settings.slides[index]
+    const slides = settings.slides
+    slides[index] = { ...slide, [field]: value }
+
+    setSettings((state) => ({ ...state, slides: slides }))
   }
 
   const handleSave = () => {
@@ -95,6 +157,10 @@ export const Settings = ({ lang }: PropTypes) => {
       tiktokLink: addUrlProtocol(settings.tiktokLink),
       defaultPosterPostsImg: settings.defaultPosterPostsImg?.id || '',
       defaultCoverPostsImg: settings.defaultCoverPostsImg?.id || '',
+      slides: settings.slides.map((slide) => ({
+        ...slide,
+        image: slide?.image?.id,
+      })),
     } as DbSettings
 
     updateSettingsClientSide(dbSettings)
@@ -105,7 +171,15 @@ export const Settings = ({ lang }: PropTypes) => {
           return
         }
         setUnsavedChangesExist(false)
-        revalidateSettingsCache()
+        try {
+          await revalidateSettingsCache()
+          await revalidateSlidesCache()
+          await revalidateImageCache()
+        } catch (error) {
+          console.error(`Cache revalidation failed: ${error}`)
+          alert(translate('Failed to update settings', lang))
+          return
+        }
         alert(translate('Settings updated', lang))
       })
       .catch((error) => {
@@ -114,213 +188,49 @@ export const Settings = ({ lang }: PropTypes) => {
       })
   }
 
-  if (!settings) return <LoadingLogo />
+  if (Object.keys(settings).length === 0) return <LoadingLogo />
 
   return (
     <div className="flex flex-col items-center justify-center gap-5 p-3">
       <span className="text-2xl">{translate('Site settings', lang)}</span>
 
-      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
-        <span className="bg-gray-500 pl-2 text-lg">
-          {translate('Metadata', lang)}
-        </span>
+      <SettingsMetadata
+        lang={lang}
+        setSettingValue={setSettingValue}
+        setUnsavedChangesExist={setUnsavedChangesExist}
+        settings={settings}
+      />
 
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-2 px-2 md:flex-row">
-            <label className="w-72" htmlFor="siteName">{`${translate(
-              'Site name',
-              lang,
-            )}: `}</label>
-            <input
-              id="siteName"
-              value={settings.siteName || ''}
-              onChange={(e) => {
-                setSettingValue(e.target.value, 'siteName')
-                setUnsavedChangesExist(true)
-              }}
-              className="w-96 rounded-sm bg-white pl-2 text-black"
-              type="text"
-              placeholder="Awesome website"
-            />
-          </div>
+      <SettingsSiteImages
+        lang={lang}
+        setUploadModal={setUploadModal}
+        setUploadedField={setUploadedField}
+        setUnsavedChangesExist={setUnsavedChangesExist}
+        settings={settings}
+      />
 
-          <div className="flex flex-col gap-2 px-2 md:flex-row">
-            <label className="w-72" htmlFor="siteDescription">{`${translate(
-              'Site description',
-              lang,
-            )}: `}</label>
-            <input
-              id="siteDescription"
-              value={settings.siteDescription || ''}
-              onChange={(e) => {
-                setSettingValue(e.target.value, 'siteDescription')
-                setUnsavedChangesExist(true)
-              }}
-              className="w-96 rounded-sm bg-white pl-2 text-black"
-              type="text"
-              placeholder="Uyghur ethnic drums and pipes"
-            />
-          </div>
+      <SettingsList
+        lang={lang}
+        setSettingValue={setSettingValue}
+        setUnsavedChangesExist={setUnsavedChangesExist}
+        settings={settings}
+      />
 
-          <div className="flex flex-col gap-2 px-2 md:flex-row">
-            <label className="w-72" htmlFor="siteUrl">{`${translate(
-              'Site URL',
-              lang,
-            )}: `}</label>
-            <input
-              id="siteUrl"
-              value={settings.siteUrl || ''}
-              onChange={(e) => {
-                setSettingValue(e.target.value, 'siteUrl')
-                setUnsavedChangesExist(true)
-              }}
-              className="w-96 rounded-sm bg-white pl-2 text-black"
-              type="text"
-              placeholder="www.awesome-website.com"
-            />
-          </div>
-        </div>
-      </div>
+      <SettingsSocial
+        lang={lang}
+        setSettingValue={setSettingValue}
+        setUnsavedChangesExist={setUnsavedChangesExist}
+        settings={settings}
+      />
 
-      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
-        <span className="w-full bg-gray-500 pl-2 text-lg">
-          {translate('Images', lang)}
-        </span>
-
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          <div className="flex flex-col gap-2 px-2">
-            <span className="h-12 w-72 text-sm">{`${translate(
-              'Default poster in posts',
-              lang,
-            )}(450x300): `}</span>
-
-            <ImageInput
-              field="defaultPosterPostsImg"
-              setUploadModal={setUploadModal}
-              settings={settings}
-              setUnsavedChangesExist={setUnsavedChangesExist}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2 px-2">
-            <span className="h-12 w-72 text-sm">{`${translate(
-              'Default cover in posts',
-              lang,
-            )}(1920x480): `}</span>
-
-            <ImageInput
-              field="defaultCoverPostsImg"
-              setUploadModal={setUploadModal}
-              settings={settings}
-              setUnsavedChangesExist={setUnsavedChangesExist}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
-        <span className="bg-gray-500 pl-2 text-lg">
-          {translate('Lists', lang)}
-        </span>
-
-        <div className="flex flex-row gap-3 px-2">
-          <label className="w-auto" htmlFor="paginationLimit">{`${translate(
-            'Items per page, e.g. posts per page on blog page',
-            lang,
-          )}: `}</label>
-          <input
-            id="paginationLimit"
-            value={settings.paginationLimit || ''}
-            onChange={(e) => {
-              setSettingValue(e.target.value, 'paginationLimit')
-              setUnsavedChangesExist(true)
-            }}
-            className="w-16 rounded-sm bg-white pl-2 text-black"
-            type="number"
-            placeholder="100"
-          />
-        </div>
-      </div>
-
-      <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
-        <span className="bg-gray-500 pl-2 text-lg">
-          {translate('Social network links', lang)}
-        </span>
-
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-2 px-2 md:flex-row">
-            <label className="w-72" htmlFor="facebook">{`${translate(
-              'Facebook',
-              lang,
-            )}: `}</label>
-            <input
-              id="facebook"
-              value={settings.facebookLink || ''}
-              onChange={(e) => {
-                setSettingValue(e.target.value, 'facebookLink')
-                setUnsavedChangesExist(true)
-              }}
-              className="w-96 rounded-sm bg-white pl-2 text-black"
-              type="text"
-              placeholder="www.facebook.com/yuksal.group"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2 px-2 md:flex-row">
-            <label className="w-72" htmlFor="youtube">{`${translate(
-              'Youtube',
-              lang,
-            )}: `}</label>
-            <input
-              id="youtube"
-              value={settings.youtubeLink || ''}
-              onChange={(e) => {
-                setSettingValue(e.target.value, 'youtubeLink')
-                setUnsavedChangesExist(true)
-              }}
-              className="w-96 rounded-sm bg-white pl-2 text-black"
-              type="text"
-              placeholder="www.youtube.com/yuksal.group"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2 px-2 md:flex-row">
-            <label className="w-72" htmlFor="instagram">{`${translate(
-              'Instagram',
-              lang,
-            )}: `}</label>
-            <input
-              id="instagram"
-              value={settings.instagramLink || ''}
-              onChange={(e) => {
-                setSettingValue(e.target.value, 'instagramLink')
-                setUnsavedChangesExist(true)
-              }}
-              className="w-96 rounded-sm bg-white pl-2 text-black"
-              type="text"
-              placeholder="www.instagram.com/yuksal.group"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2 px-2 md:flex-row">
-            <label className="w-72" htmlFor="tiktok">{`${translate(
-              'Tiktok',
-              lang,
-            )}: `}</label>
-            <input
-              id="tiktok"
-              value={settings.tiktokLink || ''}
-              onChange={(e) => {
-                setSettingValue(e.target.value, 'tiktokLink')
-                setUnsavedChangesExist(true)
-              }}
-              className="w-96 rounded-sm bg-white pl-2 text-black"
-              type="text"
-              placeholder="www.tiktok.com/yuksal.group"
-            />
-          </div>
-        </div>
-      </div>
+      <SettingsHome
+        lang={lang}
+        setSlide={setSlide}
+        setUploadModal={setUploadModal}
+        setUnsavedChangesExist={setUnsavedChangesExist}
+        setUploadedField={setUploadedField}
+        slides={settings?.slides}
+      />
 
       <div className="flex w-full flex-row justify-center">
         <Button
@@ -337,9 +247,9 @@ export const Settings = ({ lang }: PropTypes) => {
         setUploadModalClosed={(c) =>
           setUploadModal((state) => ({ ...state, closed: c }))
         }
-        image={settings[uploadModal.field]}
+        image={uploadModal.file}
         lang={lang}
-        setImage={(img) => setSettingValue(img, uploadModal.field)}
+        setImage={(img) => setSettingValue(img, uploadedField.field)}
         setUnsavedChangesExist={setUnsavedChangesExist}
       />
       {!modalUnsavedlosed && (
