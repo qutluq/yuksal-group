@@ -35,6 +35,7 @@ export const useServerImages = () => {
         filenames.map(async (filename) => {
           updateImage(filename, null)
           getImageClientSide(filename, 'md').then(async (response) => {
+            if (!response) return
             const image_blob = await response.blob()
             const imageUrl = URL.createObjectURL(image_blob)
             updateImage(filename, imageUrl)

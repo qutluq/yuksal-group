@@ -104,6 +104,10 @@ export const getImageClientSide = async (
   filename: string,
   size: 'sm' | 'md' | undefined = undefined,
 ) => {
+  if (!filename) {
+    console.error('Image can not be fetched: empty filename')
+    return undefined
+  }
   const response = fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/image/images?filename=${filename}${
       size ? '&size=' : ''
@@ -145,10 +149,10 @@ export const getHomepageSlidesInitialized = async () => {
     const responses = await Promise.all(
       slides.map((slide) => getImageClientSide(slide.image)),
     )
-
     const slidesInitialized = await Promise.all(
       responses.map(async (response, index) => {
         const slide = { ...slides[index] }
+        if (!response) return slide
         const image_blob = await response.blob()
         let imageUrl = ''
         if (image_blob.size > 0) {
@@ -183,6 +187,7 @@ const getImageUrlsClientSideMemo = () => {
 
       try {
         const response = await getImageClientSide(filename)
+        if (!response) continue
         const image_blob = await response.blob()
         const imageUrl = URL.createObjectURL(image_blob)
         cache[filename] = imageUrl
