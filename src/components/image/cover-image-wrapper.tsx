@@ -15,6 +15,7 @@ export const CoverImageWrapper = ({ bgImg, children }: PropTypes) => {
 
   useEffect(() => {
     if (!bgImg) {
+      setFeaturedImage(settings.defaultCoverPostsImg?.href)
       return
     }
     getImageClientSide(bgImg)
@@ -27,7 +28,7 @@ export const CoverImageWrapper = ({ bgImg, children }: PropTypes) => {
       .catch((error) => {
         console.error(`Can't fetch image: ${error}`)
       })
-  }, [bgImg])
+  }, [bgImg, settings])
 
   return (
     <div
@@ -35,14 +36,11 @@ export const CoverImageWrapper = ({ bgImg, children }: PropTypes) => {
         'relative flex h-48 w-full flex-col items-center bg-cover bg-center md:h-[480px] md:bg-[var(--color-secondary)]'
       }
     >
-      <div className="absolute h-48 w-full overflow-hidden md:h-[480px]">
-        <Image
-          src={featuredImage || settings.defaultCoverPostsImg?.href}
-          alt=""
-          className="object-cover"
-          fill
-        />
-      </div>
+      {featuredImage && (
+        <div className="absolute h-48 w-full overflow-hidden md:h-[480px]">
+          <Image src={featuredImage} alt="" className="object-cover" fill />
+        </div>
+      )}
       {children}
     </div>
   )
