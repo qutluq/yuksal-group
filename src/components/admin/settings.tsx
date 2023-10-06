@@ -76,6 +76,7 @@ export const Settings = ({ lang }: PropTypes) => {
       if (imageFields.includes(name)) {
         getImageClientSide(value)
           .then(async (response) => {
+            if (!response) return
             const image_blob = await response.blob()
             const imageUrl = URL.createObjectURL(image_blob)
             setSettings((state) => ({

@@ -22,6 +22,10 @@ export async function GET(request: Request, { params }: PropTypes) {
   const filename = url.searchParams.get('filename')
 
   if (filename !== null) {
+    if (filename === '') {
+      console.error(`Bad request: empty filename`)
+      return new Response(null, { status: 400 })
+    }
     //fetch a single image with name=filename
     const size = url.searchParams.get('size')
     try {
