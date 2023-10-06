@@ -34,10 +34,10 @@ export const Carousel = ({ slides, lang }: PropTypes) => {
         <SwiperSlide key={slide.title} className="relative">
           {({ isActive }) => (
             <>
-              <div className="z-10 flex flex-col items-center justify-center gap-10 text-white">
+              <div className="z-10 flex flex-col items-center justify-center gap-6 text-white md:gap-8 lg:gap-10">
                 <div
                   className={classNames(
-                    'text-lg fade-in-up',
+                    'text-xs md:text-base lg:text-lg fade-in-up',
                     isActive ? ' active' : 'fade-in-small',
                   )}
                 >
@@ -45,7 +45,7 @@ export const Carousel = ({ slides, lang }: PropTypes) => {
                 </div>
                 <div
                   className={classNames(
-                    'text-8xl fade-in-up',
+                    'text-2xl md:text-5xl lg:text-8xl fade-in-up',
                     isActive ? ' active' : 'fade-in-large',
                   )}
                 >
@@ -55,7 +55,7 @@ export const Carousel = ({ slides, lang }: PropTypes) => {
                   <Link
                     href={slide.articleSlug}
                     className={classNames(
-                      'fade-in-up flex h-16 w-[250px] items-center justify-center rounded-full border border-white bg-white/10',
+                      'fade-in-up flex h-12 w-[120px] md:w-[170px] md:h-14 lg:h-16 lg:w-[250px] items-center text-sm md:text-base justify-center rounded-full border border-white bg-white/10',
                       isActive ? ' active' : 'fade-in-medium',
                     )}
                   >
@@ -64,7 +64,7 @@ export const Carousel = ({ slides, lang }: PropTypes) => {
                 )}
               </div>
               {slide.image && (
-                <div className="absolute h-[480px] w-full overflow-hidden md:h-[750px] xl:h-[950px]">
+                <div className="absolute h-[570px] w-full overflow-hidden md:h-[570px] xl:h-[950px]">
                   <Image
                     src={slide.image?.href}
                     alt=""
