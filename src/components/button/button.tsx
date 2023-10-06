@@ -1,9 +1,9 @@
 import type { LinkProps } from 'next/link'
 import Link from 'next/link'
-import type { ReactNode } from 'react'
-import type { MouseEvent } from 'react'
 
 import { classNames } from '@/utils'
+
+import type { MouseEvent, ReactNode } from 'react'
 
 import type { HrefType } from './types'
 type PropTypes = Omit<LinkProps, 'href'> & {
