@@ -6,21 +6,20 @@ import { translate } from '@/utils'
 import { ImageInput } from '../image/image-input'
 
 import type { UploadModal } from '@/types'
-import type { SettingsField } from './types'
 
 type PropTypes = {
   lang: string
   settings: SettingsInitialized
   setUnsavedChangesExist: (boolean) => void
   setUploadModal: Dispatch<SetStateAction<UploadModal>>
-  setUploadedField: Dispatch<SetStateAction<SettingsField>>
+  setActiveField: Dispatch<SetStateAction<keyof SettingsInitialized | ''>>
 }
 export const SettingsSiteImages = ({
   lang,
   settings,
   setUnsavedChangesExist,
   setUploadModal,
-  setUploadedField,
+  setActiveField,
 }: PropTypes) => (
   <div className="flex w-[400px] flex-col gap-3 overflow-hidden rounded-lg bg-gray-700 pb-2 md:w-[700px]">
     <span className="w-full bg-gray-500 pl-2 text-lg">
@@ -42,10 +41,7 @@ export const SettingsSiteImages = ({
               file: settings.defaultPosterPostsImg,
               closed: false,
             }))
-            setUploadedField((state) => ({
-              ...state,
-              field: 'defaultPosterPostsImg',
-            }))
+            setActiveField('defaultPosterPostsImg')
             setUnsavedChangesExist(true)
           }}
         />
@@ -65,11 +61,7 @@ export const SettingsSiteImages = ({
               file: settings.defaultCoverPostsImg,
               closed: false,
             }))
-            setUploadedField((state) => ({
-              ...state,
-              field: 'defaultCoverPostsImg',
-            }))
-
+            setActiveField('defaultCoverPostsImg')
             setUnsavedChangesExist(true)
           }}
         />
