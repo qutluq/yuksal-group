@@ -43,8 +43,6 @@ export type Settings = {
   instagramLink: string
   tiktokLink: string
 
-  slides: Slide[]
-
   paginationLimit: number
 }
 
@@ -53,11 +51,8 @@ export type SettingsImages = {
   defaultCoverPostsImg: ImageFile
 }
 
-export type SettingsInitialized = Omit<
-  Settings,
-  keyof SettingsImages | 'slides'
-> &
-  SettingsImages & { slides: SlideInitialized[] }
+export type SettingsInitialized = Omit<Settings, keyof SettingsImages> &
+  SettingsImages
 
 export type SettingsKeys = keyof Settings
 export const settingsKeys: (keyof Settings)[] = [
@@ -72,8 +67,6 @@ export const settingsKeys: (keyof Settings)[] = [
   'youtubeLink',
   'instagramLink',
   'tiktokLink',
-
-  'slides',
 
   'paginationLimit',
 ]

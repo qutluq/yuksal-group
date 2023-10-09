@@ -9,16 +9,13 @@ import { usePostUnsavedChanges } from '@/hooks/usePostUnsavedChanges'
 import { settingsKeys } from '@/types'
 import { translate } from '@/utils'
 import {
-  getHomepageSlidesInitialized,
   getImageClientSide,
   getSettingClientSide,
   revalidateImageCache,
   revalidateSettingsCache,
-  revalidateSlidesCache,
   updateSettingsClientSide,
 } from '@/utils/api-client'
 
-import { SettingsHome } from './settings-home'
 import { SettingsList } from './settings-list'
 import { SettingsMetadata } from './settings-metadata'
 import { SettingsSiteImages } from './settings-site-images'
@@ -28,10 +25,8 @@ import type {
   Settings as DbSettings,
   ImageFile,
   SettingsInitialized,
-  SlideInitialized,
   UploadModal,
 } from '@/types'
-import type { SettingsField } from './types'
 type PropTypes = {
   lang: string
 }
@@ -52,28 +47,20 @@ export const Settings = ({ lang }: PropTypes) => {
     closed: true,
     file: undefined,
   })
-  const [uploadedField, setUploadedField] = useState<SettingsField>({
-    field: '',
-    slideIndex: -1,
-  })
+
+  const [activeField, setActiveField] = useState<
+    keyof SettingsInitialized | ''
+  >('')
+
   const [unsavedChangesExist, setUnsavedChangesExist] = useState(false)
   const { modalUnsavedlosed, setUnsavedModalClosed, setUnsavedConfirmed } =
     usePostUnsavedChanges(unsavedChangesExist, lang)
 
   useEffect(() => {
     settingsKeys.map(async (name) => {
-      if (name === 'slides') {
-        const slidesInitialized = await getHomepageSlidesInitialized()
-
-        setSettings((state) => ({
-          ...state,
-          slides: slidesInitialized,
-        }))
-
-        return
-      }
       const value = await getSettingClientSide(name)
 
+      const imageFields = ['defaultPosterPostsImg', 'defaultCoverPostsImg']
       if (imageFields.includes(name)) {
         getImageClientSide(value)
           .then(async (response) => {
@@ -98,7 +85,6 @@ export const Settings = ({ lang }: PropTypes) => {
     })
   }, [])
 
-  const imageFields = ['defaultPosterPostsImg', 'defaultCoverPostsImg']
   const setSettingValue = (
     value: string | number | ImageFile,
     field: string,
@@ -108,45 +94,16 @@ export const Settings = ({ lang }: PropTypes) => {
       return
     }
 
-    if (field.startsWith('slides')) {
-      setSlide(
-        uploadedField.slideIndex,
-        field.slice(6),
-        value as string | ImageFile,
-      )
-      return
-    }
-
     setSettings((state) => ({ ...state, [field]: value }))
   }
 
-  const setSlide = (
-    index: number,
-    field: string,
-    value: string | ImageFile,
-  ) => {
-    if (!settings.slides) {
-      settings.slides = [] as SlideInitialized[]
+  useEffect(() => {
+    if (uploadModal.closed) return
+    //new image was set in upload dialog
+    if (uploadModal.file?.id) {
+      setSettingValue(uploadModal.file, activeField)
     }
-
-    if (settings.slides.length < index + 1) {
-      for (let i = Math.max(settings.slides.length - 1, 0); i <= index; i++) {
-        settings.slides.push({
-          id: i + 1,
-          articleSlug: '',
-          content: '',
-          title: '',
-          image: undefined,
-        })
-      }
-    }
-
-    const slide = settings.slides[index]
-    const slides = settings.slides
-    slides[index] = { ...slide, [field]: value }
-
-    setSettings((state) => ({ ...state, slides: slides }))
-  }
+  }, [uploadModal])
 
   const handleSave = () => {
     if (!unsavedChangesExist) {
@@ -160,10 +117,6 @@ export const Settings = ({ lang }: PropTypes) => {
       tiktokLink: addUrlProtocol(settings.tiktokLink),
       defaultPosterPostsImg: settings.defaultPosterPostsImg?.id || '',
       defaultCoverPostsImg: settings.defaultCoverPostsImg?.id || '',
-      slides: settings.slides.map((slide) => ({
-        ...slide,
-        image: slide?.image?.id,
-      })),
     } as DbSettings
 
     updateSettingsClientSide(dbSettings)
@@ -176,7 +129,6 @@ export const Settings = ({ lang }: PropTypes) => {
         setUnsavedChangesExist(false)
         try {
           await revalidateSettingsCache()
-          await revalidateSlidesCache()
           await revalidateImageCache()
         } catch (error) {
           console.error(`Cache revalidation failed: ${error}`)
@@ -207,9 +159,9 @@ export const Settings = ({ lang }: PropTypes) => {
       <SettingsSiteImages
         lang={lang}
         setUploadModal={setUploadModal}
-        setUploadedField={setUploadedField}
         setUnsavedChangesExist={setUnsavedChangesExist}
         settings={settings}
+        setActiveField={setActiveField}
       />
 
       <SettingsList
@@ -224,15 +176,6 @@ export const Settings = ({ lang }: PropTypes) => {
         setSettingValue={setSettingValue}
         setUnsavedChangesExist={setUnsavedChangesExist}
         settings={settings}
-      />
-
-      <SettingsHome
-        lang={lang}
-        setSlide={setSlide}
-        setUploadModal={setUploadModal}
-        setUnsavedChangesExist={setUnsavedChangesExist}
-        setUploadedField={setUploadedField}
-        slides={settings?.slides}
       />
 
       <div className="flex w-full flex-row justify-center">
