@@ -24,7 +24,7 @@ export const ImageInput = ({ file, handleOnClick }: PropTypes) => (
           <Image
             src={file?.href || ''}
             alt=""
-            className="rounded-sm object-contain"
+            className="z-10 rounded-sm object-contain"
             fill
           />
         ) : null}

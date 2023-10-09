@@ -96,7 +96,33 @@ export const getSlides = async () => {
   return { slides: results as Slide[] }
 }
 
-export const updatePost = cache(async (id: number, post: Post) => {
+export const getSlide = async (id: number) => {
+  const result = await prisma.slide.findUnique({
+    where: {
+      id: id,
+    },
+  })
+
+  return { slide: result as Slide }
+}
+
+export const updateSlide = async (slide: Slide) => {
+  const { id, ...data } = slide
+  try {
+    await prisma.slide.update({
+      where: {
+        id: id,
+      },
+      data: data,
+    })
+  } catch (error) {
+    console.error(`❌ Can not update post with id ${id}: `, error)
+    return false
+  }
+  return true
+}
+
+export const updatePost = async (id: number, post: Post) => {
   // eslint-disable-next-line unused-imports/no-unused-vars
   const { authorId, ...data } = post
   try {
@@ -111,7 +137,7 @@ export const updatePost = cache(async (id: number, post: Post) => {
     return false
   }
   return true
-})
+}
 
 export const getPost = cache(async (slug: string) => {
   const result = await prisma.post.findMany({
@@ -226,7 +252,7 @@ export const updateSlides = async (slides: Slide[]) => {
 
       if (!result) {
         await prisma.slide.create({
-          data: { id: index + 1, ...slide, settingId: 1 },
+          data: { ...slide, settingId: 1 },
         })
         return
       }

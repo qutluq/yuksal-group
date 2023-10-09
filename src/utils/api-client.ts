@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-import type { ImageFile, Settings, SettingsKeys } from '@/types'
+import type { ImageFile, Settings, SettingsKeys, Slide } from '@/types'
 import type { Post } from '@/types/blog'
 
 export const updatePostClientSide = async (id: number, data: Post) => {
@@ -143,6 +143,30 @@ export const getHomepageSlidesClientSide = async () => {
   return []
 }
 
+export const getHomepageSlideClientSide = async (id: number) => {
+  if (!id) {
+    return undefined
+  }
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/slides?id=${id.toString()}`,
+      {
+        method: 'GET',
+      },
+    )
+    if (response.status !== 200) {
+      return undefined
+    }
+
+    const slide = await response.json()
+
+    return slide
+  } catch (error) {
+    console.error(`Slides fetch failed: ${error}`)
+  }
+  return undefined
+}
+
 export const getHomepageSlidesInitialized = async () => {
   try {
     const slides = await getHomepageSlidesClientSide()
@@ -167,6 +191,33 @@ export const getHomepageSlidesInitialized = async () => {
       }),
     )
     return await slidesInitialized
+  } catch (error) {
+    console.error(`Can't fetch image: ${error}`)
+  }
+  return []
+}
+
+export const getHomepageSlideInitialized = async (id: number) => {
+  try {
+    const { slide } = await getHomepageSlideClientSide(id)
+    const response = await getImageClientSide(slide.image)
+
+    const slidesInitialized = {
+      ...slide,
+      image: { file: null, id: '', href: '' },
+    }
+    if (!response) return slidesInitialized
+    const image_blob = await response.blob()
+    let imageUrl = ''
+    if (image_blob.size > 0) {
+      imageUrl = URL.createObjectURL(image_blob)
+    }
+    slidesInitialized.image = {
+      file: null,
+      id: slide.image,
+      href: imageUrl,
+    } as ImageFile
+    return slidesInitialized
   } catch (error) {
     console.error(`Can't fetch image: ${error}`)
   }
@@ -317,6 +368,25 @@ export const updateSettingsClientSide = async (settings: Settings) => {
     return response
   } catch (error) {
     console.error(`Settings update failed: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
+}
+
+export const updateSlideClientSide = async (slide: Slide) => {
+  try {
+    const response = fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/slides/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(slide),
+    })
+
+    return response
+  } catch (error) {
+    console.error(`Slide update failed: ${error}`)
     return new Response(null, {
       status: 500,
     })

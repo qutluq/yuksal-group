@@ -73,6 +73,16 @@ export const translations = {
     ru: 'Пост не может быть сохранен!',
     ug: 'Мақалини сақлиғили мүмкин болмиди!',
   },
+  'slide-can-not-be-saved': {
+    en: 'Slide can not be saved!',
+    ru: 'Слайд не может быть сохранен!',
+    ug: 'Слайдни сақлиғили мүмкин болмиди!',
+  },
+  'slide-updated': {
+    en: 'Slide updated!',
+    ru: 'Слайд сохранен!',
+    ug: 'Слайд сақланди!',
+  },
   'post-saved': {
     en: 'Post saved!',
     ru: 'Пост сохранен!',

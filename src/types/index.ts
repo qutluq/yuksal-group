@@ -19,16 +19,14 @@ export type UploadModal = {
 }
 
 export type Slide = {
+  id: number
   title: string
   content: string
   articleSlug: string
   image: string
 }
 
-export type SlideInitialized = {
-  title: string
-  content: string
-  articleSlug: string
+export type SlideInitialized = Omit<Slide, 'image'> & {
   image: ImageFile | undefined
 }
 
