@@ -13,6 +13,11 @@ export type ImageFile = {
   file: File | null
 }
 
+export type UploadModal = {
+  closed: boolean
+  file: ImageFile | undefined
+}
+
 export type Slide = {
   title: string
   content: string

@@ -4,7 +4,9 @@ import type { SettingsInitialized } from '@/types'
 import { translate } from '@/utils'
 
 import { ImageInput } from '../image/image-input'
-import type { SettingsField, UploadModal } from './types'
+
+import type { UploadModal } from '@/types'
+import type { SettingsField } from './types'
 
 type PropTypes = {
   lang: string

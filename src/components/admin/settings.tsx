@@ -29,8 +29,9 @@ import type {
   ImageFile,
   SettingsInitialized,
   SlideInitialized,
+  UploadModal,
 } from '@/types'
-import type { SettingsField, UploadModal } from './types'
+import type { SettingsField } from './types'
 type PropTypes = {
   lang: string
 }
@@ -131,6 +132,7 @@ export const Settings = ({ lang }: PropTypes) => {
     if (settings.slides.length < index + 1) {
       for (let i = Math.max(settings.slides.length - 1, 0); i <= index; i++) {
         settings.slides.push({
+          id: i + 1,
           articleSlug: '',
           content: '',
           title: '',
