@@ -1,9 +1,4 @@
-import type { ImageFile, SettingsImages } from '@/types'
-
-export type UploadModal = {
-  closed: boolean
-  file: ImageFile | undefined
-}
+import type { SettingsImages } from '@/types'
 
 export type SettingsField = {
   field:

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { Home as HomeComponent } from '@/components/home'
+import { SlideEdit } from '@/components/slide'
 import { AdminLayout } from '@/layouts/admin'
 import { HomeLayout } from '@/layouts/home'
 import {
@@ -23,7 +23,7 @@ export async function generateMetadata({
   return getMetadata({ title })
 }
 
-const Home = ({
+const Slide = ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
@@ -33,11 +33,11 @@ const Home = ({
     <div className="text-[var(--color-text-primary)]">
       <AdminLayout lang={lang}>
         <HomeLayout lang={lang} mode="admin">
-          <HomeComponent lang={lang} mode="admin" />
+          <SlideEdit lang={lang} />
         </HomeLayout>
       </AdminLayout>
     </div>
   )
 }
 
-export default Home
+export default Slide

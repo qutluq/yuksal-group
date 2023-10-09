@@ -29,7 +29,7 @@ const Home = ({
 }) => {
   const lang = getLangSearchParam(searchParams)
   return (
-    <HomeLayout page="home" lang={lang}>
+    <HomeLayout lang={lang}>
       <HomeComponent lang={lang} />
     </HomeLayout>
   )

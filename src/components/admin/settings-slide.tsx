@@ -5,8 +5,8 @@ import { translate } from '@/utils'
 
 import { ImageInput } from '../image'
 
-import type { ImageFile, SlideInitialized } from '@/types'
-import type { SettingsField, UploadModal } from './types'
+import type { ImageFile, SlideInitialized, UploadModal } from '@/types'
+import type { SettingsField } from './types'
 type PropTypes = {
   lang: string
   index: number

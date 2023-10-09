@@ -4,8 +4,8 @@ import { translate } from '@/utils'
 
 import { SettingsSlide } from './settings-slide'
 
-import type { SlideInitialized } from '@/types'
-import type { SettingsField, UploadModal } from './types'
+import type { SlideInitialized, UploadModal } from '@/types'
+import type { SettingsField } from './types'
 type PropTypes = {
   lang: string
   slides: SlideInitialized[]
