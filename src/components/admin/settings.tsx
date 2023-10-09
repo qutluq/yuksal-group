@@ -246,14 +246,10 @@ export const Settings = ({ lang }: PropTypes) => {
       </div>
 
       <ImageUploadDialog
-        uploadModalClosed={uploadModal.closed}
-        setUploadModalClosed={(c) =>
-          setUploadModal((state) => ({ ...state, closed: c }))
-        }
-        image={uploadModal.file}
-        lang={lang}
-        setImage={(img) => setSettingValue(img, uploadedField.field)}
+        uploadModal={uploadModal}
+        setUploadModal={setUploadModal}
         setUnsavedChangesExist={setUnsavedChangesExist}
+        lang={lang}
       />
       {!modalUnsavedlosed && (
         <ModalDialog
