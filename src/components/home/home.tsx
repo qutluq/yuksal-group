@@ -7,12 +7,10 @@ import 'swiper/css/pagination'
 
 import { useEffect, useState } from 'react'
 
+import { Carousel } from '@/components/carousel'
 import { getHomepageSlidesInitialized } from '@/utils/api-client'
 
-import { Carousel } from './carousel'
-
 import type { SlideInitialized } from '@/types'
-
 type PropTypes = {
   lang: string
 }

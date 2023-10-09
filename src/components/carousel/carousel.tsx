@@ -5,6 +5,7 @@ import './styles.css'
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { FiEdit } from 'react-icons/fi'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -14,9 +15,10 @@ import type { SlideInitialized } from '@/types'
 type PropTypes = {
   slides: SlideInitialized[] | undefined
   lang: string
+  mode?: 'user' | 'admin'
 }
 
-export const Carousel = ({ slides, lang }: PropTypes) => {
+export const Carousel = ({ slides, lang, mode = 'user' }: PropTypes) => {
   return (
     <Swiper
       spaceBetween={30}
@@ -28,10 +30,13 @@ export const Carousel = ({ slides, lang }: PropTypes) => {
       pagination={{
         clickable: true,
       }}
-      modules={[Pagination, Navigation, Autoplay]}
+      navigation={mode === 'admin'}
+      modules={
+        mode === 'user' ? [Pagination, Autoplay] : [Pagination, Navigation]
+      }
     >
       {slides?.map((slide) => (
-        <SwiperSlide key={slide.title} className="relative">
+        <SwiperSlide key={slide.id} className="relative">
           {({ isActive }) => (
             <>
               <div className="z-10 flex flex-col items-center justify-center gap-6 text-white md:gap-8 lg:gap-10">
@@ -63,6 +68,17 @@ export const Carousel = ({ slides, lang }: PropTypes) => {
                   </Link>
                 )}
               </div>
+
+              {mode === 'admin' && (
+                <Link
+                  href={{
+                    pathname: '/admin/slide',
+                    query: { id: slide.id.toString() },
+                  }}
+                >
+                  <FiEdit className="absolute right-20 top-20 z-10 h-10 w-10 overflow-hidden text-white" />
+                </Link>
+              )}
               {slide.image && (
                 <div className="absolute h-[570px] w-full overflow-hidden md:h-[570px] xl:h-[950px]">
                   <Image
