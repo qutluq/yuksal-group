@@ -2,7 +2,6 @@
 import 'react-toastify/dist/ReactToastify.css'
 
 import Image from 'next/image'
-import type { CSSProperties } from 'react'
 import { useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 
@@ -14,9 +13,11 @@ import { UploadImageDialog } from '@/components/upload'
 import { usePost } from '@/hooks/usePost'
 import { usePostUnsavedChanges } from '@/hooks/usePostUnsavedChanges'
 import { MainLayout } from '@/layouts/main'
-import type { ImageFile } from '@/types'
 import { formatDateJS, translate } from '@/utils'
 import { DEFAULT_AUTHOR_IMG } from '@/utils/settings'
+
+import type { ImageFile } from '@/types'
+import type { CSSProperties } from 'react'
 type PropTypes = {
   slug: string
   lang: string

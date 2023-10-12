@@ -102,7 +102,7 @@ export const getPaginationText = (page, limit, total, short = false) =>
       } of ${total} `
 
 export const formatDate = (date: Date | null) => {
-  if (date === null) {
+  if (!date) {
     return 'n/a'
   }
 
@@ -118,7 +118,12 @@ export const formatDate = (date: Date | null) => {
     day: '2-digit',
   } as OptionsType
 
-  return new Intl.DateTimeFormat('en-US', options).format(date)
+  try {
+    const dateString = new Intl.DateTimeFormat('en-US', options).format(date)
+    return dateString
+  } catch (error) {
+    console.error(`Date transform failed: ${date}`)
+  }
 }
 
 export const formatDateJS = (date: Date | null) => {

@@ -28,9 +28,5 @@ export const Home = ({ lang, mode = 'user' }: PropTypes) => {
   if (!slides) {
     return <LoadingLogo />
   }
-  return (
-    <div className="h-[570px] w-full overflow-hidden md:h-[570px] xl:h-[950px]">
-      <Carousel slides={slides} lang={lang} mode={mode} />
-    </div>
-  )
+  return <Carousel slides={slides} lang={lang} mode={mode} />
 }

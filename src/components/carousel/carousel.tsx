@@ -18,8 +18,8 @@ type PropTypes = {
   mode?: 'user' | 'admin'
 }
 
-export const Carousel = ({ slides, lang, mode = 'user' }: PropTypes) => {
-  return (
+export const Carousel = ({ slides, lang, mode = 'user' }: PropTypes) => (
+  <div className="h-[570px] w-full overflow-hidden md:h-[570px] xl:h-[950px]">
     <Swiper
       spaceBetween={30}
       centeredSlides={true}
@@ -94,5 +94,5 @@ export const Carousel = ({ slides, lang, mode = 'user' }: PropTypes) => {
         </SwiperSlide>
       ))}
     </Swiper>
-  )
-}
+  </div>
+)
