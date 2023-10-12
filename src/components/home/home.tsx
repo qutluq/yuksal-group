@@ -7,12 +7,16 @@ import 'swiper/css/pagination'
 
 import { useEffect, useState } from 'react'
 
+import { LoadingLogo } from '@//components/fallback'
 import { Carousel } from '@/components/carousel'
-import { getHomepageSlidesInitialized } from '@/utils/api-client'
+import {
+  getHomeGalleryImagesInitialized,
+  getHomepageSlidesInitialized,
+} from '@/utils/api-client'
 
-import { LoadingLogo } from '../fallback'
+import { GalleryHome } from './gallery'
 
-import type { SlideInitialized } from '@/types'
+import type { GalleryImageInitialized, SlideInitialized } from '@/types'
 type PropTypes = {
   lang: string
   mode?: 'user' | 'admin'
@@ -20,13 +24,25 @@ type PropTypes = {
 
 export const Home = ({ lang, mode = 'user' }: PropTypes) => {
   const [slides, setSlides] = useState<SlideInitialized[]>()
+  const [galleryImages, setGalleryImages] =
+    useState<GalleryImageInitialized[]>()
   useEffect(() => {
-    getHomepageSlidesInitialized().then((data) => {
-      setSlides(data)
+    Promise.all([
+      getHomepageSlidesInitialized(),
+      getHomeGalleryImagesInitialized(),
+    ]).then((responses) => {
+      setSlides(responses[0])
+      setGalleryImages(responses[1])
     })
   }, [])
-  if (!slides) {
+  if (!slides || !galleryImages) {
     return <LoadingLogo />
   }
-  return <Carousel slides={slides} lang={lang} mode={mode} />
+
+  return (
+    <div className="flex flex-col">
+      <Carousel slides={slides} lang={lang} mode={mode} />
+      <GalleryHome galleryImages={galleryImages} />
+    </div>
+  )
 }

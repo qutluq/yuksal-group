@@ -2,7 +2,9 @@ import { cache } from 'react'
 
 import { PrismaClient } from '@prisma/client'
 
-import { slidesCount } from './settings'
+import { homeGalleryImageCount, slidesCount } from './settings'
+
+import type { HomeGalleryImage } from '@prisma/client'
 
 import type { Settings, SettingsKeys, Slide } from '@/types'
 import type { Post } from '@/types/blog'
@@ -64,6 +66,32 @@ export const getPosts = cache(
     return { posts: results as Post[], total: count }
   },
 )
+
+export const getHomeGalleryImages = async () => {
+  const results = await prisma.homeGalleryImage.findMany({
+    orderBy: {
+      id: 'asc',
+    },
+  })
+
+  if (results.length === 0) {
+    const records: HomeGalleryImage[] = []
+    for (let i = 1; i <= homeGalleryImageCount; i++) {
+      const newRecord = await prisma.homeGalleryImage.create({
+        data: {
+          id: i,
+          title: '',
+          date: new Date(),
+          image: '',
+        },
+      })
+      records.push(newRecord)
+    }
+    return records
+  }
+
+  return { galleryImages: results as HomeGalleryImage[] }
+}
 
 export const getSlides = async () => {
   const results = await prisma.slide.findMany({

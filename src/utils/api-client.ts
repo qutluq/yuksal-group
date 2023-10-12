@@ -1,6 +1,12 @@
 import Cookies from 'js-cookie'
 
-import type { ImageFile, Settings, SettingsKeys, Slide } from '@/types'
+import type {
+  GalleryImageInitialized,
+  ImageFile,
+  Settings,
+  SettingsKeys,
+  Slide,
+} from '@/types'
 import type { Post } from '@/types/blog'
 
 export const updatePostClientSide = async (id: number, data: Post) => {
@@ -143,6 +149,26 @@ export const getHomepageSlidesClientSide = async () => {
   return []
 }
 
+export const getHomeGalleryImagesClientSide = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/home-gallery/`,
+      {
+        method: 'GET',
+      },
+    )
+
+    const data = await response.json()
+
+    const { galleryImages } = data
+
+    return galleryImages
+  } catch (error) {
+    console.error(`Slides fetch failed: ${error}`)
+  }
+  return []
+}
+
 export const getHomepageSlideClientSide = async (id: number) => {
   if (!id) {
     return undefined
@@ -192,7 +218,44 @@ export const getHomepageSlidesInitialized = async () => {
     )
     return await slidesInitialized
   } catch (error) {
-    console.error(`Can't fetch image: ${error}`)
+    console.error(`Can't fetch slides: ${error}`)
+  }
+  return []
+}
+
+export const getHomeGalleryImagesInitialized = async () => {
+  try {
+    const galleryImages = await getHomeGalleryImagesClientSide()
+    const responses = await Promise.all(
+      galleryImages.map((item) => getImageClientSide(item.image)),
+    )
+    const galleryImagesInitialized = await Promise.all(
+      responses.map(async (response, index) => {
+        if (!response)
+          return {
+            ...galleryImages[index],
+            image: { id: galleryImages[index].image, href: '', file: null },
+          } as GalleryImageInitialized
+        const image_blob = await response.blob()
+        let imageUrl = ''
+        if (image_blob.size > 0) {
+          imageUrl = URL.createObjectURL(image_blob)
+        }
+        const galleryImageInitialized = {
+          ...galleryImages[index],
+          image: {
+            id: galleryImages[index].image,
+            href: imageUrl,
+            file: null,
+          },
+        } as GalleryImageInitialized
+
+        return galleryImageInitialized
+      }),
+    )
+    return await galleryImagesInitialized
+  } catch (error) {
+    console.error(`Can't fetch gallery image: ${error}`)
   }
   return []
 }
