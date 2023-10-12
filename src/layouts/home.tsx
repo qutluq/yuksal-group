@@ -1,10 +1,12 @@
 import { Footer } from '@/components/footer'
 import { Nav, NavItems, NavItemsMobile } from '@/components/nav'
 
+import type { UserMode } from '@/types'
+
 type PropTypes = {
   lang: string
   children: React.ReactNode
-  mode?: 'user' | 'admin'
+  mode?: UserMode
 }
 
 export const HomeLayout = ({ lang, children, mode = 'user' }: PropTypes) => {

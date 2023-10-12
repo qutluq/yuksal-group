@@ -11,11 +11,11 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { classNames, translate } from '@/utils'
 
-import type { SlideInitialized } from '@/types'
+import type { SlideInitialized, UserMode } from '@/types'
 type PropTypes = {
   slides: SlideInitialized[] | undefined
   lang: string
-  mode?: 'user' | 'admin'
+  mode?: UserMode
 }
 
 export const Carousel = ({ slides, lang, mode = 'user' }: PropTypes) => (

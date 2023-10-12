@@ -81,3 +81,5 @@ export type GalleryImage = {
 export type GalleryImageInitialized = Omit<GalleryImage, 'image'> & {
   image: ImageFile
 }
+
+export type UserMode = 'user' | 'admin'

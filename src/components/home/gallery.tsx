@@ -7,13 +7,14 @@ import { useState } from 'react'
 import { Viewer } from '@/components/gallery'
 import { formatDateJS } from '@/utils'
 
-import type { GalleryImageInitialized } from '@/types'
+import type { GalleryImageInitialized, UserMode } from '@/types'
 
 type PropTypes = {
   galleryImages: GalleryImageInitialized[]
+  mode: UserMode
 }
 
-export const GalleryHome = ({ galleryImages }: PropTypes) => {
+export const GalleryHome = ({ galleryImages, mode }: PropTypes) => {
   const [viewerVisible, setViewerVisible] = useState(false)
 
   return (

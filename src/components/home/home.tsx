@@ -16,10 +16,14 @@ import {
 
 import { GalleryHome } from './gallery'
 
-import type { GalleryImageInitialized, SlideInitialized } from '@/types'
+import type {
+  GalleryImageInitialized,
+  SlideInitialized,
+  UserMode,
+} from '@/types'
 type PropTypes = {
   lang: string
-  mode?: 'user' | 'admin'
+  mode?: UserMode
 }
 
 export const Home = ({ lang, mode = 'user' }: PropTypes) => {
@@ -42,7 +46,7 @@ export const Home = ({ lang, mode = 'user' }: PropTypes) => {
   return (
     <div className="flex flex-col">
       <Carousel slides={slides} lang={lang} mode={mode} />
-      <GalleryHome galleryImages={galleryImages} />
+      <GalleryHome galleryImages={galleryImages} mode={mode} />
     </div>
   )
 }
