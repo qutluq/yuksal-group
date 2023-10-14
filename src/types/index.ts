@@ -70,3 +70,16 @@ export const settingsKeys: (keyof Settings)[] = [
 
   'paginationLimit',
 ]
+
+export type GalleryImage = {
+  id: number
+  title: string
+  date: Date
+  image: string
+}
+
+export type GalleryImageInitialized = Omit<GalleryImage, 'image'> & {
+  image: ImageFile
+}
+
+export type UserMode = 'user' | 'admin'

@@ -3,3 +3,4 @@ export const SiteName = 'Yuksal Group'
 export const SiteDescription = 'Uyghur Musical Group: Naghra/Surney/Karnay'
 export const SiteUrl = 'https://www.yuksal-group.com'
 export const slidesCount = 3
+export const homeGalleryImageCount = 4

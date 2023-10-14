@@ -45,6 +45,13 @@ model Slide {
   setting     Settings @relation(fields: [settingId], references: [id])
 }
 
+model HomeGalleryImage {
+  id    Int      @id
+  title String
+  date  DateTime
+  image String
+}
+
 model Settings {
   id                               Int     @id
   paginationLimit                  Int     @default(10)

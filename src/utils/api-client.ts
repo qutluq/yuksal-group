@@ -1,6 +1,13 @@
 import Cookies from 'js-cookie'
 
-import type { ImageFile, Settings, SettingsKeys, Slide } from '@/types'
+import type {
+  GalleryImage,
+  GalleryImageInitialized,
+  ImageFile,
+  Settings,
+  SettingsKeys,
+  Slide,
+} from '@/types'
 import type { Post } from '@/types/blog'
 
 export const updatePostClientSide = async (id: number, data: Post) => {
@@ -143,6 +150,26 @@ export const getHomepageSlidesClientSide = async () => {
   return []
 }
 
+export const getHomeGalleryImagesClientSide = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/home-gallery/`,
+      {
+        method: 'GET',
+      },
+    )
+
+    const data = await response.json()
+
+    const { galleryImages } = data
+
+    return galleryImages
+  } catch (error) {
+    console.error(`Slides fetch failed: ${error}`)
+  }
+  return []
+}
+
 export const getHomepageSlideClientSide = async (id: number) => {
   if (!id) {
     return undefined
@@ -162,7 +189,33 @@ export const getHomepageSlideClientSide = async (id: number) => {
 
     return slide
   } catch (error) {
-    console.error(`Slides fetch failed: ${error}`)
+    console.error(`Slide fetch failed: ${error}`)
+  }
+  return undefined
+}
+
+export const getHomeGalleryImageClientSide = async (id: number) => {
+  if (!id) {
+    console.error('Home gallery image fetch failed: no id provided')
+    return undefined
+  }
+  try {
+    const response = await fetch(
+      `${
+        process.env.NEXT_PUBLIC_BASE_URL
+      }/api/home-gallery?id=${id.toString()}`,
+      {
+        method: 'GET',
+      },
+    )
+    if (response.status !== 200) {
+      return undefined
+    }
+
+    const galleryImage = await response.json()
+    return galleryImage
+  } catch (error) {
+    console.error(`Gallery image fetch failed: ${error}`)
   }
   return undefined
 }
@@ -190,9 +243,46 @@ export const getHomepageSlidesInitialized = async () => {
         return slide
       }),
     )
-    return await slidesInitialized
+    return slidesInitialized
   } catch (error) {
-    console.error(`Can't fetch image: ${error}`)
+    console.error(`Can't fetch slides: ${error}`)
+  }
+  return []
+}
+
+export const getHomeGalleryImagesInitialized = async () => {
+  try {
+    const galleryImages = await getHomeGalleryImagesClientSide()
+    const responses = await Promise.all(
+      galleryImages.map((item) => getImageClientSide(item.image)),
+    )
+    const galleryImagesInitialized = await Promise.all(
+      responses.map(async (response, index) => {
+        if (!response)
+          return {
+            ...galleryImages[index],
+            image: { id: galleryImages[index].image, href: '', file: null },
+          } as GalleryImageInitialized
+        const image_blob = await response.blob()
+        let imageUrl = ''
+        if (image_blob.size > 0) {
+          imageUrl = URL.createObjectURL(image_blob)
+        }
+        const galleryImageInitialized = {
+          ...galleryImages[index],
+          image: {
+            id: galleryImages[index].image,
+            href: imageUrl,
+            file: null,
+          },
+        } as GalleryImageInitialized
+
+        return galleryImageInitialized
+      }),
+    )
+    return galleryImagesInitialized
+  } catch (error) {
+    console.error(`Can't fetch gallery image: ${error}`)
   }
   return []
 }
@@ -202,26 +292,60 @@ export const getHomepageSlideInitialized = async (id: number) => {
     const { slide } = await getHomepageSlideClientSide(id)
     const response = await getImageClientSide(slide.image)
 
-    const slidesInitialized = {
+    const slideInitialized = {
       ...slide,
       image: { file: null, id: '', href: '' },
     }
-    if (!response) return slidesInitialized
+    if (!response) return slideInitialized
     const image_blob = await response.blob()
     let imageUrl = ''
     if (image_blob.size > 0) {
       imageUrl = URL.createObjectURL(image_blob)
     }
-    slidesInitialized.image = {
+    slideInitialized.image = {
       file: null,
       id: slide.image,
       href: imageUrl,
     } as ImageFile
-    return slidesInitialized
+    return slideInitialized
   } catch (error) {
     console.error(`Can't fetch image: ${error}`)
   }
   return []
+}
+
+export const getHomeGalleryImageInitialized = async (id: number) => {
+  if (!id) {
+    console.error('Home gallery image fetch failed: no id provided')
+    return undefined
+  }
+
+  try {
+    const { galleryImage } = await getHomeGalleryImageClientSide(id)
+    const response = await getImageClientSide(galleryImage.image)
+
+    const galleryImageInitialized = {
+      ...galleryImage,
+      image: { file: null, id: '', href: '' },
+    }
+    if (!response) return galleryImageInitialized
+    const image_blob = await response.blob()
+    let imageUrl = ''
+    if (image_blob.size > 0) {
+      imageUrl = URL.createObjectURL(image_blob)
+    }
+
+    galleryImageInitialized.image = {
+      file: null,
+      id: galleryImage.image,
+      href: imageUrl,
+    } as ImageFile
+
+    return galleryImageInitialized
+  } catch (error) {
+    console.error(`Can't fetch gallery image: ${error}`)
+  }
+  return undefined
 }
 
 const getImageUrlsClientSideMemo = () => {
@@ -387,6 +511,30 @@ export const updateSlideClientSide = async (slide: Slide) => {
     return response
   } catch (error) {
     console.error(`Slide update failed: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
+}
+
+export const updateGalleryImageClientSide = async (
+  galleryImage: GalleryImage,
+) => {
+  try {
+    const response = fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/home-gallery/`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(galleryImage),
+      },
+    )
+
+    return response
+  } catch (error) {
+    console.error(`Gallery image update failed: ${error}`)
     return new Response(null, {
       status: 500,
     })

@@ -5,9 +5,10 @@ import { BsClock } from 'react-icons/bs'
 
 import { LoadingBlog } from '@/components/fallback'
 import { PosterBlog } from '@/components/image'
-import type { Post } from '@/types/blog'
 import { classNames, formatDate, translate } from '@/utils'
 import { getImageUrlsClientSide } from '@/utils/api-client'
+
+import type { Post } from '@/types/blog'
 type PropTypes = {
   posts: Post[]
   lang: string

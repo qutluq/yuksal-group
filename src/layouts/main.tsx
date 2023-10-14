@@ -2,13 +2,14 @@ import { Breadcrumb } from '@/components/breadcrumb'
 import { Footer } from '@/components/footer'
 import { CoverImageWrapper } from '@/components/image'
 import { Nav, NavItems, NavItemsMobile } from '@/components/nav'
-import type { TypeMenuPage } from '@/types'
+
+import type { TypeMenuPage, UserMode } from '@/types'
 type PropTypes = {
   page: TypeMenuPage
   lang: string
   children: React.ReactNode
   bgImg?: string
-  mode?: 'user' | 'admin'
+  mode?: UserMode
 }
 
 export const MainLayout = ({

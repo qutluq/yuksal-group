@@ -1,10 +1,12 @@
+import type { UserMode } from '@/types'
+
 import { NavItem } from './nav-item'
 import { NAV_MENU, NAV_MENU_ADMIN } from './settings'
 
 type PropTypes = {
   page: string
   lang: string
-  mode?: 'user' | 'admin'
+  mode?: UserMode
 }
 
 export const NavItems = ({ page, lang, mode = 'user' }: PropTypes) => {

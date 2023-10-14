@@ -2,11 +2,12 @@ import Link from 'next/link'
 
 import { classNames, translate } from '@/utils'
 
+import type { UserMode } from '@/types'
 type PropTypes = {
   item: { id: string; name: string; slug: string }
   page: string
   lang: string
-  mode?: 'user' | 'admin'
+  mode?: UserMode
   variant?: 'desktop' | 'mobile'
 }
 
