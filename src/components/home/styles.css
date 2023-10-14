@@ -1,11 +1,3 @@
-.thumbnail-caption:hover {
-  opacity: 1;
-}
-
-.thumbnail-caption {
-  opacity: 0;
-}
-
 .thumbnail-caption::before {
   content: '';
   display: block;

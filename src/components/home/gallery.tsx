@@ -27,7 +27,7 @@ export const GalleryHome = ({ galleryImages, mode }: PropTypes) => {
           className="relative h-[18.75vw] w-[25vw] overflow-hidden border border-black bg-red-500/10"
         >
           <div
-            className="thumbnail-caption relative z-10  flex h-full  min-h-[70px]  items-center justify-center py-8 font-bold uppercase"
+            className="thumbnail-caption relative z-10  flex h-full  min-h-[70px]  items-center justify-center py-8 font-bold uppercase opacity-100 hover:opacity-100 lg:opacity-0"
             onClick={() => {
               if (item?.image?.href) {
                 setViewerVisible(true)
@@ -36,9 +36,11 @@ export const GalleryHome = ({ galleryImages, mode }: PropTypes) => {
             }}
           >
             <div className="flex flex-col items-center gap-2">
-              <span className="text-xl">{item.title}</span>
-              <span className="h-[2px] w-10 bg-sky-500" />
-              <span className="font-thin">
+              <span className="text-sm md:text-base lg:text-xl">
+                {item.title}
+              </span>
+              <span className="h-[2px] w-10 bg-[var(--color-primary)]" />
+              <span className="text-xs font-thin md:text-sm lg:text-base">
                 {formatDate(item.date ? new Date(item.date) : null)}
               </span>
             </div>
