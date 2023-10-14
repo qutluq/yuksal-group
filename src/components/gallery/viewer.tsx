@@ -7,12 +7,23 @@ type PropTypes = {
   visible: boolean
   handleOnClose: () => void
   images: ViewerImage[]
+  activeIndex?: number
 }
 
 const DynamicViewer = dynamic(() => import('react-viewer'), {
   ssr: false,
 })
 
-export const Viewer = ({ visible, handleOnClose, images }: PropTypes) => (
-  <DynamicViewer visible={visible} onClose={handleOnClose} images={images} />
+export const Viewer = ({
+  visible,
+  handleOnClose,
+  images,
+  activeIndex = 0,
+}: PropTypes) => (
+  <DynamicViewer
+    visible={visible}
+    onClose={handleOnClose}
+    images={images}
+    activeIndex={activeIndex}
+  />
 )

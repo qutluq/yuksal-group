@@ -17,6 +17,7 @@ type PropTypes = {
 
 export const GalleryHome = ({ galleryImages, mode }: PropTypes) => {
   const [viewerVisible, setViewerVisible] = useState(false)
+  const [viewerActiveIdx, setViewerActiveIdx] = useState(0)
 
   return (
     <div className="flex w-full flex-row">
@@ -28,7 +29,10 @@ export const GalleryHome = ({ galleryImages, mode }: PropTypes) => {
           <div
             className="thumbnail-caption relative z-10  flex h-full  min-h-[70px]  items-center justify-center py-8 font-bold uppercase"
             onClick={() => {
-              if (item?.image?.href) setViewerVisible(true)
+              if (item?.image?.href) {
+                setViewerVisible(true)
+                setViewerActiveIdx(item.id - 1)
+              }
             }}
           >
             <div className="flex flex-col items-center gap-2">
@@ -67,7 +71,11 @@ export const GalleryHome = ({ galleryImages, mode }: PropTypes) => {
           handleOnClose={() => {
             setViewerVisible(false)
           }}
-          images={[{ src: '', alt: '' }]}
+          images={galleryImages.map((img) => ({
+            src: img?.image?.href,
+            alt: img?.image?.id,
+          }))}
+          activeIndex={viewerActiveIdx}
         />
       )}
     </div>
