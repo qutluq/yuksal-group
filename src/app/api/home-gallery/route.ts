@@ -1,17 +1,31 @@
 import { accessPermitted } from '@/utils/api-server'
-import { getHomeGalleryImages, updateSlide } from '@/utils/db'
+import {
+  getHomeGalleryImage,
+  getHomeGalleryImages,
+  updateGalleryImage,
+} from '@/utils/db'
 
-export async function GET() {
-  //fetch all home gallery images
+export async function GET(request: Request) {
+  //fetch all home gallery images or gallery image if id provided in search params
 
   try {
-    const result = await getHomeGalleryImages()
+    const url = new URL(request.url)
+    const paramId = url.searchParams.get('id')
 
-    return new Response(JSON.stringify(result), {
-      status: 200,
-    })
+    if (paramId) {
+      const id = parseInt(paramId)
+      const result = await getHomeGalleryImage(id)
+      return new Response(JSON.stringify(result), {
+        status: 200,
+      })
+    } else {
+      const result = await getHomeGalleryImages()
+      return new Response(JSON.stringify(result), {
+        status: 200,
+      })
+    }
   } catch (error) {
-    console.error('Unable to fetch home gallery images', { error })
+    console.error('Unable to fetch home gallery image(s)', { error })
     return new Response(null, {
       status: 500,
     })
@@ -25,14 +39,14 @@ export async function POST(request: Request) {
   }
 
   try {
-    const slide = await request.json()
+    const galleryImage = await request.json()
 
-    updateSlide(slide)
+    updateGalleryImage(galleryImage)
     return new Response(null, {
       status: 204,
     })
   } catch (error) {
-    console.error('Unable to fetch filenames', { error })
+    console.error(`Unable to update galleryImage: ${error}`)
     return new Response(null, {
       status: 500,
     })

@@ -4,10 +4,9 @@ import { PrismaClient } from '@prisma/client'
 
 import { homeGalleryImageCount, slidesCount } from './settings'
 
-import type { HomeGalleryImage } from '@prisma/client'
-
-import type { Settings, SettingsKeys, Slide } from '@/types'
+import type { GalleryImage, Settings, SettingsKeys, Slide } from '@/types'
 import type { Post } from '@/types/blog'
+import type { HomeGalleryImage } from '@prisma/client'
 // Instantiate a single instance PrismaClient and save it on the globalThis object.
 // Then we keep a check to only instantiate PrismaClient if it's not on the globalThis object otherwise use the same
 // instance again if already present to prevent instantiating extra PrismaClient instances.
@@ -134,6 +133,16 @@ export const getSlide = async (id: number) => {
   return { slide: result as Slide }
 }
 
+export const getHomeGalleryImage = async (id: number) => {
+  const result = await prisma.homeGalleryImage.findUnique({
+    where: {
+      id: id,
+    },
+  })
+
+  return { galleryImage: result as GalleryImage }
+}
+
 export const updateSlide = async (slide: Slide) => {
   const { id, ...data } = slide
   try {
@@ -145,6 +154,22 @@ export const updateSlide = async (slide: Slide) => {
     })
   } catch (error) {
     console.error(`❌ Can not update post with id ${id}: `, error)
+    return false
+  }
+  return true
+}
+
+export const updateGalleryImage = async (galleryImage: GalleryImage) => {
+  const { id, ...data } = galleryImage
+  try {
+    await prisma.homeGalleryImage.update({
+      where: {
+        id: id,
+      },
+      data: data,
+    })
+  } catch (error) {
+    console.error(`❌ Can not update home gallery mage with id ${id}: `, error)
     return false
   }
   return true
