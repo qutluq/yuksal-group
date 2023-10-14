@@ -20,11 +20,11 @@ export const GalleryHome = ({ galleryImages, mode }: PropTypes) => {
   const [viewerActiveIdx, setViewerActiveIdx] = useState(0)
 
   return (
-    <div className="flex w-full flex-row">
+    <div className="flex w-full flex-col md:flex-row">
       {galleryImages.map((item) => (
         <div
           key={item.id}
-          className="relative h-[18.75vw] w-[25vw] overflow-hidden border border-black bg-red-500/10"
+          className="relative h-[50vw] w-full overflow-hidden border border-black bg-red-500/10 md:h-[18.75vw] md:w-[25vw]"
         >
           <div
             className="thumbnail-caption relative z-10  flex h-full  min-h-[70px]  items-center justify-center py-8 font-bold uppercase opacity-100 hover:opacity-100 lg:opacity-0"
@@ -46,7 +46,7 @@ export const GalleryHome = ({ galleryImages, mode }: PropTypes) => {
             </div>
           </div>
           {item.image?.href !== '' && (
-            <div className="absolute top-0 h-full w-[25vw] overflow-hidden">
+            <div className="absolute top-0 h-full w-full overflow-hidden md:w-[25vw]">
               <Image
                 src={item.image?.href}
                 alt="Gallery Image"
