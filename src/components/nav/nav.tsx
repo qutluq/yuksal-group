@@ -1,5 +1,4 @@
 'use client'
-import { Disclosure } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -15,6 +14,7 @@ import {
 import { useAdminSession } from '@/hooks/useAdminSession'
 import { classNames, translate } from '@/utils'
 import { DEFAULT_AUTHOR_IMG } from '@/utils/settings'
+import { Disclosure } from '@headlessui/react'
 
 import { SocialLinks } from './social'
 
@@ -44,7 +44,7 @@ export const Nav = ({ navItems, navItemsMobile, lang }: PropTypes) => {
   return (
     <div
       className={classNames(
-        'fixed z-10 flex h-[76px] w-full flex-row justify-center bg-[var(--color-secondary)]',
+        'fixed z-50 flex h-[76px] w-full flex-row justify-center bg-[var(--color-secondary)]',
         colorChange ? 'border-b border-white' : 'md:bg-transparent',
       )}
     >
