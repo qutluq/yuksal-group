@@ -83,3 +83,9 @@ export type GalleryImageInitialized = Omit<GalleryImage, 'image'> & {
 }
 
 export type UserMode = 'user' | 'admin'
+
+export type Modal = {
+  title: string
+  closed: boolean
+  approved: boolean
+}

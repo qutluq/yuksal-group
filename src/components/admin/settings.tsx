@@ -53,8 +53,7 @@ export const Settings = ({ lang }: PropTypes) => {
   >('')
 
   const [unsavedChangesExist, setUnsavedChangesExist] = useState(false)
-  const { modalUnsavedlosed, setUnsavedModalClosed, setUnsavedConfirmed } =
-    usePostUnsavedChanges(unsavedChangesExist, lang)
+  const { modal, setModal } = usePostUnsavedChanges(unsavedChangesExist, lang)
 
   useEffect(() => {
     settingsKeys.map(async (name) => {
@@ -194,7 +193,7 @@ export const Settings = ({ lang }: PropTypes) => {
         setUnsavedChangesExist={setUnsavedChangesExist}
         lang={lang}
       />
-      {!modalUnsavedlosed && (
+      {!modal.closed && (
         <ModalDialog
           title={translate('Unsaved changes', lang)}
           body={
@@ -207,8 +206,13 @@ export const Settings = ({ lang }: PropTypes) => {
           }
           btnTitleAgree={translate('Yes', lang)}
           btnTitleCancel={translate('Cancel', lang)}
-          setConfirmed={setUnsavedConfirmed}
-          setModalClosed={setUnsavedModalClosed}
+          onClose={(response) => {
+            setModal((state) => ({
+              ...state,
+              approved: response,
+              closed: true,
+            }))
+          }}
         />
       )}
     </div>

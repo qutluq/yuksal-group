@@ -7,8 +7,7 @@ type PropTypes = {
   body: string | ReactElement
   btnTitleCancel: string
   btnTitleAgree: string
-  setModalClosed: (close: boolean) => void
-  setConfirmed: (answer: boolean) => void
+  onClose: (response: boolean) => void
 }
 
 export const ModalDialog = ({
@@ -16,23 +15,17 @@ export const ModalDialog = ({
   body,
   btnTitleCancel,
   btnTitleAgree,
-  setModalClosed,
-  setConfirmed,
+  onClose,
 }: PropTypes) => {
-  const handleClick = (agree: boolean) => {
-    setConfirmed(agree)
-    setModalClosed(true)
-  }
-
   return (
     <div
       className="fixed left-0 top-0 z-20 flex h-screen w-screen flex-col items-center justify-center bg-black/10"
-      onClick={() => handleClick(false)}
+      onClick={() => onClose(false)}
     >
       <div className="flex max-h-[300px] w-[300px] flex-col gap-4 rounded-2xl border-8 border-black/10 bg-[var(--color-secondary)] p-5 sm:max-h-[500px] sm:w-[500px]">
         <div className="flex flex-row justify-end">
           <div className="flex w-10 items-center justify-center rounded-lg px-2 hover:bg-gray-900">
-            <Button onClick={() => handleClick(false)} variant="text">
+            <Button onClick={() => onClose(false)} variant="text">
               X
             </Button>
           </div>
@@ -47,7 +40,7 @@ export const ModalDialog = ({
           <Button
             onClick={(e) => {
               e.stopPropagation()
-              handleClick(true)
+              onClose(true)
             }}
             className="w-40"
           >
@@ -56,7 +49,7 @@ export const ModalDialog = ({
           <Button
             onClick={(e) => {
               e.stopPropagation()
-              handleClick(false)
+              onClose(false)
             }}
             className="w-40"
           >
