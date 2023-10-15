@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { title } from 'process'
 import { useEffect, useState } from 'react'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { BsClock } from 'react-icons/bs'
@@ -11,11 +12,11 @@ import { LoadingBlog } from '@/components/fallback'
 import { PosterBlog } from '@/components/image'
 import { ModalDialog } from '@/components/modal'
 import { PaginationClientSide } from '@/components/pagination/pagination-client-side'
-import { useModal } from '@/hooks/useModal'
 import { usePaginatedPostsClientSide } from '@/hooks/usePaginatedPostsClientSide'
 import { classNames, formatDate, translate } from '@/utils'
 import { deletePostClientSide } from '@/utils/api-client'
 
+import type { Modal } from '@/types'
 type PropTypes = {
   lang: string
 }
@@ -32,25 +33,33 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
     imageUrls,
   } = usePaginatedPostsClientSide()
 
-  const { modalClosed, setModalClosed, confirmed, setConfirmed } = useModal()
+  const [modal, setModal] = useState<Modal>({
+    approved: false,
+    closed: true,
+    title: '',
+  })
   const [deleteId, setDeleteId] = useState(-1)
-  const [title, setTitle] = useState('')
 
   useEffect(() => {
-    if (modalClosed && confirmed) {
+    if (modal?.closed && modal.approved) {
       deletePostClientSide(deleteId).then((response) => {
         if (response.ok) {
           setUpdate(true)
+          setModal((state) => ({ ...state, approved: false }))
         }
       })
       setDeleteId(-1)
     }
-  }, [modalClosed])
+  }, [modal])
 
   const handleClickDelete = async (id: number, title: string) => {
     setDeleteId(id)
-    setTitle(title)
-    setModalClosed(false)
+    setModal((state) => ({
+      ...state,
+      title: title,
+      closed: false,
+      approved: false,
+    }))
   }
 
   if (loading) {
@@ -129,7 +138,7 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
           total={totalPosts}
         />
       </div>
-      {!modalClosed && (
+      {!modal.closed && (
         <ModalDialog
           title="Delete post"
           body={
@@ -140,8 +149,13 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
           }
           btnTitleAgree="Yes"
           btnTitleCancel="Cancel"
-          setConfirmed={setConfirmed}
-          setModalClosed={setModalClosed}
+          onClose={(response) => {
+            setModal((state) => ({
+              ...state,
+              approved: response,
+              closed: true,
+            }))
+          }}
         />
       )}
     </>
