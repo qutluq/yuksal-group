@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 
 import { LoadingLogo } from '@//components/fallback'
 import { Carousel } from '@/components/carousel'
+import { NewsSectionHome } from '@/components/news'
 import {
   getHomeGalleryImagesInitialized,
   getHomepageSlidesInitialized,
@@ -47,6 +48,7 @@ export const Home = ({ lang, mode = 'user' }: PropTypes) => {
     <div className="flex flex-col">
       <Carousel slides={slides} lang={lang} mode={mode} />
       <GalleryHome galleryImages={galleryImages} mode={mode} />
+      <NewsSectionHome lang={lang} />
     </div>
   )
 }
