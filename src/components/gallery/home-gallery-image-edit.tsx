@@ -37,8 +37,7 @@ export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
     file: undefined,
   })
 
-  const { modalUnsavedlosed, setUnsavedModalClosed, setUnsavedConfirmed } =
-    usePostUnsavedChanges(unsavedChangesExist, lang)
+  const { modal, setModal } = usePostUnsavedChanges(unsavedChangesExist, lang)
 
   useEffect(() => {
     if (searchParams) {
@@ -178,7 +177,7 @@ export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
         lang={lang}
       />
 
-      {!modalUnsavedlosed && (
+      {!modal.closed && (
         <ModalDialog
           title={translate('Unsaved changes', lang)}
           body={
@@ -191,8 +190,13 @@ export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
           }
           btnTitleAgree={translate('Yes', lang)}
           btnTitleCancel={translate('Cancel', lang)}
-          setConfirmed={setUnsavedConfirmed}
-          setModalClosed={setUnsavedModalClosed}
+          onClose={(response) => {
+            setModal((state) => ({
+              ...state,
+              approved: response,
+              closed: true,
+            }))
+          }}
         />
       )}
     </div>

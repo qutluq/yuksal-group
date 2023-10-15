@@ -1,14 +1,14 @@
 import Image from 'next/image'
-import type { Dispatch, SetStateAction } from 'react'
 import { useEffect, useState } from 'react'
 import { TfiClose } from 'react-icons/tfi'
 
 import { ModalDialog } from '@/components/modal'
 import { Tooltip } from '@/components/tooltip'
-import { useModal } from '@/hooks/useModal'
-import type { ImageFile } from '@/types'
 import { classNames, translate } from '@/utils'
 import { deleteImageClientSide } from '@/utils/api-client'
+
+import type { ImageFile, Modal } from '@/types'
+import type { Dispatch, SetStateAction } from 'react'
 type PropTypes = {
   images: { string: string } | object
   duplicateName: string
@@ -26,15 +26,20 @@ export const ImageList = ({
   setImages,
   setChosenImage,
 }: PropTypes) => {
-  const { modalClosed, setModalClosed, confirmed, setConfirmed } = useModal()
+  const [modal, setModal] = useState<Modal>({
+    approved: false,
+    closed: true,
+    title: '',
+  })
+
   const [removeImage, setRemoveImage] = useState('')
 
   useEffect(() => {
-    if (modalClosed && confirmed) {
+    if (modal?.closed && modal.approved) {
       deleteImage()
-      setConfirmed(false)
+      setModal((state) => ({ ...state, approved: false }))
     }
-  }, [confirmed])
+  }, [modal])
 
   const deleteImage = () => {
     if (!removeImage) {
@@ -71,7 +76,7 @@ export const ImageList = ({
 
   const handleRemoveClick = (filename: string) => {
     setRemoveImage(filename)
-    setModalClosed(false)
+    setModal((state) => ({ ...state, closed: false }))
   }
 
   return (
@@ -120,7 +125,7 @@ export const ImageList = ({
         ))}
       </div>
 
-      {!modalClosed && removeImage && (
+      {!modal.closed && removeImage && (
         <ModalDialog
           title={translate('Remove image', lang)}
           body={
@@ -133,8 +138,13 @@ export const ImageList = ({
           }
           btnTitleAgree={translate('Yes', lang)}
           btnTitleCancel={translate('Cancel', lang)}
-          setConfirmed={setConfirmed}
-          setModalClosed={setModalClosed}
+          onClose={(response) => {
+            setModal((state) => ({
+              ...state,
+              approved: response,
+              closed: true,
+            }))
+          }}
         />
       )}
     </>
