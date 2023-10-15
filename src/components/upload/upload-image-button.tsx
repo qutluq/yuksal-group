@@ -1,12 +1,12 @@
 import type { Dispatch, SetStateAction } from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/button'
 import { ModalDialog } from '@/components/modal'
-import { useModal } from '@/hooks/useModal'
-import type { ImageFile } from '@/types'
 import { translate } from '@/utils'
 import { revalidateImageCache, uploadImageClientSide } from '@/utils/api-client'
+
+import type { ImageFile, Modal } from '@/types'
 type PropTypes = {
   chosenImage: ImageFile | undefined
   duplicateName: string
@@ -22,13 +22,17 @@ export const UploadImageButton = ({
   updateImage,
   lang,
 }: PropTypes) => {
-  const { modalClosed, setModalClosed, confirmed, setConfirmed } = useModal()
+  const [modal, setModal] = useState<Modal>({
+    approved: false,
+    closed: true,
+    title: '',
+  })
 
   useEffect(() => {
-    if (modalClosed && confirmed) {
+    if (modal.closed && modal.approved) {
       uploadImage()
     }
-  }, [confirmed])
+  }, [modal])
 
   const uploadImage = () => {
     if (!chosenImage?.file) {
@@ -64,7 +68,7 @@ export const UploadImageButton = ({
     if (duplicateName) {
       //image with duplicate name is going to be uploaded and rewrite the original image
       //ask the user if he/she really wants it
-      setModalClosed(false)
+      setModal((state) => ({ ...state, closed: false }))
     } else {
       uploadImage()
     }
@@ -79,7 +83,7 @@ export const UploadImageButton = ({
       >
         {translate('Upload', lang)}
       </Button>
-      {!modalClosed && (
+      {!modal.closed && (
         <ModalDialog
           title={translate('Upload duplicate image', lang)}
           body={
@@ -92,8 +96,13 @@ export const UploadImageButton = ({
           }
           btnTitleAgree={translate('Yes', lang)}
           btnTitleCancel={translate('Cancel', lang)}
-          setConfirmed={setConfirmed}
-          setModalClosed={setModalClosed}
+          onClose={(response) => {
+            setModal((state) => ({
+              ...state,
+              approved: response,
+              closed: true,
+            }))
+          }}
         />
       )}
     </>

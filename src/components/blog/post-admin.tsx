@@ -25,8 +25,10 @@ type PropTypes = {
 
 export const PostAdmin = ({ slug, lang }: PropTypes) => {
   const { state: postState } = usePost(slug, lang)
-  const { modalUnsavedlosed, setUnsavedModalClosed, setUnsavedConfirmed } =
-    usePostUnsavedChanges(postState.unsavedChangesExist, lang)
+  const { modal, setModal } = usePostUnsavedChanges(
+    postState.unsavedChangesExist,
+    lang,
+  )
   const [modalChooseClosed, setModalChooseClosed] = useState(true)
 
   const handleClickSave = () => {
@@ -110,7 +112,7 @@ export const PostAdmin = ({ slug, lang }: PropTypes) => {
           <LoadingLogo />
         </div>
       )}
-      {!modalUnsavedlosed && (
+      {!modal.closed && (
         <ModalDialog
           title={translate('Unsaved changes', lang)}
           body={
@@ -123,8 +125,13 @@ export const PostAdmin = ({ slug, lang }: PropTypes) => {
           }
           btnTitleAgree={translate('Yes', lang)}
           btnTitleCancel={translate('Cancel', lang)}
-          setConfirmed={setUnsavedConfirmed}
-          setModalClosed={setUnsavedModalClosed}
+          onClose={(response) => {
+            setModal((state) => ({
+              ...state,
+              approved: response,
+              closed: true,
+            }))
+          }}
         />
       )}
       {!modalChooseClosed && (

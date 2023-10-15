@@ -1,35 +1,36 @@
 import { useRouteChangeEvents } from 'nextjs-router-events'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
-import { useModal } from '@/hooks/useModal'
 import { translate } from '@/utils'
 
+import type { Modal } from '@/types'
 export const usePostUnsavedChanges = (
   unsavedChangesExist: boolean,
   lang: string,
 ) => {
-  const onBeforeRouteChange = useCallback(() => {
+  const onBeforeRouteChange = useCallback((unsavedChangesExist) => {
+    console.log({ unsavedChangesExist })
     if (unsavedChangesExist) {
-      setUnsavedModalClosed(false)
+      setModal((state) => ({ ...state, closed: false }))
       return false
     }
 
     return true
-  }, [unsavedChangesExist])
+  }, [])
 
   const { allowRouteChange } = useRouteChangeEvents({ onBeforeRouteChange })
-  const {
-    modalClosed: modalUnsavedlosed,
-    setModalClosed: setUnsavedModalClosed,
-    confirmed,
-    setConfirmed: setUnsavedConfirmed,
-  } = useModal()
+  const [modal, setModal] = useState<Modal>({
+    approved: false,
+    closed: true,
+    title: '',
+  })
 
   useEffect(() => {
-    if (modalUnsavedlosed && confirmed) {
+    if (modal.closed && modal.approved) {
       allowRouteChange()
+      setModal((state) => ({ ...state, approved: false }))
     }
-  }, [modalUnsavedlosed])
+  }, [modal])
 
   useEffect(() => {
     const confirmationMessage = translate(
@@ -51,5 +52,5 @@ export const usePostUnsavedChanges = (
       window.removeEventListener('beforeunload', beforeUnloadHandler)
     }
   }, [unsavedChangesExist])
-  return { modalUnsavedlosed, setUnsavedModalClosed, setUnsavedConfirmed }
+  return { modal, setModal }
 }
