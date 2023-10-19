@@ -52,6 +52,14 @@ model HomeGalleryImage {
   image String
 }
 
+model NewsThumbnail {
+  id    Int      @id
+  title String
+  date  DateTime
+  image String
+  url   String
+}
+
 model Settings {
   id                               Int     @id
   paginationLimit                  Int     @default(10)
