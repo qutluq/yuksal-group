@@ -1,3 +1,4 @@
+import { HomeNewsEdit } from './home-news-edit'
 import { NewsSectionHome } from './news-home-section'
 
-export { NewsSectionHome }
+export { HomeNewsEdit, NewsSectionHome }

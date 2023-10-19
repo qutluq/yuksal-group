@@ -4,7 +4,13 @@ import { PrismaClient } from '@prisma/client'
 
 import { homeGalleryImageCount, slidesCount } from './settings'
 
-import type { GalleryImage, Settings, SettingsKeys, Slide } from '@/types'
+import type {
+  GalleryImage,
+  NewsThumbnail,
+  Settings,
+  SettingsKeys,
+  Slide,
+} from '@/types'
 import type { Post } from '@/types/blog'
 import type { HomeGalleryImage } from '@prisma/client'
 // Instantiate a single instance PrismaClient and save it on the globalThis object.
@@ -30,6 +36,16 @@ export const deletePost = async (id: number) => {
   })
 
   return deletedPost
+}
+
+export const deleteNewsThumbnail = async (id: number) => {
+  const deletedThumbnail = await prisma.newsThumbnail.delete({
+    where: {
+      id: id,
+    },
+  })
+
+  return deletedThumbnail
 }
 
 export const getPosts = cache(
@@ -92,6 +108,16 @@ export const getHomeGalleryImages = async () => {
   return { galleryImages: results as HomeGalleryImage[] }
 }
 
+export const getNewsThumbnails = async () => {
+  const results = await prisma.newsThumbnail.findMany({
+    orderBy: {
+      date: 'desc',
+    },
+  })
+
+  return { newsThumbnails: results as NewsThumbnail[] }
+}
+
 export const getSlides = async () => {
   const results = await prisma.slide.findMany({
     where: {
@@ -143,6 +169,16 @@ export const getHomeGalleryImage = async (id: number) => {
   return { galleryImage: result as GalleryImage }
 }
 
+export const getNewsThumbnail = async (id: number) => {
+  const result = await prisma.newsThumbnail.findUnique({
+    where: {
+      id: id,
+    },
+  })
+
+  return { newsThumbnail: result as NewsThumbnail }
+}
+
 export const updateSlide = async (slide: Slide) => {
   const { id, ...data } = slide
   try {
@@ -159,10 +195,38 @@ export const updateSlide = async (slide: Slide) => {
   return true
 }
 
-export const updateGalleryImage = async (galleryImage: GalleryImage) => {
-  const { id, ...data } = galleryImage
+export const updateGalleryImage = async (newsThumbnail: GalleryImage) => {
+  const { id, ...data } = newsThumbnail
   try {
     await prisma.homeGalleryImage.update({
+      where: {
+        id: id,
+      },
+      data: data,
+    })
+  } catch (error) {
+    console.error(`❌ Can not update home gallery mage with id ${id}: `, error)
+    return false
+  }
+  return true
+}
+
+export const updateNewsThumbnail = async (newsThumbnail: NewsThumbnail) => {
+  const { id, ...data } = newsThumbnail
+  try {
+    const result = await prisma.newsThumbnail.findUnique({
+      where: { id: id },
+    })
+
+    if (!result) {
+      //no news thumbnail record found
+      await prisma.newsThumbnail.create({
+        data: newsThumbnail,
+      })
+      return true
+    }
+
+    await prisma.newsThumbnail.update({
       where: {
         id: id,
       },
