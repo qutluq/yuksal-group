@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { title } from 'process'
 import { useEffect, useState } from 'react'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { BsClock } from 'react-icons/bs'
@@ -144,7 +143,7 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
           body={
             <div className="flex flex-col items-center">
               {translate('Are you sure you want to delete the post', lang)}
-              {<p className="font-bold"> {title}?</p>}
+              {<p className="font-bold"> {modal.title}?</p>}
             </div>
           }
           btnTitleAgree="Yes"

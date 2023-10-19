@@ -9,7 +9,6 @@ export const usePostUnsavedChanges = (
   lang: string,
 ) => {
   const onBeforeRouteChange = useCallback((unsavedChangesExist) => {
-    console.log({ unsavedChangesExist })
     if (unsavedChangesExist) {
       setModal((state) => ({ ...state, closed: false }))
       return false
