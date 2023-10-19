@@ -89,3 +89,15 @@ export type Modal = {
   closed: boolean
   approved: boolean
 }
+
+export type NewsThumbnail = {
+  id: number
+  title: string
+  date: Date
+  image: string
+  url: string
+}
+
+export type NewsThumbnailInitialized = Omit<NewsThumbnail, 'image'> & {
+  image: ImageFile
+}

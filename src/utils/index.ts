@@ -138,6 +138,17 @@ export const formatDateJS = (date: Date | null) => {
   ].join('-')
 }
 
+export const getTimeJS = (date: Date | null) => {
+  if (!date) {
+    return ''
+  }
+
+  const hours = date.getHours().toString().padStart(2, '0')
+  const minutes = date.getMinutes().toString().padStart(2, '0')
+
+  return `${hours}:${minutes}`
+}
+
 export const slugify = (str: string) =>
   String(str)
     .normalize('NFKD') // split accented characters into their base characters and diacritical marks

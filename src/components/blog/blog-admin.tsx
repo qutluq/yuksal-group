@@ -144,7 +144,7 @@ export const BlogAdmin = ({ lang }: PropTypes) => {
           body={
             <div className="flex flex-col items-center">
               {translate('Are you sure you want to delete the post', lang)}
-              {<p className="font-bold"> {title}?</p>}
+              {<p className="font-bold"> {modal.title}?</p>}
             </div>
           }
           btnTitleAgree="Yes"

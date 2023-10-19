@@ -1,0 +1,17 @@
+.news-section::before {
+  content: '';
+  display: block;
+  position: absolute;
+  border: 7px solid rgba(255, 255, 255, 0.1);
+  top: -22px;
+  left: 20px;
+  right: 20px;
+  bottom: -22px;
+  z-index: -1;
+  transition: all 0.3s ease-in-out;
+}
+
+.news-section:hover::before {
+  left: -18px;
+  right: -18px;
+}

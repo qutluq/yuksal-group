@@ -354,4 +354,44 @@ export const translations = {
     ru: 'Картинка из галереи домашней страницы не может быть обновлена!',
     ug: 'Башбәт галереясиниң рәсимини йеңилаш мүмкин болмиди!',
   },
+  'latest-news': {
+    en: 'Latest news',
+    ru: 'Последние новости',
+    ug: 'Ахирқи йеңилиқлар',
+  },
+  'news-thumbnail-can-not-be-saved': {
+    en: 'News thumbnail can not be saved!',
+    ru: 'Новостной баннер не может быть обновлен!',
+    ug: 'Йеңилиқ карточкисини йеңилаш мүмкин болмиди!',
+  },
+  'news-thumbnail-saved': {
+    en: 'News thumbnail saved!',
+    ru: 'Новостной баннер сохранен!',
+    ug: 'Йеңилиқ карточкиси сақланди!',
+  },
+  'article-url': {
+    en: 'article URL',
+    ru: 'URL статьи',
+    ug: 'Мақалә уланмиси',
+  },
+  'edit-home-news-thumbnail': {
+    en: 'Edit home news thumbnail',
+    ru: 'Редактировать новостной баннер домашней страницы',
+    ug: 'Башбәттики йеңилиқ карточкисини тәһрирләш',
+  },
+  'delete-thumbnail': {
+    en: 'Delete thumbnail',
+    ru: 'Удаление новостного баннера',
+    ug: 'Йеңилиқ карточкисини йуйуш',
+  },
+  'are-you-sure-you-want-to-delete-the-thumbnail': {
+    en: 'Are you sure you want to delete the thumbnail',
+    ru: 'Вы действительно хотите удалить баннер',
+    ug: 'Сиз һәқиқәтәнму бу карточкини өчиришни халамсиз',
+  },
+  'failed-to-delete-news-thumbnail': {
+    en: 'Failed to delete news thumbnail',
+    ru: 'Не удалось удалить новостной баннер',
+    ug: 'Йеңилиқ карточкисини өчүрүш мүмкин болмиди',
+  },
 }
