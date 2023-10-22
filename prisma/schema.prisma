@@ -76,3 +76,10 @@ model Settings {
   siteUrl                          String  @default("")
   homepageCarouselSlides           Slide[]
 }
+
+model AboutMain {
+  id      Int    @id
+  title   String
+  content String
+  image   String
+}
