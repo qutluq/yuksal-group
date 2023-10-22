@@ -1,7 +1,7 @@
 'use client'
 import type { ImageFile, UploadModal } from '@/types'
 
-import { UploadImageDialog } from '../upload'
+import { UploadImageDialog } from '@/components/upload'
 
 type PropTypes = {
   lang: string

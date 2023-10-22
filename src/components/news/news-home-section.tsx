@@ -7,10 +7,9 @@ import { useCallback, useEffect, useState } from 'react'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { FiEdit, FiPlusCircle } from 'react-icons/fi'
 
+import { ModalDialog } from '@/components/modal'
 import { formatDate, translate } from '@/utils'
 import { deleteNewsThumbnailClientSide } from '@/utils/api-client'
-
-import { ModalDialog } from '../modal'
 
 import type { Modal, NewsThumbnailInitialized, UserMode } from '@/types'
 type PropTypes = {
