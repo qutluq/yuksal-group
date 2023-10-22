@@ -1,5 +1,7 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+import { getAboutMainInitialized } from '@/utils/api-client'
 
 import { LoadingLogo } from '../fallback'
 import { AboutMain as AboutMainComponent } from './about-main'
@@ -7,6 +9,12 @@ import { AboutMain as AboutMainComponent } from './about-main'
 import type { AboutMainInitialized } from '@/types'
 export const About = () => {
   const [aboutMain, setAboutMain] = useState<AboutMainInitialized>()
+
+  useEffect(() => {
+    Promise.all([getAboutMainInitialized()]).then((responses) => {
+      setAboutMain(responses[0])
+    })
+  }, [])
 
   if (!aboutMain) {
     return <LoadingLogo />

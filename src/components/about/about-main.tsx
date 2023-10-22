@@ -22,7 +22,7 @@ export const AboutMain = ({ aboutMain }: PropTypes) => {
           <div className="flex flex-row items-center gap-3 pb-10 lg:mx-0">
             <div className="h-1 w-20 bg-[var(--color-primary)]" />
             <div className="text-center text-lg uppercase sm:text-2xl">
-              {aboutMain.ttle}
+              {aboutMain.title}
             </div>
             <div className="h-1 w-20 bg-[var(--color-primary)] lg:hidden" />
           </div>

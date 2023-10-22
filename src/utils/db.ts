@@ -179,6 +179,28 @@ export const getNewsThumbnail = async (id: number) => {
   return { newsThumbnail: result as NewsThumbnail }
 }
 
+export const getAboutMain = async () => {
+  const result = await prisma.aboutMain.findUnique({
+    where: {
+      id: 1,
+    },
+  })
+
+  if (!result) {
+    const newRecord = await prisma.aboutMain.create({
+      data: {
+        id: 1,
+        title: '',
+        content: '',
+        image: '',
+      },
+    })
+    return { aboutMain: newRecord }
+  }
+
+  return { aboutMain: result }
+}
+
 export const updateSlide = async (slide: Slide) => {
   const { id, ...data } = slide
   try {
