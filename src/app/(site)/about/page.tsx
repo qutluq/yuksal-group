@@ -31,7 +31,7 @@ const About = ({
 
   return (
     <MainLayout page="about" lang={lang}>
-      <AboutComponent />
+      <AboutComponent lang={lang} />
     </MainLayout>
   )
 }

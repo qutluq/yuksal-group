@@ -179,26 +179,54 @@ export const getNewsThumbnail = async (id: number) => {
   return { newsThumbnail: result as NewsThumbnail }
 }
 
-export const getAboutMain = async () => {
-  const result = await prisma.aboutMain.findUnique({
+export const getAboutMain = async (lang: string) => {
+  const mainImage = await prisma.aboutMainImage.findUnique({
     where: {
       id: 1,
     },
   })
 
-  if (!result) {
-    const newRecord = await prisma.aboutMain.create({
+  if (!mainImage) {
+    await prisma.aboutMainImage.create({
       data: {
         id: 1,
-        title: '',
-        content: '',
         image: '',
       },
     })
-    return { aboutMain: newRecord }
   }
 
-  return { aboutMain: result }
+  const translation = await prisma.aboutMainTranslated.findUnique({
+    where: { language: lang },
+  })
+
+  if (!translation) {
+    await prisma.aboutMainTranslated.create({
+      data: {
+        language: lang,
+        title: '',
+        content: '',
+        imageId: 1,
+      },
+    })
+  }
+
+  const translationWithImage = await prisma.aboutMainTranslated.findUnique({
+    where: { language: lang },
+    include: {
+      image: {
+        select: {
+          image: true, // Specify the field you want to retrieve
+        },
+      },
+    },
+  })
+
+  const aboutMain = {
+    ...translationWithImage,
+    image: translationWithImage?.image.image,
+  }
+
+  return { aboutMain }
 }
 
 export const updateSlide = async (slide: Slide) => {

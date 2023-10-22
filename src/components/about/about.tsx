@@ -7,11 +7,16 @@ import { LoadingLogo } from '../fallback'
 import { AboutMain as AboutMainComponent } from './about-main'
 
 import type { AboutMainInitialized } from '@/types'
-export const About = () => {
+
+type PropTypes = {
+  lang: string
+}
+
+export const About = ({ lang }: PropTypes) => {
   const [aboutMain, setAboutMain] = useState<AboutMainInitialized>()
 
   useEffect(() => {
-    Promise.all([getAboutMainInitialized()]).then((responses) => {
+    Promise.all([getAboutMainInitialized(lang)]).then((responses) => {
       setAboutMain(responses[0])
     })
   }, [])

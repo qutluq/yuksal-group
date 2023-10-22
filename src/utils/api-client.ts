@@ -210,10 +210,10 @@ export const getNewsThumbnailsClientSide = async () => {
   return []
 }
 
-export const getAboutMainClientSide = async () => {
+export const getAboutMainClientSide = async (lang: string) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/about-main/`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/about-main/?lang=${lang}`,
       {
         method: 'GET',
       },
@@ -410,9 +410,9 @@ export const getNewsThumbnailsInitialized = async () => {
   return []
 }
 
-export const getAboutMainInitialized = async () => {
+export const getAboutMainInitialized = async (lang: string) => {
   try {
-    const aboutMain = await getAboutMainClientSide()
+    const aboutMain = await getAboutMainClientSide(lang)
     const response = await getImageClientSide(aboutMain.image)
 
     if (!response)

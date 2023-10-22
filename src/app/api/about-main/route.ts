@@ -1,8 +1,12 @@
 import { getAboutMain } from '@/utils/db'
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const result = await getAboutMain()
+    const url = new URL(request.url)
+
+    const lang = url.searchParams.get('lang')!
+
+    const result = await getAboutMain(lang)
     return new Response(JSON.stringify(result), {
       status: 200,
     })
