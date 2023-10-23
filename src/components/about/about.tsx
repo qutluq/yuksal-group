@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 
 import { getAboutMainInitialized } from '@/utils/api-client'
 
-import { LoadingLogo } from '../fallback'
 import { AboutMain as AboutMainComponent } from './about-main'
 
 import type { AboutMainInitialized } from '@/types'
@@ -22,7 +21,7 @@ export const About = ({ lang }: PropTypes) => {
   }, [])
 
   if (!aboutMain) {
-    return <LoadingLogo />
+    return <div>Loading...</div>
   }
 
   return (
