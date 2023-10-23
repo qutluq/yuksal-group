@@ -120,7 +120,20 @@ export const AboutMainEdit = ({ lang }: PropTypes) => {
             <div className="flex flex-row items-center gap-3 pb-10 lg:mx-0">
               <div className="h-1 w-20 bg-[var(--color-primary)]" />
               <div className="text-center text-lg uppercase sm:text-2xl">
-                {aboutMain.title}
+                <input
+                  value={aboutMain.title}
+                  onChange={(e) => {
+                    setAboutMain((state) => ({
+                      ...state,
+                      title: e.target.value,
+                    }))
+                    setUnsavedChangesExist(true)
+                  }}
+                  className="min-w-[300px] grow rounded-sm bg-white text-black"
+                  type="text"
+                  autoFocus
+                  placeholder={translate('Title', lang)}
+                />
               </div>
               <div className="h-1 w-20 bg-[var(--color-primary)] lg:hidden" />
             </div>
