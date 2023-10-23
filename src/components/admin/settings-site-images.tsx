@@ -1,9 +1,8 @@
 import type { Dispatch, SetStateAction } from 'react'
 
+import { ImageInput } from '@/components/image/image-input'
 import type { SettingsInitialized } from '@/types'
 import { translate } from '@/utils'
-
-import { ImageInput } from '../image/image-input'
 
 import type { UploadModal } from '@/types'
 

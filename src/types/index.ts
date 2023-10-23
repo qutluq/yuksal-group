@@ -101,3 +101,15 @@ export type NewsThumbnail = {
 export type NewsThumbnailInitialized = Omit<NewsThumbnail, 'image'> & {
   image: ImageFile
 }
+
+export type AboutMain = {
+  id: number
+  title: string
+  content: string
+  image: string
+  language: string
+}
+
+export type AboutMainInitialized = Omit<AboutMain, 'image'> & {
+  image: ImageFile
+}

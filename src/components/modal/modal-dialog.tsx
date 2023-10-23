@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
 
-import { Button } from '../button'
+import { Button } from '@/components/button'
 
 type PropTypes = {
   title: string

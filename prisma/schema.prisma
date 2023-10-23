@@ -76,3 +76,17 @@ model Settings {
   siteUrl                          String  @default("")
   homepageCarouselSlides           Slide[]
 }
+
+model AboutMainImage {
+  id           Int                   @id
+  image        String
+  translations AboutMainTranslated[]
+}
+
+model AboutMainTranslated {
+  language String         @id
+  image    AboutMainImage @relation(fields: [imageId], references: [id])
+  imageId  Int
+  title    String
+  content  String
+}

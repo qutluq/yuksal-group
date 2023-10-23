@@ -5,6 +5,7 @@ import { PrismaClient } from '@prisma/client'
 import { homeGalleryImageCount, slidesCount } from './settings'
 
 import type {
+  AboutMain,
   GalleryImage,
   NewsThumbnail,
   Settings,
@@ -179,6 +180,56 @@ export const getNewsThumbnail = async (id: number) => {
   return { newsThumbnail: result as NewsThumbnail }
 }
 
+export const getAboutMain = async (lang: string) => {
+  const mainImage = await prisma.aboutMainImage.findUnique({
+    where: {
+      id: 1,
+    },
+  })
+
+  if (!mainImage) {
+    await prisma.aboutMainImage.create({
+      data: {
+        id: 1,
+        image: '',
+      },
+    })
+  }
+
+  const translation = await prisma.aboutMainTranslated.findUnique({
+    where: { language: lang },
+  })
+
+  if (!translation) {
+    await prisma.aboutMainTranslated.create({
+      data: {
+        language: lang,
+        title: '',
+        content: '',
+        imageId: 1,
+      },
+    })
+  }
+
+  const translationWithImage = await prisma.aboutMainTranslated.findUnique({
+    where: { language: lang },
+    include: {
+      image: {
+        select: {
+          image: true, // Specify the field you want to retrieve
+        },
+      },
+    },
+  })
+
+  const aboutMain = {
+    ...translationWithImage,
+    image: translationWithImage?.image.image,
+  }
+
+  return { aboutMain }
+}
+
 export const updateSlide = async (slide: Slide) => {
   const { id, ...data } = slide
   try {
@@ -234,6 +285,66 @@ export const updateNewsThumbnail = async (newsThumbnail: NewsThumbnail) => {
     })
   } catch (error) {
     console.error(`❌ Can not update home gallery mage with id ${id}: `, error)
+    return false
+  }
+  return true
+}
+
+export const updateAboutMain = async (
+  aboutMain: AboutMain & { imageId: number },
+) => {
+  try {
+    const result = await prisma.aboutMainImage.findUnique({
+      where: { id: aboutMain.imageId },
+    })
+
+    if (!result) {
+      //no news thumbnail record found
+      await prisma.aboutMainImage.create({
+        data: { id: aboutMain.imageId, image: aboutMain.image },
+      })
+      return true
+    } else {
+      await prisma.aboutMainImage.update({
+        where: {
+          id: aboutMain.imageId,
+        },
+        data: {
+          image: aboutMain.image,
+        },
+      })
+    }
+
+    const translation = await prisma.aboutMainTranslated.findUnique({
+      where: { language: aboutMain.language },
+    })
+
+    if (!translation) {
+      await prisma.aboutMainTranslated.create({
+        data: {
+          language: aboutMain.language,
+          title: aboutMain.title,
+          content: aboutMain.content,
+          imageId: 1,
+        },
+      })
+    } else {
+      await prisma.aboutMainTranslated.update({
+        where: {
+          language: aboutMain.language,
+        },
+        data: {
+          title: aboutMain.title,
+          content: aboutMain.content,
+          imageId: 1,
+        },
+      })
+    }
+  } catch (error) {
+    console.error(
+      `❌ Can not update about main with id ${aboutMain.language}: `,
+      error,
+    )
     return false
   }
   return true

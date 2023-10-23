@@ -3,6 +3,8 @@ import Cookies from 'js-cookie'
 import type { NewsThumbnail } from '@prisma/client'
 
 import type {
+  AboutMain,
+  AboutMainInitialized,
   GalleryImage,
   GalleryImageInitialized,
   ImageFile,
@@ -209,6 +211,26 @@ export const getNewsThumbnailsClientSide = async () => {
   return []
 }
 
+export const getAboutMainClientSide = async (lang: string) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/about-main/?lang=${lang}`,
+      {
+        method: 'GET',
+      },
+    )
+
+    const data = await response.json()
+
+    const { aboutMain } = data
+
+    return aboutMain
+  } catch (error) {
+    console.error(`About main fetch failed: ${error}`)
+  }
+  return undefined
+}
+
 export const getHomepageSlideClientSide = async (id: number) => {
   if (!id) {
     return undefined
@@ -387,6 +409,43 @@ export const getNewsThumbnailsInitialized = async () => {
     console.error(`Can't fetch gallery image: ${error}`)
   }
   return []
+}
+
+export const getAboutMainInitialized = async (lang: string) => {
+  try {
+    const aboutMain = await getAboutMainClientSide(lang)
+    const response = await getImageClientSide(aboutMain.image)
+
+    if (!response)
+      return {
+        ...aboutMain,
+        image: { id: aboutMain.image, href: '', file: null },
+      } as AboutMainInitialized
+
+    const image_blob = await response.blob()
+    let imageUrl = ''
+    if (image_blob.size > 0) {
+      imageUrl = URL.createObjectURL(image_blob)
+    }
+    const aboutMainInitialized = {
+      ...aboutMain,
+      image: {
+        id: aboutMain.image,
+        href: imageUrl,
+        file: null,
+      },
+    } as AboutMainInitialized
+
+    return aboutMainInitialized
+  } catch (error) {
+    console.error(`Can't fetch about main: ${error}`)
+  }
+  return {
+    id: 1,
+    title: '',
+    content: '',
+    image: { id: '', href: '', file: null },
+  } as AboutMainInitialized
 }
 
 export const getHomepageSlideInitialized = async (id: number) => {
@@ -674,6 +733,28 @@ export const updateGalleryImageClientSide = async (
     return response
   } catch (error) {
     console.error(`Gallery image update failed: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
+}
+
+export const updateAboutMainClientSide = async (aboutMain: AboutMain) => {
+  try {
+    const response = fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/about-main/`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(aboutMain),
+      },
+    )
+
+    return response
+  } catch (error) {
+    console.error(`About main update failed: ${error}`)
     return new Response(null, {
       status: 500,
     })

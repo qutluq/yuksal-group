@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
-import { About as AboutComponent } from '@/components/about'
+import { AboutMainEdit } from '@/components/about'
+import { AdminLayout } from '@/layouts/admin'
 import { MainLayout } from '@/layouts/main'
 import {
   getLangSearchParam,
@@ -17,12 +18,12 @@ export async function generateMetadata({
   searchParams: { [key: string]: string | string[] | undefined }
 }): Promise<Metadata> {
   const lang = getLangSearchParam(searchParams)
-  const title = toTitleCase(translate('about', lang))
+  const title = toTitleCase(translate('home', lang))
 
   return getMetadata({ title })
 }
 
-const About = ({
+const AboutMain = ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
@@ -30,10 +31,14 @@ const About = ({
   const lang = getLangSearchParam(searchParams)
 
   return (
-    <MainLayout page="about" lang={lang}>
-      <AboutComponent lang={lang} />
-    </MainLayout>
+    <div className="text-[var(--color-text-primary)]">
+      <AdminLayout lang={lang}>
+        <MainLayout page="about" lang={lang} mode="admin">
+          <AboutMainEdit lang={lang} />
+        </MainLayout>
+      </AdminLayout>
+    </div>
   )
 }
 
-export default About
+export default AboutMain

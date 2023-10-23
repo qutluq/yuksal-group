@@ -1,10 +1,9 @@
 'use client'
 
-import 'react-quill/dist/quill.snow.css'
-
 import dynamic from 'next/dynamic'
 
-import { formats } from './formats'
+import { formats, toolbarOptions } from './options'
+
 import type { RQ } from './types'
 const DynamicQuill = dynamic(
   async () => {
@@ -23,6 +22,7 @@ export const TextEditor = ({ forwardedRef, ...rest }: RQ) => (
     forwardedRef={forwardedRef}
     theme="snow"
     formats={formats}
+    modules={toolbarOptions}
     {...rest}
   />
 )
