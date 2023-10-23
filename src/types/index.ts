@@ -107,6 +107,7 @@ export type AboutMain = {
   title: string
   content: string
   image: string
+  language: string
 }
 
 export type AboutMainInitialized = Omit<AboutMain, 'image'> & {

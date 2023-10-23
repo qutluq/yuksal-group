@@ -394,4 +394,14 @@ export const translations = {
     ru: 'Не удалось удалить новостной баннер',
     ug: 'Йеңилиқ карточкисини өчүрүш мүмкин болмиди',
   },
+  'about-main-info-can-not-be-saved': {
+    en: 'About main info can not be saved',
+    ru: 'Не удалось сохранить информацию о нас',
+    ug: 'Биз тоғрисида мәлуматни сақлиғили мүмкин болмиди',
+  },
+  'about-main-info-saved': {
+    en: 'About main info saved',
+    ru: 'Информацию о нас сохранена',
+    ug: 'Биз тоғрисида мәлумат сақланди',
+  },
 }

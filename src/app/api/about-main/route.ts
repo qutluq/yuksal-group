@@ -1,4 +1,5 @@
-import { getAboutMain } from '@/utils/db'
+import { accessPermitted } from '@/utils/api-server'
+import { getAboutMain, updateAboutMain } from '@/utils/db'
 
 export async function GET(request: Request) {
   try {
@@ -18,23 +19,23 @@ export async function GET(request: Request) {
   }
 }
 
-// export async function POST(request: Request) {
-//   const { permitted, response } = await accessPermitted()
-//   if (!permitted) {
-//     return response
-//   }
+export async function POST(request: Request) {
+  const { permitted, response } = await accessPermitted()
+  if (!permitted) {
+    return response
+  }
 
-//   try {
-//     const newsThumbnail = await request.json()
+  try {
+    const aboutMain = await request.json()
 
-//     updateNewsThumbnail(newsThumbnail)
-//     return new Response(null, {
-//       status: 204,
-//     })
-//   } catch (error) {
-//     console.error(`Unable to update news thumbnail: ${error}`)
-//     return new Response(null, {
-//       status: 500,
-//     })
-//   }
-// }
+    updateAboutMain(aboutMain)
+    return new Response(null, {
+      status: 204,
+    })
+  } catch (error) {
+    console.error(`Unable to update news thumbnail: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
+}

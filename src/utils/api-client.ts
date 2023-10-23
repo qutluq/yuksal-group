@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import type { NewsThumbnail } from '@prisma/client'
 
 import type {
+  AboutMain,
   AboutMainInitialized,
   GalleryImage,
   GalleryImageInitialized,
@@ -732,6 +733,28 @@ export const updateGalleryImageClientSide = async (
     return response
   } catch (error) {
     console.error(`Gallery image update failed: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
+}
+
+export const updateAboutMainClientSide = async (aboutMain: AboutMain) => {
+  try {
+    const response = fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/about-main/`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(aboutMain),
+      },
+    )
+
+    return response
+  } catch (error) {
+    console.error(`About main update failed: ${error}`)
     return new Response(null, {
       status: 500,
     })
