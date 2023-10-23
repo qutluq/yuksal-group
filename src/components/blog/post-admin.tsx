@@ -1,4 +1,5 @@
 'use client'
+import 'react-quill/dist/quill.snow.css'
 import 'react-toastify/dist/ReactToastify.css'
 
 import Image from 'next/image'
