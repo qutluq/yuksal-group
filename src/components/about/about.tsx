@@ -18,7 +18,7 @@ export const About = ({ lang }: PropTypes) => {
     Promise.all([getAboutMainInitialized(lang)]).then((responses) => {
       setAboutMain(responses[0])
     })
-  }, [])
+  }, [lang])
 
   if (!aboutMain) {
     return <div>Loading...</div>
