@@ -49,7 +49,7 @@ export const AboutMainEdit = ({ lang }: PropTypes) => {
       setAboutMain(response)
       setIsLoading(false)
     })
-  }, [])
+  }, [lang])
 
   useEffect(() => {}, [aboutMain.content])
 
