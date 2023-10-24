@@ -1,5 +1,5 @@
 'use client'
-import '@/components/quill-editor/quill.snow.css'
+import '@/components/quill-editor/quill.snow.custom.css'
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -56,7 +56,6 @@ export const AboutMainEdit = ({ lang }: PropTypes) => {
   useEffect(() => {
     if (quillRef.current) {
       quillRef.current?.editor?.root.setAttribute('spellcheck', 'false')
-      quillRef.current?.editor?.format('color', 'red')
     }
   }, [quillRef.current])
 
@@ -131,7 +130,6 @@ export const AboutMainEdit = ({ lang }: PropTypes) => {
                   }}
                   className="min-w-[300px] grow rounded-sm bg-white text-black"
                   type="text"
-                  autoFocus
                   placeholder={translate('Title', lang)}
                 />
               </div>
@@ -159,7 +157,7 @@ export const AboutMainEdit = ({ lang }: PropTypes) => {
             </div>
           )}
         </div>
-        <div className="whitespace-pre-wrap text-base text-[var(--color-primary)]">
+        <div className="whitespace-pre-wrap text-base" autoFocus={false}>
           <TextEditor
             forwardedRef={quillRef}
             value={aboutMain.content}
