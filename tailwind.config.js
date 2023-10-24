@@ -46,6 +46,20 @@ module.exports = {
             transform: 'scale(3)',
           },
         },
+
+        scaling: {
+          '0%': {
+            transform: 'scale(1)',
+            '-webkit-transform': 'scale(1)',
+            opacity: 0.9,
+          },
+
+          '100%': {
+            transform: 'scale(2.5)',
+            '-webkit-transform': 'scale(2.5)',
+            opacity: 0.0,
+          },
+        },
       },
       animation: {
         translateX: 'translate 1s ease-in-out',
