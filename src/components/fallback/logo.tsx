@@ -1,12 +1,15 @@
 import Image from 'next/image'
 
 export const LoadingLogo = () => (
-  <div className="flex h-screen w-screen items-center justify-center opacity-50 before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_1.5s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/20">
-    <Image
-      src={`/assets/preloader_logo.svg`}
-      height={300}
-      width={312}
-      alt="Logo"
-    />
+  <div className="h-screen w-screen overflow-hidden">
+    <div className="flex flex-row items-center justify-center"></div>
+    <div className="flex h-screen w-screen animate-[scaling_7s_infinite] items-center justify-center ease-linear">
+      <Image
+        src={`/assets/preloader_logo.svg`}
+        height={300}
+        width={312}
+        alt="Logo"
+      />
+    </div>
   </div>
 )
