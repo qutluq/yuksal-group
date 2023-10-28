@@ -1,4 +1,5 @@
-import { HomeGalleryImageEdit } from './home-gallery-image-edit'
-import { Viewer } from './viewer'
+import { Gallery } from './gallery';
+import { HomeGalleryImageEdit } from './home-gallery-image-edit';
+import { Viewer } from './viewer';
 
-export { HomeGalleryImageEdit, Viewer }
+export { Gallery, HomeGalleryImageEdit, Viewer }
