@@ -5,8 +5,8 @@ import type { NewsThumbnail } from '@prisma/client'
 import type {
   AboutMain,
   AboutMainInitialized,
-  GalleryImageInitialized,
   HomeGalleryImage,
+  HomeGalleryImageInitialized,
   ImageFile,
   NewsThumbnailInitialized,
   Settings,
@@ -349,7 +349,7 @@ export const getHomeGalleryImagesInitialized = async () => {
           return {
             ...galleryImages[index],
             image: { id: galleryImages[index].image, href: '', file: null },
-          } as GalleryImageInitialized
+          } as HomeGalleryImageInitialized
         const image_blob = await response.blob()
         let imageUrl = ''
         if (image_blob.size > 0) {
@@ -362,7 +362,7 @@ export const getHomeGalleryImagesInitialized = async () => {
             href: imageUrl,
             file: null,
           },
-        } as GalleryImageInitialized
+        } as HomeGalleryImageInitialized
 
         return galleryImageInitialized
       }),

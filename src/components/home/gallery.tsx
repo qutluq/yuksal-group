@@ -9,9 +9,9 @@ import { FiEdit } from 'react-icons/fi'
 import { Viewer } from '@/components/gallery'
 import { formatDate } from '@/utils'
 
-import type { GalleryImageInitialized, UserMode } from '@/types'
+import type { HomeGalleryImageInitialized, UserMode } from '@/types'
 type PropTypes = {
-  galleryImages: GalleryImageInitialized[]
+  galleryImages: HomeGalleryImageInitialized[]
   mode: UserMode
 }
 
