@@ -5,8 +5,8 @@ import type { NewsThumbnail } from '@prisma/client'
 import type {
   AboutMain,
   AboutMainInitialized,
-  GalleryImage,
   GalleryImageInitialized,
+  HomeGalleryImage,
   ImageFile,
   NewsThumbnailInitialized,
   Settings,
@@ -716,7 +716,7 @@ export const updateSlideClientSide = async (slide: Slide) => {
 }
 
 export const updateGalleryImageClientSide = async (
-  galleryImage: GalleryImage,
+  galleryImage: HomeGalleryImage,
 ) => {
   try {
     const response = fetch(
