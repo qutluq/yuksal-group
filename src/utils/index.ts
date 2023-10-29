@@ -180,3 +180,38 @@ export const joinURLSegments = (...segments) => {
 
   return joinedURL
 }
+
+export const findClosestStandardAspectRatio = (
+  width: number,
+  height: number,
+) => {
+  const imageRatio = width / height
+
+  const predefinedRatios = [
+    [1, 1],
+    [2, 3],
+    [3, 2],
+    [3, 4],
+    [4, 3],
+    [9, 16],
+    [16, 9],
+    // [9, 18],
+    // [18, 9],
+    // [1, 2.39],
+    // [2.39, 1],
+  ]
+
+  let closestRatio = predefinedRatios[0]
+  let minDiff = Math.abs(imageRatio - closestRatio[0] / closestRatio[1])
+
+  for (const ratio of predefinedRatios) {
+    const diff = Math.abs(imageRatio - ratio[0] / ratio[1])
+
+    if (diff < minDiff) {
+      minDiff = diff
+      closestRatio = ratio
+    }
+  }
+
+  return closestRatio //[width, height]
+}

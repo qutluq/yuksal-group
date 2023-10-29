@@ -78,7 +78,7 @@ export type HomeGalleryImage = {
   image: string
 }
 
-export type GalleryImageInitialized = Omit<HomeGalleryImage, 'image'> & {
+export type HomeGalleryImageInitialized = Omit<HomeGalleryImage, 'image'> & {
   image: ImageFile
 }
 
@@ -112,4 +112,23 @@ export type AboutMain = {
 
 export type AboutMainInitialized = Omit<AboutMain, 'image'> & {
   image: ImageFile
+}
+
+export type ImageTag = {
+  id: number
+  name: string
+  createdAt: Date
+}
+
+export type GalleryImage = {
+  id: number
+  src: string
+  title: string
+  date: Date
+  createdAt: Date
+  tags: ImageTag[]
+}
+
+export type GalleryImageInitialized = GalleryImage & {
+  image: ImageFile & { width: number; height: number }
 }

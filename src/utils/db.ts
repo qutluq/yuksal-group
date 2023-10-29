@@ -230,6 +230,26 @@ export const getAboutMain = async (lang: string) => {
   return { aboutMain }
 }
 
+export const getGalleryImages = async () => {
+  const galleryImages = await prisma.galleryImage.findMany({
+    include: {
+      tags: {
+        select: {
+          tag: {
+            select: {
+              id: true, // Include the 'name' field from the 'ImageTag' model
+              name: true, // Include the 'name' field from the 'ImageTag' model
+              createdAt: true, // Include the 'name' field from the 'ImageTag' model
+            },
+          },
+        },
+      },
+    },
+  })
+
+  return galleryImages
+}
+
 export const updateSlide = async (slide: Slide) => {
   const { id, ...data } = slide
   try {
