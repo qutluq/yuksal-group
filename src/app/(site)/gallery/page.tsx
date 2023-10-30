@@ -30,9 +30,11 @@ const Gallery = ({
   const lang = getLangSearchParam(searchParams)
 
   return (
-    <MainLayout page="gallery" lang={lang}>
-      <GalleryComponent />
-    </MainLayout>
+    <div className="text-[var(--color-text-primary)]">
+      <MainLayout page="gallery" lang={lang}>
+        <GalleryComponent />
+      </MainLayout>
+    </div>
   )
 }
 
