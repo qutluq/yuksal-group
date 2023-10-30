@@ -1,3 +1,4 @@
+'use client'
 import { Gallery } from './gallery'
 import { HomeGalleryImageEdit } from './home-gallery-image-edit'
 import { Viewer } from './viewer'
