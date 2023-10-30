@@ -6,14 +6,14 @@ import { homeGalleryImageCount, slidesCount } from './settings'
 
 import type {
   AboutMain,
-  GalleryImage,
+  HomeGalleryImage,
   NewsThumbnail,
   Settings,
   SettingsKeys,
   Slide,
 } from '@/types'
 import type { Post } from '@/types/blog'
-import type { HomeGalleryImage } from '@prisma/client'
+import type { HomeGalleryImage as HomeGalleryImagePrisma } from '@prisma/client'
 // Instantiate a single instance PrismaClient and save it on the globalThis object.
 // Then we keep a check to only instantiate PrismaClient if it's not on the globalThis object otherwise use the same
 // instance again if already present to prevent instantiating extra PrismaClient instances.
@@ -91,7 +91,7 @@ export const getHomeGalleryImages = async () => {
   })
 
   if (results.length === 0) {
-    const records: HomeGalleryImage[] = []
+    const records: HomeGalleryImagePrisma[] = []
     for (let i = 1; i <= homeGalleryImageCount; i++) {
       const newRecord = await prisma.homeGalleryImage.create({
         data: {
@@ -106,7 +106,7 @@ export const getHomeGalleryImages = async () => {
     return records
   }
 
-  return { galleryImages: results as HomeGalleryImage[] }
+  return { galleryImages: results as HomeGalleryImagePrisma[] }
 }
 
 export const getNewsThumbnails = async () => {
@@ -167,7 +167,7 @@ export const getHomeGalleryImage = async (id: number) => {
     },
   })
 
-  return { galleryImage: result as GalleryImage }
+  return { galleryImage: result as HomeGalleryImage }
 }
 
 export const getNewsThumbnail = async (id: number) => {
@@ -230,6 +230,26 @@ export const getAboutMain = async (lang: string) => {
   return { aboutMain }
 }
 
+export const getGalleryImages = async () => {
+  const galleryImages = await prisma.galleryImage.findMany({
+    include: {
+      tags: {
+        select: {
+          tag: {
+            select: {
+              id: true, // Include the 'name' field from the 'ImageTag' model
+              name: true, // Include the 'name' field from the 'ImageTag' model
+              createdAt: true, // Include the 'name' field from the 'ImageTag' model
+            },
+          },
+        },
+      },
+    },
+  })
+
+  return galleryImages
+}
+
 export const updateSlide = async (slide: Slide) => {
   const { id, ...data } = slide
   try {
@@ -246,7 +266,7 @@ export const updateSlide = async (slide: Slide) => {
   return true
 }
 
-export const updateGalleryImage = async (newsThumbnail: GalleryImage) => {
+export const updateGalleryImage = async (newsThumbnail: HomeGalleryImage) => {
   const { id, ...data } = newsThumbnail
   try {
     await prisma.homeGalleryImage.update({

@@ -71,14 +71,14 @@ export const settingsKeys: (keyof Settings)[] = [
   'paginationLimit',
 ]
 
-export type GalleryImage = {
+export type HomeGalleryImage = {
   id: number
   title: string
   date: Date
   image: string
 }
 
-export type GalleryImageInitialized = Omit<GalleryImage, 'image'> & {
+export type HomeGalleryImageInitialized = Omit<HomeGalleryImage, 'image'> & {
   image: ImageFile
 }
 
@@ -112,4 +112,23 @@ export type AboutMain = {
 
 export type AboutMainInitialized = Omit<AboutMain, 'image'> & {
   image: ImageFile
+}
+
+export type ImageTag = {
+  id: number
+  name: string
+  createdAt: Date
+}
+
+export type GalleryImage = {
+  id: number
+  src: string
+  title: string
+  date: Date
+  createdAt: Date
+  tags: ImageTag[]
+}
+
+export type GalleryImageInitialized = GalleryImage & {
+  image: ImageFile & { width: number; height: number }
 }

@@ -15,7 +15,7 @@ import {
   updateGalleryImageClientSide,
 } from '@/utils/api-client'
 
-import type { GalleryImageInitialized, UploadModal } from '@/types'
+import type { HomeGalleryImageInitialized, UploadModal } from '@/types'
 import type { CSSProperties } from 'react'
 type PropTypes = {
   lang: string
@@ -24,12 +24,14 @@ type PropTypes = {
 export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [galleryImage, setGalleryImage] = useState<GalleryImageInitialized>({
-    id: -1,
-    image: { id: '', file: null, href: '' },
-    title: '',
-    date: new Date(0),
-  })
+  const [galleryImage, setGalleryImage] = useState<HomeGalleryImageInitialized>(
+    {
+      id: -1,
+      image: { id: '', file: null, href: '' },
+      title: '',
+      date: new Date(0),
+    },
+  )
   const [id, setId] = useState<number>(-1)
   const [unsavedChangesExist, setUnsavedChangesExist] = useState(false)
   const [uploadModal, setUploadModal] = useState<UploadModal>({
@@ -71,7 +73,7 @@ export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
   }, [uploadModal])
 
   const setField = useCallback(
-    (field: keyof GalleryImageInitialized, value: string) => {
+    (field: keyof HomeGalleryImageInitialized, value: string) => {
       if (field === 'date') {
         setGalleryImage((state) => ({ ...state, [field]: new Date(value) }))
       } else {
@@ -83,7 +85,7 @@ export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
   )
 
   const handleSave = useCallback(
-    (galleryImage: GalleryImageInitialized, unsavedChangesExist) => {
+    (galleryImage: HomeGalleryImageInitialized, unsavedChangesExist) => {
       if (!unsavedChangesExist) return
 
       updateGalleryImageClientSide({

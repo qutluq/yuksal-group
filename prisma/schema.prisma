@@ -90,3 +90,28 @@ model AboutMainTranslated {
   title    String
   content  String
 }
+
+model GalleryImage {
+  id        Int            @id @default(autoincrement())
+  src       String
+  title     String
+  date      DateTime?
+  createdAt DateTime       @default(now())
+  tags      TagsOnImages[]
+}
+
+model ImageTag {
+  id        Int            @id @default(autoincrement())
+  name      String
+  createdAt DateTime       @default(now())
+  images    TagsOnImages[]
+}
+
+model TagsOnImages {
+  image   GalleryImage @relation(fields: [imageId], references: [id])
+  imageId Int
+  tag     ImageTag     @relation(fields: [tagId], references: [id])
+  tagId   Int
+
+  @@id([imageId, tagId])
+}

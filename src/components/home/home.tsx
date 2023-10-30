@@ -19,7 +19,7 @@ import {
 import { GalleryHome } from './gallery'
 
 import type {
-  GalleryImageInitialized,
+  HomeGalleryImageInitialized,
   NewsThumbnailInitialized,
   SlideInitialized,
   UserMode,
@@ -32,7 +32,7 @@ type PropTypes = {
 export const Home = ({ lang, mode = 'user' }: PropTypes) => {
   const [slides, setSlides] = useState<SlideInitialized[]>()
   const [galleryImages, setGalleryImages] =
-    useState<GalleryImageInitialized[]>()
+    useState<HomeGalleryImageInitialized[]>()
   const [newsThumbnails, setNewsThumbnails] = useState<
     NewsThumbnailInitialized[]
   >([])

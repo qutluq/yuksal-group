@@ -1,12 +1,15 @@
 import Cookies from 'js-cookie'
 
+import { findClosestStandardAspectRatio } from '@/utils/'
+
 import type { NewsThumbnail } from '@prisma/client'
 
 import type {
   AboutMain,
   AboutMainInitialized,
-  GalleryImage,
   GalleryImageInitialized,
+  HomeGalleryImage,
+  HomeGalleryImageInitialized,
   ImageFile,
   NewsThumbnailInitialized,
   Settings,
@@ -211,6 +214,24 @@ export const getNewsThumbnailsClientSide = async () => {
   return []
 }
 
+export const getGalleryImagesClientSide = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/gallery/`,
+      {
+        method: 'GET',
+      },
+    )
+
+    const galleryImages = await response.json()
+
+    return galleryImages
+  } catch (error) {
+    console.error(`Gallery images fetch failed: ${error}`)
+  }
+  return []
+}
+
 export const getAboutMainClientSide = async (lang: string) => {
   try {
     const response = await fetch(
@@ -349,7 +370,7 @@ export const getHomeGalleryImagesInitialized = async () => {
           return {
             ...galleryImages[index],
             image: { id: galleryImages[index].image, href: '', file: null },
-          } as GalleryImageInitialized
+          } as HomeGalleryImageInitialized
         const image_blob = await response.blob()
         let imageUrl = ''
         if (image_blob.size > 0) {
@@ -362,7 +383,7 @@ export const getHomeGalleryImagesInitialized = async () => {
             href: imageUrl,
             file: null,
           },
-        } as GalleryImageInitialized
+        } as HomeGalleryImageInitialized
 
         return galleryImageInitialized
       }),
@@ -374,6 +395,53 @@ export const getHomeGalleryImagesInitialized = async () => {
   return []
 }
 
+export const getGalleryImagesInitialized = async () => {
+  try {
+    const galleryImages = await getGalleryImagesClientSide()
+    const responses = await Promise.all(
+      galleryImages.map((item) => getImageClientSide(item.src)),
+    )
+    const galleryImagesInitialized = await Promise.all(
+      responses.map(async (response, index) => {
+        if (!response)
+          return {
+            ...galleryImages[index],
+            image: { id: galleryImages[index].src, href: '', file: null },
+          } as GalleryImageInitialized
+        const image_blob = await response.blob()
+        let imageUrl = ''
+        const dimensions = { width: 0, height: 0 }
+        if (image_blob.size > 0) {
+          imageUrl = URL.createObjectURL(image_blob)
+          const bmp = await createImageBitmap(image_blob)
+          const { width, height } = bmp
+          const ratio = findClosestStandardAspectRatio(width, height)
+
+          dimensions.width = ratio[0]
+          dimensions.height = ratio[1]
+
+          bmp.close() // free memory
+        }
+
+        const newsThumbnailInitialized = {
+          ...galleryImages[index],
+          image: {
+            id: galleryImages[index].src,
+            href: imageUrl,
+            file: null,
+            ...dimensions,
+          },
+        } as GalleryImageInitialized
+
+        return newsThumbnailInitialized
+      }),
+    )
+    return galleryImagesInitialized
+  } catch (error) {
+    console.error(`Can't fetch gallery images: ${error}`)
+  }
+  return []
+}
 export const getNewsThumbnailsInitialized = async () => {
   try {
     const newsThumbnails = await getNewsThumbnailsClientSide()
@@ -716,7 +784,7 @@ export const updateSlideClientSide = async (slide: Slide) => {
 }
 
 export const updateGalleryImageClientSide = async (
-  galleryImage: GalleryImage,
+  galleryImage: HomeGalleryImage,
 ) => {
   try {
     const response = fetch(

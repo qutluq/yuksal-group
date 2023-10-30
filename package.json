@@ -20,6 +20,7 @@
     "next-auth": "^4.23.0",
     "nextjs-router-events": "^0.0.3",
     "react-icons": "^4.10.1",
+    "react-photo-gallery": "^8.0.0",
     "react-quill": "^2.0.0",
     "react-redux": "^8.1.2",
     "react-toastify": "^9.1.3",
