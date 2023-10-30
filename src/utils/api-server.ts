@@ -28,7 +28,12 @@ export const accessPermitted = async () => {
     }
   }
 
-  return { permitted: true, response: null }
+  return {
+    permitted: true,
+    response: new Response(null, {
+      status: 200,
+    }),
+  }
 }
 
 export const createMediaFile = async (dir, filename, formData) => {

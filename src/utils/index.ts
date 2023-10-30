@@ -21,7 +21,7 @@ export const getMetadata = ({
     title: `${title}`,
     description: desc,
     authors: [{ name: 'Qutluq', url: 'https://github.com/qutluq' }],
-    colorScheme: 'dark',
+    // colorScheme: 'dark',
     openGraph: {
       title,
       description: desc,
@@ -29,6 +29,7 @@ export const getMetadata = ({
       siteName: SiteName,
       type: 'website',
     },
+    metadataBase: new URL(`${process.env.NEXT_PUBLIC_BASE_URL}`),
   } as Metadata
 }
 
