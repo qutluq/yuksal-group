@@ -9,6 +9,7 @@ export const NAV_MENU = () => [
 export const NAV_MENU_ADMIN = () => [
   { id: 'home', name: 'home', slug: 'home' },
   { id: 'blog', name: 'blog', slug: 'blog' },
+  { id: 'gallery', name: 'gallery', slug: 'gallery' },
   { id: 'about', name: 'about', slug: 'about' },
   { id: 'settings', name: 'settings', slug: 'settings' },
 ]
