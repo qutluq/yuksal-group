@@ -266,7 +266,9 @@ export const updateSlide = async (slide: Slide) => {
   return true
 }
 
-export const updateGalleryImage = async (newsThumbnail: HomeGalleryImage) => {
+export const updateHomeGalleryImage = async (
+  newsThumbnail: HomeGalleryImage,
+) => {
   const { id, ...data } = newsThumbnail
   try {
     await prisma.homeGalleryImage.update({

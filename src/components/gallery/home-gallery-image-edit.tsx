@@ -12,7 +12,7 @@ import { formatDateJS, translate } from '@/utils'
 import {
   getHomeGalleryImageInitialized,
   revalidateImageCache,
-  updateGalleryImageClientSide,
+  updateHomeGalleryImageClientSide,
 } from '@/utils/api-client'
 
 import type { HomeGalleryImageInitialized, UploadModal } from '@/types'
@@ -88,7 +88,7 @@ export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
     (galleryImage: HomeGalleryImageInitialized, unsavedChangesExist) => {
       if (!unsavedChangesExist) return
 
-      updateGalleryImageClientSide({
+      updateHomeGalleryImageClientSide({
         ...galleryImage,
         image: galleryImage.image.id,
       })

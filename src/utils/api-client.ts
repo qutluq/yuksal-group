@@ -783,7 +783,7 @@ export const updateSlideClientSide = async (slide: Slide) => {
   }
 }
 
-export const updateGalleryImageClientSide = async (
+export const updateHomeGalleryImageClientSide = async (
   galleryImage: HomeGalleryImage,
 ) => {
   try {
