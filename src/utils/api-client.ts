@@ -80,6 +80,24 @@ export const deletePostClientSide = async (id: number) => {
   }
 }
 
+export const deleteGalleryImageClientSide = async (id: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/gallery/${id}`,
+      {
+        method: 'DELETE',
+      },
+    )
+
+    return response
+  } catch (error) {
+    console.error(`Gallery image delete failed: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
+}
+
 export const deleteNewsThumbnailClientSide = async (id: number) => {
   try {
     const response = await fetch(

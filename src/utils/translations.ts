@@ -339,6 +339,11 @@ export const translations = {
     ru: 'Фоновое изображение слайда',
     ug: 'Слайдниң арқа рәсими',
   },
+  'delete-gallery-image': {
+    en: 'Delete gallery image',
+    ru: 'Удаление картинки из галереи',
+    ug: 'Галерея рәсимини өчүрүш',
+  },
   'edit-home-gallery-image': {
     en: 'Edit home gallery image',
     ru: 'Редактирование картинки из галереи домашней страницы',
@@ -389,10 +394,20 @@ export const translations = {
     ru: 'Удаление новостного баннера',
     ug: 'Йеңилиқ карточкисини йуйуш',
   },
+  'are-you-sure-you-want-to-delete-the-image': {
+    en: 'Are you sure you want to delete the image',
+    ru: 'Вы действительно хотите удалить картинку',
+    ug: 'Сиз һәқиқәтәнму бу рәсимни өчиришни халамсиз',
+  },
   'are-you-sure-you-want-to-delete-the-thumbnail': {
     en: 'Are you sure you want to delete the thumbnail',
     ru: 'Вы действительно хотите удалить баннер',
     ug: 'Сиз һәқиқәтәнму бу карточкини өчиришни халамсиз',
+  },
+  'failed-to-delete-image': {
+    en: 'Failed to delete image',
+    ru: 'Не удалось удалить картинку',
+    ug: 'Рәсимни өчүрүш мүмкин болмиди',
   },
   'failed-to-delete-news-thumbnail': {
     en: 'Failed to delete news thumbnail',

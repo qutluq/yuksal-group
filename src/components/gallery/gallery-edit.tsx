@@ -1,20 +1,31 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { FiEdit, FiPlusCircle } from 'react-icons/fi'
 
-import { formatDate } from '@/utils'
-import { getGalleryImagesInitialized } from '@/utils/api-client'
+import { formatDate, translate } from '@/utils'
+import {
+  deleteGalleryImageClientSide,
+  getGalleryImagesInitialized,
+} from '@/utils/api-client'
 
-import type { GalleryImageInitialized } from '@/types'
+import { ModalDialog } from '../modal'
+
+import type { GalleryImageInitialized, Modal } from '@/types'
 type PropTypes = {
   lang: string
 }
 
 export const GalleryEdit = ({ lang }: PropTypes) => {
   const [images, setImages] = useState<GalleryImageInitialized[]>()
+  const [deleteId, setDeleteId] = useState(-1)
+  const [modal, setModal] = useState<Modal>({
+    approved: false,
+    closed: true,
+    title: '',
+  })
 
   useEffect(() => {
     getGalleryImagesInitialized()
@@ -24,6 +35,38 @@ export const GalleryEdit = ({ lang }: PropTypes) => {
       .catch((error) => {
         console.error(`Fetch failed: ${error}`)
       })
+  }, [])
+
+  useEffect(() => {
+    if (modal?.closed && modal.approved) {
+      deleteGalleryImageClientSide(deleteId)
+        .then((response) => {
+          if (!response.ok || response.status < 200 || response.status > 299) {
+            console.error(`Can not delete images`)
+            alert(translate('Failed to delete image', lang))
+            return
+          }
+          const filteredImgs = images
+            ? [...images.filter((img) => img.id !== deleteId)]
+            : []
+
+          setImages(() => [...filteredImgs])
+        })
+        .finally(() => {
+          setDeleteId(-1)
+          setModal((state) => ({ ...state, approved: false }))
+        })
+    }
+  }, [modal])
+
+  const handleDeleteImage = useCallback(async (id: number, title: string) => {
+    setDeleteId(id)
+    setModal((state) => ({
+      ...state,
+      title: title,
+      closed: false,
+      approved: false,
+    }))
   }, [])
 
   if (!images) {
@@ -70,9 +113,7 @@ export const GalleryEdit = ({ lang }: PropTypes) => {
             </Link>
             <AiTwotoneDelete
               className="h-10 w-10 cursor-pointer"
-              onClick={() => {
-                console.log('delete')
-              }}
+              onClick={() => handleDeleteImage(img.id, img.title)}
             />
           </div>
         </div>
@@ -91,6 +132,26 @@ export const GalleryEdit = ({ lang }: PropTypes) => {
 
         <div className="flex h-[50%] w-full  bg-white text-[var(--color-secondary)]" />
       </div>
+      {!modal.closed && (
+        <ModalDialog
+          title={translate('Delete gallery image', lang)}
+          body={
+            <div className="flex flex-col items-center">
+              {translate('Are you sure you want to delete the image', lang)}
+              {<p className="font-bold"> {modal.title}?</p>}
+            </div>
+          }
+          btnTitleAgree="Yes"
+          btnTitleCancel="Cancel"
+          onClose={(response) => {
+            setModal((state) => ({
+              ...state,
+              approved: response,
+              closed: true,
+            }))
+          }}
+        />
+      )}
     </div>
   )
 }

@@ -40,6 +40,16 @@ export const deletePost = async (id: number) => {
   return deletedPost
 }
 
+export const deleteGalleryImage = async (id: number) => {
+  const deletedThumbnail = await prisma.galleryImage.delete({
+    where: {
+      id: id,
+    },
+  })
+
+  return deletedThumbnail
+}
+
 export const deleteNewsThumbnail = async (id: number) => {
   const deletedThumbnail = await prisma.newsThumbnail.delete({
     where: {
