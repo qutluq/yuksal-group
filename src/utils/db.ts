@@ -6,6 +6,7 @@ import { homeGalleryImageCount, slidesCount } from './settings'
 
 import type {
   AboutMain,
+  GalleryImage,
   HomeGalleryImage,
   NewsThumbnail,
   Settings,
@@ -37,6 +38,16 @@ export const deletePost = async (id: number) => {
   })
 
   return deletedPost
+}
+
+export const deleteGalleryImage = async (id: number) => {
+  const deletedThumbnail = await prisma.galleryImage.delete({
+    where: {
+      id: id,
+    },
+  })
+
+  return deletedThumbnail
 }
 
 export const deleteNewsThumbnail = async (id: number) => {
@@ -170,6 +181,31 @@ export const getHomeGalleryImage = async (id: number) => {
   return { galleryImage: result as HomeGalleryImage }
 }
 
+export const getGalleryImage = async (id: number) => {
+  const result = await prisma.galleryImage.findUnique({
+    where: {
+      id: id,
+    },
+    include: {
+      tags: {
+        select: {
+          id: true, // Include the 'name' field from the 'ImageTag' model
+          name: true, // Include the 'name' field from the 'ImageTag' model
+          createdAt: true, // Include the 'name' field from the 'ImageTag' model
+        },
+      },
+    },
+  })
+
+  if (!result) return null
+
+  const galleryImage = {
+    ...result,
+  } as GalleryImage
+
+  return { galleryImage }
+}
+
 export const getNewsThumbnail = async (id: number) => {
   const result = await prisma.newsThumbnail.findUnique({
     where: {
@@ -235,13 +271,9 @@ export const getGalleryImages = async () => {
     include: {
       tags: {
         select: {
-          tag: {
-            select: {
-              id: true, // Include the 'name' field from the 'ImageTag' model
-              name: true, // Include the 'name' field from the 'ImageTag' model
-              createdAt: true, // Include the 'name' field from the 'ImageTag' model
-            },
-          },
+          id: true, // Include the 'name' field from the 'ImageTag' model
+          name: true, // Include the 'name' field from the 'ImageTag' model
+          createdAt: true, // Include the 'name' field from the 'ImageTag' model
         },
       },
     },
@@ -266,7 +298,67 @@ export const updateSlide = async (slide: Slide) => {
   return true
 }
 
-export const updateGalleryImage = async (newsThumbnail: HomeGalleryImage) => {
+export const updateGalleryImage = async (
+  data: Omit<GalleryImage, 'tags'> & { tags: string[] },
+) => {
+  try {
+    const { tags, ...galleryImage } = data
+
+    if (galleryImage.id > -1) {
+      //gallery image exists, update the record
+      await prisma.galleryImage.update({
+        where: {
+          id: galleryImage.id,
+        },
+        data: {
+          src: galleryImage.src,
+          title: galleryImage.title,
+          date: galleryImage.date,
+          tags: {
+            connectOrCreate: tags.map((tag) => ({
+              where: {
+                name: tag,
+              },
+              create: {
+                name: tag,
+              },
+            })),
+          },
+        },
+      })
+      return true
+    }
+
+    //gallery image is new, (id < 0), create the record
+    await prisma.galleryImage.create({
+      data: {
+        src: galleryImage.src,
+        title: galleryImage.title,
+        date: galleryImage.date,
+        tags: {
+          connectOrCreate: tags.map((tag) => ({
+            where: {
+              name: tag,
+            },
+            create: {
+              name: tag,
+            },
+          })),
+        },
+      },
+    })
+    return true
+  } catch (error) {
+    console.error(`❌ Can not update gallery image`, error)
+    return false
+  }
+
+  return true
+}
+
+export const updateHomeGalleryImage = async (
+  newsThumbnail: HomeGalleryImage,
+) => {
   const { id, ...data } = newsThumbnail
   try {
     await prisma.homeGalleryImage.update({

@@ -1,36 +1,52 @@
-import { getGalleryImages } from '@/utils/db'
+import { accessPermitted } from '@/utils/api-server'
+import {
+  getGalleryImage,
+  getGalleryImages,
+  updateGalleryImage,
+} from '@/utils/db'
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const result = await getGalleryImages()
-    return new Response(JSON.stringify(result), {
-      status: 200,
-    })
+    const url = new URL(request.url)
+    const paramId = url.searchParams.get('id')
+
+    if (paramId) {
+      const id = parseInt(paramId)
+      const result = await getGalleryImage(id)
+      return new Response(JSON.stringify(result), {
+        status: 200,
+      })
+    } else {
+      const result = await getGalleryImages()
+      return new Response(JSON.stringify(result), {
+        status: 200,
+      })
+    }
   } catch (error) {
-    console.error('Unable to fetch gallery images', { error })
+    console.error('Unable to fetch gallery image(s)', { error })
     return new Response(null, {
       status: 500,
     })
   }
 }
 
-// export async function POST(request: Request) {
-//   const { permitted, response } = await accessPermitted()
-//   if (!permitted) {
-//     return response
-//   }
+export async function POST(request: Request) {
+  const { permitted, response } = await accessPermitted()
+  if (!permitted) {
+    return response
+  }
 
-//   try {
-//     const aboutMain = await request.json()
+  try {
+    const galleryImage = await request.json()
 
-//     updateAboutMain(aboutMain)
-//     return new Response(null, {
-//       status: 204,
-//     })
-//   } catch (error) {
-//     console.error(`Unable to update news thumbnail: ${error}`)
-//     return new Response(null, {
-//       status: 500,
-//     })
-//   }
-// }
+    updateGalleryImage(galleryImage)
+    return new Response(null, {
+      status: 204,
+    })
+  } catch (error) {
+    console.error(`Unable to update galleryImage: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
+}

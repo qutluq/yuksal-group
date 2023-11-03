@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
-import { Gallery as GalleryComponent } from '@/components/gallery'
+import { GalleryImageEdit } from '@/components/gallery'
+import { AdminLayout } from '@/layouts/admin'
 import { MainLayout } from '@/layouts/main'
 import {
   getLangSearchParam,
@@ -17,25 +18,26 @@ export async function generateMetadata({
   searchParams: { [key: string]: string | string[] | undefined }
 }): Promise<Metadata> {
   const lang = getLangSearchParam(searchParams)
-  const title = toTitleCase(translate('gallery', lang))
+  const title = toTitleCase(translate('home', lang))
 
   return getMetadata({ title })
 }
 
-const Gallery = ({
+const GalleryImage = ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) => {
   const lang = getLangSearchParam(searchParams)
-
   return (
     <div className="text-[var(--color-text-primary)]">
-      <MainLayout page="gallery" lang={lang}>
-        <GalleryComponent />
-      </MainLayout>
+      <AdminLayout lang={lang}>
+        <MainLayout page="gallery" lang={lang} mode="admin">
+          <GalleryImageEdit lang={lang} />
+        </MainLayout>
+      </AdminLayout>
     </div>
   )
 }
 
-export default Gallery
+export default GalleryImage

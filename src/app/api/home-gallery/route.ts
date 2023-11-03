@@ -2,7 +2,7 @@ import { accessPermitted } from '@/utils/api-server'
 import {
   getHomeGalleryImage,
   getHomeGalleryImages,
-  updateGalleryImage,
+  updateHomeGalleryImage,
 } from '@/utils/db'
 
 export async function GET(request: Request) {
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
   try {
     const galleryImage = await request.json()
 
-    updateGalleryImage(galleryImage)
+    updateHomeGalleryImage(galleryImage)
     return new Response(null, {
       status: 204,
     })

@@ -339,17 +339,27 @@ export const translations = {
     ru: 'Фоновое изображение слайда',
     ug: 'Слайдниң арқа рәсими',
   },
+  'delete-gallery-image': {
+    en: 'Delete gallery image',
+    ru: 'Удаление картинки из галереи',
+    ug: 'Галерея рәсимини өчүрүш',
+  },
   'edit-home-gallery-image': {
     en: 'Edit home gallery image',
     ru: 'Редактирование картинки из галереи домашней страницы',
     ug: 'Башбәт галереясиниң рәсимини тәһрирләш',
+  },
+  'edit-gallery-image': {
+    en: 'Edit gallery image',
+    ru: 'Редактирование картинки из галереи',
+    ug: 'Галереяниң рәсимини тәһрирләш',
   },
   'gallery-image-updated': {
     en: 'Gallery image updated',
     ru: 'Картинка из галереи домашней страницы обновлена',
     ug: 'Башбәт галереясиниң рәсими йеңиланди',
   },
-  'gallery-image-can-not-be-saved!': {
+  'gallery-image-can-not-be-saved': {
     en: 'Gallery image can not be saved!',
     ru: 'Картинка из галереи домашней страницы не может быть обновлена!',
     ug: 'Башбәт галереясиниң рәсимини йеңилаш мүмкин болмиди!',
@@ -384,10 +394,20 @@ export const translations = {
     ru: 'Удаление новостного баннера',
     ug: 'Йеңилиқ карточкисини йуйуш',
   },
+  'are-you-sure-you-want-to-delete-the-image': {
+    en: 'Are you sure you want to delete the image',
+    ru: 'Вы действительно хотите удалить картинку',
+    ug: 'Сиз һәқиқәтәнму бу рәсимни өчиришни халамсиз',
+  },
   'are-you-sure-you-want-to-delete-the-thumbnail': {
     en: 'Are you sure you want to delete the thumbnail',
     ru: 'Вы действительно хотите удалить баннер',
     ug: 'Сиз һәқиқәтәнму бу карточкини өчиришни халамсиз',
+  },
+  'failed-to-delete-image': {
+    en: 'Failed to delete image',
+    ru: 'Не удалось удалить картинку',
+    ug: 'Рәсимни өчүрүш мүмкин болмиди',
   },
   'failed-to-delete-news-thumbnail': {
     en: 'Failed to delete news thumbnail',
@@ -399,9 +419,29 @@ export const translations = {
     ru: 'Не удалось сохранить информацию о нас',
     ug: 'Биз тоғрисида мәлуматни сақлиғили мүмкин болмиди',
   },
+  'image-can-not-be-saved': {
+    en: 'Шmage can not be saved',
+    ru: 'Сохранить картинку не удалось',
+    ug: 'Рәсимни сақлиғили мүмкин болмиди',
+  },
   'about-main-info-saved': {
     en: 'About main info saved',
     ru: 'Информацию о нас сохранена',
     ug: 'Биз тоғрисида мәлумат сақланди',
+  },
+  'tags-should-start-with-hashgag-sign': {
+    en: 'Tags should start with hashgag(#) sign',
+    ru: 'Тэги могут начинаться только с символа #',
+    ug: 'Ярлиқлар пәқәт # символидин башлиналайду',
+  },
+  'hashtags-can-only-contain-letters-numbers-and-underscores-': {
+    en: 'Hashtags can only contain letters, numbers, and underscores (_)',
+    ru: 'Тэги могут содержать только буквы, цифры и знаки подчеркивания',
+    ug: 'Ярлиқлар пәқәт һәрип, рәқәм вә астини сизиш символлиридин тәркип тапалайду',
+  },
+  hashtags: {
+    en: 'Hashtags',
+    ru: 'Хештэги',
+    ug: 'Ярлиқлар',
   },
 }

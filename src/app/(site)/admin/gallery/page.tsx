@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
-import { Gallery as GalleryComponent } from '@/components/gallery'
+import { GalleryEdit } from '@/components/gallery' //import from gallery-edit to avoid circular import
+import { AdminLayout } from '@/layouts/admin'
 import { MainLayout } from '@/layouts/main'
 import {
   getLangSearchParam,
@@ -31,9 +32,11 @@ const Gallery = ({
 
   return (
     <div className="text-[var(--color-text-primary)]">
-      <MainLayout page="gallery" lang={lang}>
-        <GalleryComponent />
-      </MainLayout>
+      <AdminLayout lang={lang}>
+        <MainLayout page="gallery" lang={lang} mode="admin">
+          <GalleryEdit lang={lang} />
+        </MainLayout>
+      </AdminLayout>
     </div>
   )
 }

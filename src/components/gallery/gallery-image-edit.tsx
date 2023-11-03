@@ -10,29 +10,31 @@ import { ModalDialog } from '@/components/modal'
 import { usePostUnsavedChanges } from '@/hooks/usePostUnsavedChanges'
 import { formatDateJS, translate } from '@/utils'
 import {
-  getHomeGalleryImageInitialized,
+  getGalleryImageInitialized,
   revalidateImageCache,
-  updateHomeGalleryImageClientSide,
+  saveGalleryImageClientSide,
 } from '@/utils/api-client'
 
-import type { HomeGalleryImageInitialized, UploadModal } from '@/types'
+import type { GalleryImageInitialized, UploadModal } from '@/types'
 import type { CSSProperties } from 'react'
 type PropTypes = {
   lang: string
 }
 
-export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
+export const GalleryImageEdit = ({ lang }: PropTypes) => {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [galleryImage, setGalleryImage] = useState<HomeGalleryImageInitialized>(
-    {
-      id: -1,
-      image: { id: '', file: null, href: '' },
-      title: '',
-      date: new Date(0),
-    },
-  )
+  const [galleryImage, setGalleryImage] = useState<GalleryImageInitialized>({
+    id: -1,
+    src: '',
+    image: { id: '', file: null, href: '', width: 0, height: 0 },
+    title: '',
+    date: new Date(0),
+    createdAt: new Date(0),
+    tags: [],
+  })
   const [id, setId] = useState<number>(-1)
+  const [tags, setTags] = useState<string>('')
   const [unsavedChangesExist, setUnsavedChangesExist] = useState(false)
   const [uploadModal, setUploadModal] = useState<UploadModal>({
     closed: true,
@@ -52,12 +54,16 @@ export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
 
   useEffect(() => {
     if (id === -1) return
-    getHomeGalleryImageInitialized(id).then((galleryImageInitialized) => {
+    getGalleryImageInitialized(id).then((galleryImageInitialized) => {
       if (!galleryImageInitialized) {
         console.error(`Can't fetch gallery image`)
         return
       }
+
       setGalleryImage(() => ({ ...galleryImageInitialized }))
+      setTags(() =>
+        galleryImageInitialized.tags.map((tag) => `#${tag.name}`).join(' '),
+      )
     })
   }, [id])
 
@@ -67,15 +73,46 @@ export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
     if (galleryImage.image?.id !== uploadModal.file?.id) {
       setGalleryImage((state) => ({
         ...state,
-        image: { ...uploadModal.file! },
+        image: { ...state.image, ...uploadModal.file! },
+        src: uploadModal.file?.id ?? '',
       }))
     }
   }, [uploadModal])
 
   const setField = useCallback(
-    (field: keyof HomeGalleryImageInitialized, value: string) => {
+    (field: keyof GalleryImageInitialized, value: string) => {
       if (field === 'date') {
         setGalleryImage((state) => ({ ...state, [field]: new Date(value) }))
+      } else if (field === 'tags') {
+        const rawTags = value.split(' ')
+
+        const unallowedSymbols = /[^#a-zA-Z0-9_]/g
+
+        const correctTags = rawTags.map((tag) => {
+          if (tag && !tag.startsWith('#')) {
+            alert(translate('Tags should start with hashgag(#) sign', lang))
+            setTags(() =>
+              rawTags
+                .filter((item) => item.startsWith('#') && item.length > 1)
+                .map((item) => item.substring(1))
+                .join(' '),
+            )
+            return ''
+          }
+
+          if (unallowedSymbols.test(tag)) {
+            alert(
+              translate(
+                'Hashtags can only contain letters, numbers, and underscores (_)',
+                lang,
+              ),
+            )
+            return tag.replace(unallowedSymbols, '')
+          }
+          return tag
+        })
+
+        setTags(correctTags.join(' '))
       } else {
         setGalleryImage((state) => ({ ...state, [field]: value }))
       }
@@ -85,12 +122,25 @@ export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
   )
 
   const handleSave = useCallback(
-    (galleryImage: HomeGalleryImageInitialized, unsavedChangesExist) => {
+    (galleryImage: GalleryImageInitialized, unsavedChangesExist, tags) => {
       if (!unsavedChangesExist) return
 
-      updateHomeGalleryImageClientSide({
+      //convert tags string into array of tags
+      const imageTags =
+        tags.length > 0
+          ? tags.match(/#\w+/g).map((tag) => tag.slice(1).toLowerCase())
+          : []
+
+      //make image field optional & remove it
+      const savedGalleryImage = {
         ...galleryImage,
-        image: galleryImage.image.id,
+        tags: imageTags,
+      } as Partial<Pick<GalleryImageInitialized, 'image'>> &
+        Omit<GalleryImageInitialized, 'image'>
+      delete savedGalleryImage.image
+
+      saveGalleryImageClientSide({
+        ...savedGalleryImage,
       })
         .then(async (response) => {
           if (!response.ok || response.status < 200 || response.status > 299) {
@@ -107,7 +157,7 @@ export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
             return
           }
           alert(translate('Gallery image updated', lang))
-          router.push('/admin/home')
+          router.push('/admin/gallery')
         })
         .catch((error) => {
           console.error(`Can not update gallery image: ${error}`)
@@ -124,7 +174,7 @@ export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
   return (
     <div className="relative flex h-[94vh] w-full flex-col items-center justify-center gap-5">
       <div className="flex w-[50vw] justify-center pb-7 text-center text-3xl">
-        {translate('Edit home gallery image', lang)}
+        {translate('Edit gallery image', lang)}
       </div>
       <input
         value={galleryImage?.title || ''}
@@ -162,9 +212,20 @@ export const HomeGalleryImageEdit = ({ lang }: PropTypes) => {
         />
       </div>
 
+      <div style={{ colorScheme: 'only light' } as CSSProperties}>
+        <textarea
+          value={tags}
+          onChange={(e) => {
+            setField('tags', e.target.value)
+          }}
+          className="h-24 w-96 grow rounded-sm text-black"
+          placeholder={translate('Hashtags', lang)}
+        />
+      </div>
+
       <div className="flex w-full flex-row justify-center">
         <Button
-          onClick={() => handleSave(galleryImage, unsavedChangesExist)}
+          onClick={() => handleSave(galleryImage, unsavedChangesExist, tags)}
           className="z-10 w-56"
           disabled={!unsavedChangesExist}
         >
