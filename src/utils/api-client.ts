@@ -869,7 +869,7 @@ export const updateHomeGalleryImageClientSide = async (
   }
 }
 
-export const updateGalleryImageClientSide = async (
+export const saveGalleryImageClientSide = async (
   galleryImage: GalleryImage & { tags: ImageTag[] },
 ) => {
   try {

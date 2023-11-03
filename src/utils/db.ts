@@ -294,10 +294,33 @@ export const updateGalleryImage = async (
   try {
     const { tags, ...galleryImage } = data
 
-    await prisma.galleryImage.update({
-      where: {
-        id: galleryImage.id,
-      },
+    if (galleryImage.id > -1) {
+      //gallery image exists, update the record
+      await prisma.galleryImage.update({
+        where: {
+          id: galleryImage.id,
+        },
+        data: {
+          src: galleryImage.src,
+          title: galleryImage.title,
+          date: galleryImage.date,
+          tags: {
+            connectOrCreate: tags.map((tag) => ({
+              where: {
+                name: tag,
+              },
+              create: {
+                name: tag,
+              },
+            })),
+          },
+        },
+      })
+      return true
+    }
+
+    //gallery image is new, (id < 0), create the record
+    await prisma.galleryImage.create({
       data: {
         src: galleryImage.src,
         title: galleryImage.title,
@@ -314,10 +337,9 @@ export const updateGalleryImage = async (
         },
       },
     })
-
     return true
   } catch (error) {
-    console.error(`❌ Can not update gallery mage`, error)
+    console.error(`❌ Can not update gallery image`, error)
     return false
   }
 

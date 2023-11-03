@@ -12,7 +12,7 @@ import { formatDateJS, translate } from '@/utils'
 import {
   getGalleryImageInitialized,
   revalidateImageCache,
-  updateGalleryImageClientSide,
+  saveGalleryImageClientSide,
 } from '@/utils/api-client'
 
 import type { GalleryImageInitialized, UploadModal } from '@/types'
@@ -132,15 +132,15 @@ export const GalleryImageEdit = ({ lang }: PropTypes) => {
           : []
 
       //make image field optional & remove it
-      const savedGallertImage = {
+      const savedGalleryImage = {
         ...galleryImage,
         tags: imageTags,
       } as Partial<Pick<GalleryImageInitialized, 'image'>> &
         Omit<GalleryImageInitialized, 'image'>
-      delete savedGallertImage.image
+      delete savedGalleryImage.image
 
-      updateGalleryImageClientSide({
-        ...savedGallertImage,
+      saveGalleryImageClientSide({
+        ...savedGalleryImage,
       })
         .then(async (response) => {
           if (!response.ok || response.status < 200 || response.status > 299) {

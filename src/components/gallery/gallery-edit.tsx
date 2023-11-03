@@ -80,14 +80,14 @@ export const GalleryEdit = ({ lang }: PropTypes) => {
       <div className="relative flex h-[500px]  w-80 flex-col items-center justify-center">
         <div className="h-[50%] w-full bg-gray-700"></div>
 
-        <span
+        <Link
           className="absolute top-0 flex h-full items-center justify-center"
-          onClick={() => {
-            console.log('add')
+          href={{
+            pathname: '/admin/gallery-image',
           }}
         >
           <FiPlusCircle className="z-10 h-20 w-20 overflow-hidden rounded-full bg-[var(--color-primary)]" />
-        </span>
+        </Link>
 
         <div className="flex h-[50%] w-full  bg-white text-[var(--color-secondary)]" />
       </div>
