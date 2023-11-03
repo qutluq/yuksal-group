@@ -6,6 +6,7 @@ import { homeGalleryImageCount, slidesCount } from './settings'
 
 import type {
   AboutMain,
+  GalleryImage,
   HomeGalleryImage,
   NewsThumbnail,
   Settings,
@@ -170,6 +171,31 @@ export const getHomeGalleryImage = async (id: number) => {
   return { galleryImage: result as HomeGalleryImage }
 }
 
+export const getGalleryImage = async (id: number) => {
+  const result = await prisma.galleryImage.findUnique({
+    where: {
+      id: id,
+    },
+    include: {
+      tags: {
+        select: {
+          id: true, // Include the 'name' field from the 'ImageTag' model
+          name: true, // Include the 'name' field from the 'ImageTag' model
+          createdAt: true, // Include the 'name' field from the 'ImageTag' model
+        },
+      },
+    },
+  })
+
+  if (!result) return null
+
+  const galleryImage = {
+    ...result,
+  } as GalleryImage
+
+  return { galleryImage }
+}
+
 export const getNewsThumbnail = async (id: number) => {
   const result = await prisma.newsThumbnail.findUnique({
     where: {
@@ -235,13 +261,9 @@ export const getGalleryImages = async () => {
     include: {
       tags: {
         select: {
-          tag: {
-            select: {
-              id: true, // Include the 'name' field from the 'ImageTag' model
-              name: true, // Include the 'name' field from the 'ImageTag' model
-              createdAt: true, // Include the 'name' field from the 'ImageTag' model
-            },
-          },
+          id: true, // Include the 'name' field from the 'ImageTag' model
+          name: true, // Include the 'name' field from the 'ImageTag' model
+          createdAt: true, // Include the 'name' field from the 'ImageTag' model
         },
       },
     },
@@ -263,6 +285,42 @@ export const updateSlide = async (slide: Slide) => {
     console.error(`❌ Can not update post with id ${id}: `, error)
     return false
   }
+  return true
+}
+
+export const updateGalleryImage = async (
+  data: Omit<GalleryImage, 'tags'> & { tags: string[] },
+) => {
+  try {
+    const { tags, ...galleryImage } = data
+
+    await prisma.galleryImage.update({
+      where: {
+        id: galleryImage.id,
+      },
+      data: {
+        src: galleryImage.src,
+        title: galleryImage.title,
+        date: galleryImage.date,
+        tags: {
+          connectOrCreate: tags.map((tag) => ({
+            where: {
+              name: tag,
+            },
+            create: {
+              name: tag,
+            },
+          })),
+        },
+      },
+    })
+
+    return true
+  } catch (error) {
+    console.error(`❌ Can not update gallery mage`, error)
+    return false
+  }
+
   return true
 }
 

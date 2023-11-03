@@ -344,12 +344,17 @@ export const translations = {
     ru: 'Редактирование картинки из галереи домашней страницы',
     ug: 'Башбәт галереясиниң рәсимини тәһрирләш',
   },
+  'edit-gallery-image': {
+    en: 'Edit gallery image',
+    ru: 'Редактирование картинки из галереи',
+    ug: 'Галереяниң рәсимини тәһрирләш',
+  },
   'gallery-image-updated': {
     en: 'Gallery image updated',
     ru: 'Картинка из галереи домашней страницы обновлена',
     ug: 'Башбәт галереясиниң рәсими йеңиланди',
   },
-  'gallery-image-can-not-be-saved!': {
+  'gallery-image-can-not-be-saved': {
     en: 'Gallery image can not be saved!',
     ru: 'Картинка из галереи домашней страницы не может быть обновлена!',
     ug: 'Башбәт галереясиниң рәсимини йеңилаш мүмкин болмиди!',
@@ -399,9 +404,29 @@ export const translations = {
     ru: 'Не удалось сохранить информацию о нас',
     ug: 'Биз тоғрисида мәлуматни сақлиғили мүмкин болмиди',
   },
+  'image-can-not-be-saved': {
+    en: 'Шmage can not be saved',
+    ru: 'Сохранить картинку не удалось',
+    ug: 'Рәсимни сақлиғили мүмкин болмиди',
+  },
   'about-main-info-saved': {
     en: 'About main info saved',
     ru: 'Информацию о нас сохранена',
     ug: 'Биз тоғрисида мәлумат сақланди',
+  },
+  'tags-should-start-with-hashgag-sign': {
+    en: 'Tags should start with hashgag(#) sign',
+    ru: 'Тэги могут начинаться только с символа #',
+    ug: 'Ярлиқлар пәқәт # символидин башлиналайду',
+  },
+  'hashtags-can-only-contain-letters-numbers-and-underscores-': {
+    en: 'Hashtags can only contain letters, numbers, and underscores (_)',
+    ru: 'Тэги могут содержать только буквы, цифры и знаки подчеркивания',
+    ug: 'Ярлиқлар пәқәт һәрип, рәқәм вә астини сизиш символлиридин тәркип тапалайду',
+  },
+  hashtags: {
+    en: 'Hashtags',
+    ru: 'Хештэги',
+    ug: 'Ярлиқлар',
   },
 }

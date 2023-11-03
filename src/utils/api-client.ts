@@ -7,10 +7,12 @@ import type { NewsThumbnail } from '@prisma/client'
 import type {
   AboutMain,
   AboutMainInitialized,
+  GalleryImage,
   GalleryImageInitialized,
   HomeGalleryImage,
   HomeGalleryImageInitialized,
   ImageFile,
+  ImageTag,
   NewsThumbnailInitialized,
   Settings,
   SettingsKeys,
@@ -302,6 +304,30 @@ export const getHomeGalleryImageClientSide = async (id: number) => {
   return undefined
 }
 
+export const getGalleryImageClientSide = async (id: number) => {
+  if (!id) {
+    console.error('Gallery image fetch failed: no id provided')
+    return undefined
+  }
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/gallery?id=${id.toString()}`,
+      {
+        method: 'GET',
+      },
+    )
+    if (response.status !== 200) {
+      return undefined
+    }
+
+    const galleryImage = await response.json()
+    return galleryImage
+  } catch (error) {
+    console.error(`Gallery image fetch failed: ${error}`)
+  }
+  return undefined
+}
+
 export const getNewsThumbnailClientSide = async (id: number) => {
   if (!id) {
     console.error('News thumbnail fetch failed: no id provided')
@@ -577,6 +603,42 @@ export const getHomeGalleryImageInitialized = async (id: number) => {
   return undefined
 }
 
+export const getGalleryImageInitialized = async (id: number) => {
+  if (!id) {
+    console.error('Gallery image fetch failed: no id provided')
+    return undefined
+  }
+
+  try {
+    const { galleryImage } = await getGalleryImageClientSide(id)
+    const response = await getImageClientSide(galleryImage.src)
+
+    const galleryImageInitialized = {
+      ...galleryImage,
+      image: { file: null, id: '', href: '' },
+    } as GalleryImageInitialized
+    if (!response) return galleryImageInitialized
+    const image_blob = await response.blob()
+    let imageUrl = ''
+    if (image_blob.size > 0) {
+      imageUrl = URL.createObjectURL(image_blob)
+    }
+
+    galleryImageInitialized.image = {
+      file: null,
+      id: galleryImage.src,
+      href: imageUrl,
+      width: 0,
+      height: 0,
+    }
+
+    return galleryImageInitialized
+  } catch (error) {
+    console.error(`Can't fetch gallery image: ${error}`)
+  }
+  return undefined
+}
+
 export const getNewsThumbnailInitialized = async (id: number) => {
   if (!id) {
     console.error('Home gallery image fetch failed: no id provided')
@@ -797,6 +859,27 @@ export const updateHomeGalleryImageClientSide = async (
         body: JSON.stringify(galleryImage),
       },
     )
+
+    return response
+  } catch (error) {
+    console.error(`Gallery image update failed: ${error}`)
+    return new Response(null, {
+      status: 500,
+    })
+  }
+}
+
+export const updateGalleryImageClientSide = async (
+  galleryImage: GalleryImage & { tags: ImageTag[] },
+) => {
+  try {
+    const response = fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/gallery/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(galleryImage),
+    })
 
     return response
   } catch (error) {
