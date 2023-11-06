@@ -28,7 +28,7 @@ export const GalleryEdit = ({ lang }: PropTypes) => {
   })
 
   useEffect(() => {
-    getGalleryImagesInitialized()
+    getGalleryImagesInitialized('')
       .then((response) => {
         setImages(response)
       })
