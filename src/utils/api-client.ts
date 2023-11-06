@@ -234,10 +234,12 @@ export const getNewsThumbnailsClientSide = async () => {
   return []
 }
 
-export const getGalleryImagesClientSide = async () => {
+export const getGalleryImagesClientSide = async (tagFilter: string) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/gallery/`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/gallery/${
+        tagFilter ? `?tag=${tagFilter}` : ''
+      }`,
       {
         method: 'GET',
       },
@@ -439,9 +441,9 @@ export const getHomeGalleryImagesInitialized = async () => {
   return []
 }
 
-export const getGalleryImagesInitialized = async () => {
+export const getGalleryImagesInitialized = async (tagFilter: string) => {
   try {
-    const galleryImages = await getGalleryImagesClientSide()
+    const galleryImages = await getGalleryImagesClientSide(tagFilter)
     const responses = await Promise.all(
       galleryImages.map((item) => getImageClientSide(item.src)),
     )

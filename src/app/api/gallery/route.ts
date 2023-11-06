@@ -17,7 +17,8 @@ export async function GET(request: Request) {
         status: 200,
       })
     } else {
-      const result = await getGalleryImages()
+      const paramTag = url.searchParams.get('tag')
+      const result = await getGalleryImages(paramTag ?? '')
       return new Response(JSON.stringify(result), {
         status: 200,
       })
