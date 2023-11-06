@@ -19,17 +19,20 @@ export const Gallery = () => {
   const [tagFilter, setTagFilter] = useState<string | undefined>(undefined)
 
   useEffect(() => {
-    getGalleryImagesInitialized()
+    if (tagFilter === undefined) return
+
+    getGalleryImagesInitialized(tagFilter ?? '')
       .then((response) => {
         setImages(response)
       })
       .catch((error) => {
         console.error(`Fetch failed: ${error}`)
       })
-  }, [])
+  }, [tagFilter])
 
   useEffect(() => {
     if (!searchParams.get('tag')) {
+      setTagFilter('')
       return
     }
     setTagFilter(searchParams.get('tag')!)
@@ -53,7 +56,7 @@ export const Gallery = () => {
 
   return (
     <div className="flex flex-col">
-      {tagFilter && (
+      {!tagFilter ? null : (
         <div className="flex w-full flex-row justify-center py-3">
           <div className="flex w-fit flex-row items-center gap-2 rounded-full bg-white px-3">
             <span className="pt-[1.5px] text-black">{tagFilter}</span>

@@ -266,20 +266,43 @@ export const getAboutMain = async (lang: string) => {
   return { aboutMain }
 }
 
-export const getGalleryImages = async () => {
-  const galleryImages = await prisma.galleryImage.findMany({
-    include: {
-      tags: {
-        select: {
-          id: true, // Include the 'name' field from the 'ImageTag' model
-          name: true, // Include the 'name' field from the 'ImageTag' model
-          createdAt: true, // Include the 'name' field from the 'ImageTag' model
+export const getGalleryImages = async (paramTag: string) => {
+  if (paramTag) {
+    const galleryImages = await prisma.galleryImage.findMany({
+      where: {
+        tags: {
+          some: {
+            name: paramTag,
+          },
         },
       },
-    },
-  })
+      include: {
+        tags: {
+          select: {
+            id: true, // Include the 'name' field from the 'ImageTag' model
+            name: true, // Include the 'name' field from the 'ImageTag' model
+            createdAt: true, // Include the 'name' field from the 'ImageTag' model
+          },
+        },
+      },
+    })
 
-  return galleryImages
+    return galleryImages
+  } else {
+    const galleryImages = await prisma.galleryImage.findMany({
+      include: {
+        tags: {
+          select: {
+            id: true, // Include the 'name' field from the 'ImageTag' model
+            name: true, // Include the 'name' field from the 'ImageTag' model
+            createdAt: true, // Include the 'name' field from the 'ImageTag' model
+          },
+        },
+      },
+    })
+
+    return galleryImages
+  }
 }
 
 export const updateSlide = async (slide: Slide) => {
