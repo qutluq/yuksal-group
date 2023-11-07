@@ -488,6 +488,25 @@ export const getGalleryImagesInitialized = async (tagFilter: string) => {
   }
   return []
 }
+
+export const getImageTags = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/image-tags/`,
+      {
+        method: 'GET',
+      },
+    )
+
+    const imageTags = await response.json()
+
+    return imageTags
+  } catch (error) {
+    console.error(`Images tags fetch failed: ${error}`)
+  }
+  return []
+}
+
 export const getNewsThumbnailsInitialized = async () => {
   try {
     const newsThumbnails = await getNewsThumbnailsClientSide()

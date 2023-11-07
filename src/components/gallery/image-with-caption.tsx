@@ -1,8 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import type { ImageTag } from '@/types'
+import { Button } from '@/components/button'
 
+import type { ImageTag } from '@/types'
 type PropTypes = {
   photo: {
     key: string
@@ -10,6 +11,7 @@ type PropTypes = {
     width: number
     src: string
     tags: ImageTag[]
+    allTags: ImageTag[]
   }
   margin: string
 }
@@ -22,12 +24,20 @@ const ImageWithCaption = ({ photo, margin }: PropTypes) => {
       key={photo.key}
     >
       <div className="absolute bottom-0 right-0 text-white">
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row items-center gap-2">
           {photo.tags.map((tag) => (
             <Link key={tag.id} href={`/gallery?tag=${tag.name}`}>
               {`#${tag.name}`}
             </Link>
           ))}
+          <Button
+            className="tracking-tight text-white"
+            onClick={() => {
+              alert(photo.allTags.map((tag) => tag.name))
+            }}
+            variant="text"
+            title="..."
+          ></Button>
         </div>
       </div>
       <Image

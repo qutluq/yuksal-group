@@ -305,6 +305,20 @@ export const getGalleryImages = async (paramTag: string) => {
   }
 }
 
+export const getImageTags = async () => {
+  const imageTags = await prisma.imageTag.findMany({
+    include: {
+      images: {
+        select: {
+          id: true,
+        },
+      },
+    },
+  })
+
+  return imageTags
+}
+
 export const updateSlide = async (slide: Slide) => {
   const { id, ...data } = slide
   try {

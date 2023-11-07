@@ -6,17 +6,28 @@ import { RxCross1 } from 'react-icons/rx'
 import GalleryComponent from 'react-photo-gallery'
 
 import { Viewer } from '@/components/gallery'
-import { getGalleryImagesInitialized } from '@/utils/api-client'
+import { getGalleryImagesInitialized, getImageTags } from '@/utils/api-client'
 
 import ImageWithCaption from './image-with-caption'
 
-import type { GalleryImageInitialized } from '@/types'
+import type { GalleryImageInitialized, ImageTag } from '@/types'
 export const Gallery = () => {
   const [images, setImages] = useState<GalleryImageInitialized[]>()
+  const [allTags, setAllTags] = useState<ImageTag | []>([])
   const [viewerVisible, setViewerVisible] = useState(false)
   const [viewerIdx, setViewerIdx] = useState(0)
   const searchParams = useSearchParams()
   const [tagFilter, setTagFilter] = useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    getImageTags()
+      .then((response) => {
+        setAllTags(response)
+      })
+      .catch((error) => {
+        console.error(`Fetch failed: ${error}`)
+      })
+  }, [])
 
   useEffect(() => {
     if (tagFilter === undefined) return
@@ -73,6 +84,7 @@ export const Gallery = () => {
           height: img.image.height,
           key: img.id.toString(),
           tags: img.tags,
+          allTags: allTags,
         }))}
         columns={5}
         onClick={openLightbox}
