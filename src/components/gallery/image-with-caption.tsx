@@ -1,7 +1,12 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 
 import { Button } from '@/components/button'
+
+import { TagsModal } from './tags-modal'
 
 import type { ImageTag } from '@/types'
 type PropTypes = {
@@ -11,12 +16,14 @@ type PropTypes = {
     width: number
     src: string
     tags: ImageTag[]
-    allTags: ImageTag[]
+    allTags: (ImageTag & { images: number[] })[]
   }
   margin: string
 }
 
 const ImageWithCaption = ({ photo, margin }: PropTypes) => {
+  const [tagsVisible, setTagsVisible] = useState(false)
+
   return (
     <div
       style={{ margin, height: photo.height, width: photo.width }}
@@ -33,7 +40,7 @@ const ImageWithCaption = ({ photo, margin }: PropTypes) => {
           <Button
             className="tracking-tight text-white"
             onClick={() => {
-              alert(photo.allTags.map((tag) => tag.name))
+              setTagsVisible(true)
             }}
             variant="text"
             title="..."
@@ -46,6 +53,13 @@ const ImageWithCaption = ({ photo, margin }: PropTypes) => {
         width={photo.width}
         height={photo.height}
       />
+      {!tagsVisible ? null : (
+        <TagsModal
+          tags={photo.allTags.filter((tag) => tag.images.length > 0)}
+          highlightedTags={photo.tags.map((tag) => tag.name)}
+          handleClose={() => setTagsVisible(false)}
+        />
+      )}
     </div>
   )
 }
